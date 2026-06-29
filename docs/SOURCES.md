@@ -1,4 +1,4 @@
-# Fuentes y procedencia de los datos · snapshot Uruguay ~28-jun-2026
+# Fuentes y procedencia de los datos · snapshot Uruguay ~29-jun-2026
 
 Datos revisados contra fuentes **oficiales/primarias** (INE, BCU, MEF/Unidad de
 Gestión de Deuda, INAC, Uruguay XXI, DGI, MIEM/ADME, República AFAP) y, cuando no
@@ -135,14 +135,16 @@ Reservas BCU **US$18.463 M (may-2026)**. Expectativas de inflación BCU: 12m 4,7
 
 ## Módulo D — Noticias
 
-16 titulares reales (may–jun 2026) con medio/fecha/URL: Ámbito Uruguay, Infobae,
-El Cronista, Búsqueda, En Perspectiva, INE, S&P Global. Altas de esta actualización
-(post-17-jun): **Orsi blindó la gestión económica ante las encuestas** (Ámbito,
-23-jun), **interpelación a Oddone en el Senado** (Ámbito, 22-jun) y **el gobierno
-defiende una Rendición de Cuentas sin impacto fiscal** (Ámbito, 17-jun). Al 28-jun
-no hay titular *breaking* (< 6 h).
+16 titulares reales (jun 2026) con medio/fecha/URL: Ámbito Uruguay, Subrayado, Caras
+y Caretas, MEF, El Cronista, Búsqueda, INE. Altas de esta actualización (24-29 jun):
+**Uruguay asume la presidencia del Mercosur** (Ámbito, 29-jun, *breaking*), **cumbre
+del Mercosur en Luque** (Subrayado, 28-jun), **Rendición: +US$31 M y −25% pobreza
+infantil** (Caras y Caretas, 27-jun), **unificación de asignaciones familiares**
+(Subrayado, 26-jun) y **el MEF ratifica el rumbo** (gub.uy, 22-jun). Se dieron de
+baja las 5 más viejas (S&P nov-2025, déficit a marzo, TPM de mayo, exportaciones de
+mayo y matriz de enero).
 
-## Módulo E — Calendario (28-jun → 28-jul 2026)
+## Módulo E — Calendario (29-jun → 29-jul 2026)
 
 `d` = días desde HOY (el componente ancla d=0 a la fecha real de ejecución). Hitos
 datables y corroborados: **30-jun — plazo de la Rendición de Cuentas 2026**;
@@ -166,20 +168,32 @@ Usan valores **reales corroborados** donde existen, con fechas aproximadas:
 - **IPC i/a, salario real, deuda**: extremos reales (abr/may) con interpolación
   intermedia aproximada (disclosed) para completar 6–12 puntos.
 
+## Resueltos en la actualización del 29-jun-2026 (antes s/d)
+
+- **Combustibles ANCAP:** precios reales vigentes 1-jun (Súper 95 $93,36/L, Gasoil
+  50S $61,76/L, Supergás $101,26/kg). Fuente: Presidencia / Subrayado / datosUruguay.
+- **Base monetaria:** Emisión (saldo fin de mes) $113.072 M (may-2026), planilla
+  oficial BCU (Principales Agregados Monetarios).
+- **Faena vacuna:** ~44.951 cab (sem 25, 16-22 jun; +5% i/a), acum. 2026 −17% i/a.
+  Fuente: ACG / Blasina (reproducen datos INAC/ACG).
+- **Importaciones y saldo comercial:** base aduanera BCU, abril-2026 (imp. FOB
+  US$1.150,6 M; saldo −US$430,8 M). No mezclar con las exportaciones por solicitudes
+  de Uruguay XXI (con zonas francas).
+- **Demanda máxima de potencia:** récord ~2.507 MW (6-7 mar-2025, ADME).
+- **Potencia instalada:** ~5.298,5 MW (2024, INE/MIEM·DNE).
+
 ## Limitaciones reconocidas (s/d / NO CORROBORADO)
 
-- **Niveles de precio de combustibles ANCAP** y **base monetaria** del BCU (sitios
-  con problemas de certificado SSL al leerlos directamente).
-- **Importaciones y saldo comercial mensual** puntual de mayo-2026.
-- **Resultado fiscal de abril-2026:** el MEF publicó el archivo del Sector Público a
-  abril, pero el titular del año móvil no se corroboró de forma limpia (fuentes
-  secundarias conflaban cifras de períodos previos), por lo que se mantiene el
-  −4,7% del PIB a marzo-2026 (NO se actualizó a abril por la regla de no inventar).
+- **Resultado fiscal del Sector Público Global de abril-2026:** el MEF publicó el
+  Gobierno Central-BPS (−4,6% del PIB a abril) pero no un % limpio del SPG a abril;
+  se mantiene el −4,7% del PIB a marzo-2026.
 - **Precios secundarios de los bonos** soberanos y **valor diario de jun-2026** del
   UBI (se mantiene el del 18-may: 53 pb; sin lectura de fines de junio corroborada).
+- **IED y cuenta corriente del 1T-2026:** sin publicar al 29-jun; se usa el año
+  completo 2025 (IED US$687 M; cuenta corriente −0,44% del PIB, BCU).
 - **PIB departamental 2026**: no existe serie oficial; el mapa usa un índice de
   peso económico relativo, ilustrativo.
-- **Demanda máxima de potencia** y **potencia instalada exacta**; resultado del
-  **step del SSLB** (efectivo en 2027).
+- **Resultado del step del SSLB** (efectivo en may-2027): el KPI-1 cerró 2024 en
+  −48% (a 2 pp de la meta −50% a 2025); resolución final aún no determinada.
 - Para producción: conectar INE, BCU, MEF/UGD, INAC/Uruguay XXI, DGI, MIEM/ADME y
   República AFAP/BEVSA mediante ingesta automática.

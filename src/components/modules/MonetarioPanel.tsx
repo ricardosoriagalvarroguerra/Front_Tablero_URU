@@ -13,7 +13,7 @@ const META_PISO = 3;
 const META_TECHO = 6;
 
 export function MonetarioPanel({ data }: MonetarioPanelProps) {
-  const { reservas, tasaPolitica, expectativas } = data;
+  const { reservas, tasaPolitica, expectativas, baseMonetaria } = data;
   const exp24 = expectativas.inflacion24m;
   const pos = exp24 != null ? Math.max(0, Math.min(1, (exp24 - META_PISO) / (META_TECHO - META_PISO))) * 100 : null;
 
@@ -21,16 +21,28 @@ export function MonetarioPanel({ data }: MonetarioPanelProps) {
     <Panel className="flex flex-col h-full">
       <SectionTitle id="$$ ·" title="Monetario · BCU" right={<span>BCU</span>} />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
-        {/* Reservas */}
-        <div className="px-3 py-3 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle">Activos de reserva del BCU</div>
-          <div className="mt-0.5 flex items-baseline gap-2">
-            <span className="mono text-[24px]">
-              {reservas.valorUsd != null ? reservas.valorUsd.toLocaleString('es-UY') : 's/d'}
-            </span>
-            <span className="mono text-[10px] text-subtle">M USD · {reservas.asof}</span>
+        {/* Reservas + Base monetaria */}
+        <div className="px-3 py-3 border-b border-token grid grid-cols-2 gap-3">
+          <div>
+            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Activos de reserva del BCU</div>
+            <div className="mt-0.5 flex items-baseline gap-2">
+              <span className="mono text-[24px]">
+                {reservas.valorUsd != null ? reservas.valorUsd.toLocaleString('es-UY') : 's/d'}
+              </span>
+              <span className="mono text-[10px] text-subtle">M USD · {reservas.asof}</span>
+            </div>
+            <div className="mono text-[9px] text-subtle mt-0.5">{reservas.source}</div>
           </div>
-          <div className="mono text-[9px] text-subtle mt-0.5">{reservas.source}</div>
+          <div>
+            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Base monetaria · emisión</div>
+            <div className="mt-0.5 flex items-baseline gap-2">
+              <span className="mono text-[24px]">
+                {baseMonetaria?.valorMM != null ? baseMonetaria.valorMM.toLocaleString('es-UY') : 's/d'}
+              </span>
+              <span className="mono text-[10px] text-subtle">M $ · {baseMonetaria?.asof ?? 's/d'}</span>
+            </div>
+            <div className="mono text-[9px] text-subtle mt-0.5">{baseMonetaria?.source ?? ''}</div>
+          </div>
         </div>
 
         {/* TPM + Expectativas 24m */}

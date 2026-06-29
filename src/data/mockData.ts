@@ -1,20 +1,22 @@
-// Datos del "Tablero Inteligente URU" — snapshot REAL de Uruguay al 28-jun-2026.
+// Datos del "Tablero Inteligente URU" — snapshot REAL de Uruguay al 29-jun-2026.
 // Revisado contra fuentes OFICIALES/primarias (INE, BCU, MEF/Unidad de Gestión de
-// Deuda, INAC, Uruguay XXI, DGI, MIEM/ADME, República AFAP) y medios reputados que
-// las citan (El País, El Observador, Búsqueda, Ámbito Uruguay, Infobae, Montevideo
-// Portal). Cifras titulares con verificación cruzada. Lo no corroborable se marca s/d.
-// Ver docs/SOURCES.md.
+// Deuda, INAC/ACG/Blasina, Uruguay XXI, DGI, MIEM/ADME/ANCAP, República AFAP) y
+// medios reputados que las citan (El País, El Observador, Búsqueda, Ámbito Uruguay,
+// Infobae, Montevideo Portal). Cifras titulares con verificación cruzada. Lo no
+// corroborable se marca s/d. Ver docs/SOURCES.md.
 //
 // Coyuntura: Yamandú Orsi (Frente Amplio) en su 2º año (asumió 1-mar-2025);
 // ministro de Economía Gabriel Oddone. Inflación dentro del rango meta del BCU
 // (IPC may 0,70% m/m, 3,77% i/a), TPM en 5,75% (COPOM mantuvo; próxima reunión
-// 8-jul). Grado inversor por las 4 calificadoras (S&P BBB+, Moody's Baa1, Fitch BBB,
-// DBRS BBB) y UBI ~53 pb, el riesgo país más bajo de la región. El dólar cerró en
-// ~$40,22 (26-jun). Tensión fiscal: déficit del Sector Público Global ~4,7% del PIB;
-// la primera Rendición de Cuentas de Orsi se presenta el 30-jun (sin impacto fiscal,
-// US$31 M en 4 prioridades) y la oposición interpeló a Oddone (22-jun). Motor: el
-// complejo agroexportador (carne, celulosa, soja, lácteos). Reemplazar por ingesta
-// en vivo (// TODO).
+// 8-jul; el mercado descuenta +25 pb a 6% recién en octubre). Grado inversor por las
+// 4 calificadoras (S&P BBB+, Moody's Baa1, Fitch BBB, DBRS BBB; +R&I BBB+) y UBI
+// ~53 pb, el riesgo país más bajo de la región. El dólar ~$40,2 (cierre 26-jun);
+// reservas US$18.474 M (25-jun). Tensión fiscal: déficit del SPG ~4,7% del PIB y la
+// recaudación DGI cayó a −0,8% real en mayo; la primera Rendición de Cuentas de Orsi
+// se presenta el 30-jun (sin impacto fiscal, US$31 M en 4 prioridades). Uruguay asume
+// la presidencia pro tempore del Mercosur el 1-jul. Motor: el complejo agroexportador
+// (novillo ~US$5,57/kg, faena recuperándose; celulosa, soja, lácteos). Reemplazar por
+// ingesta en vivo (// TODO).
 
 import type {
   Kpi, AgroData, MercadosData, ActividadData, EnergiaData, ExternoData, FiscalData,
@@ -105,7 +107,7 @@ export const KPIS: Kpi[] = [
     spark: [6.5, 6.25, 6.0, 5.75, 5.75, 5.75],
     source: 'BCU · COPOM',
     asof: '26 may',
-    def: 'Tasa de Política Monetaria. El COPOM la mantuvo en 5,75% el 26-may-2026 (2ª vez consecutiva), buscando converger la inflación a la meta de 4,5%, tras siete recortes consecutivos desde jul-2025. Pausa por incertidumbre global y presión del petróleo.',
+    def: 'Tasa de Política Monetaria. El COPOM la mantuvo en 5,75% el 26-may-2026 (2ª vez consecutiva), buscando converger la inflación a la meta de 4,5%, tras siete recortes desde jul-2025. Próxima reunión: 8-jul. El mercado descuenta una suba de +25 pb (a 6,0%) recién hacia octubre, por la presión del petróleo.',
   },
   {
     id: 'expectativas_inflacion',
@@ -119,7 +121,7 @@ export const KPIS: Kpi[] = [
     spark: [4.8, 4.7, 4.6, 4.5, 4.5],
     source: 'BCU · encuesta',
     asof: 'jun 2026',
-    def: 'Expectativas de inflación a 24 meses de la encuesta del BCU (mediana de analistas y mercado): 4,5%, en el centro del rango meta. A 12 meses bajaron de 4,9% a 4,7% en junio. Empresarios ~5%.',
+    def: 'Expectativas de inflación a 24 meses de la encuesta del BCU (mediana de analistas y mercado): 4,5%, en el centro del rango meta. A 12 meses 4,90% (encuesta de mayo). Empresarios ~5%.',
   },
   {
     id: 'tipo_cambio',
@@ -152,31 +154,31 @@ export const KPIS: Kpi[] = [
   {
     id: 'salario_real',
     label: 'SALARIO REAL',
-    value: 1.96,
+    value: 2.33,
     unit: '% i/a',
     fmt: pct2,
-    delta: 1.96,
-    deltaLabel: '+2,0% i/a',
+    delta: 2.33,
+    deltaLabel: '+2,3% i/a',
     sentiment: 'pos',
-    spark: [0.8, 1.2, 1.5, 1.8, 1.96],
+    spark: [0.8, 1.2, 1.5, 1.8, 2.33],
     source: 'INE · IMS',
-    asof: 'abr 2026',
-    def: 'Salario real (Índice Medio de Salarios deflactado por IPC), variación interanual. Abril 2026: +1,96% (IMS nominal +5,12%). El poder adquisitivo alcanzó en ene-2026 su nivel más alto desde 1975.',
+    asof: '1T 2026',
+    def: 'Salario real (Índice Medio de Salarios deflactado por IPC), variación interanual. 1T 2026: +2,33%, el mayor poder de compra en 50 años (lo destacaron Orsi y el MEF). El IMS nominal de abril fue +5,12% i/a.',
   },
   {
     id: 'novillo',
     label: 'NOVILLO GORDO',
-    value: 5.71,
+    value: 5.57,
     unit: 'USD/kg',
     fmt: pct2,
-    delta: 30,
-    deltaLabel: '+30% i/a',
-    sentiment: 'pos',
-    spark: [4.4, 4.7, 5.0, 5.3, 5.6, 5.71],
-    source: 'INAC · El Observador',
-    asof: 'may 2026',
-    def: 'Precio del novillo gordo (USD/kg carcasa, 4ª balanza), referencia del complejo cárnico. ~US$5,71/kg, el más caro de la región y cerca de récords históricos; precio medio de exportación ~US$6.078/ton. Faena de abril −45% i/a (mínimo desde 2013).',
-    extra: { label: 'PRECIO', value: 'récord', tone: 'pos' },
+    delta: -2.5,
+    deltaLabel: '−2,5% m/m',
+    sentiment: 'neutral',
+    spark: [4.7, 5.0, 5.3, 5.6, 5.71, 5.57],
+    source: 'ACG · Blasina',
+    asof: 'sem 25 jun',
+    def: 'Precio del novillo gordo (USD/kg carcasa), referencia del complejo cárnico. ~US$5,57/kg en la semana 25 (16–22 jun, ACG), que cedió levemente desde los US$5,71 de mayo pero sigue cerca de récords. El índice "Novillo Tipo" por cabeza (Blasina) marca +23% i/a. La faena se recuperó (~45 mil cab/semana, +5% i/a) tras el piso de abril, aunque el acumulado 2026 cae −17% i/a.',
+    extra: { label: 'NIVEL', value: 'cerca récord', tone: 'pos' },
   },
   {
     id: 'resultado_fiscal',
@@ -190,7 +192,7 @@ export const KPIS: Kpi[] = [
     spark: [-3.6, -4.1, -4.4, -4.7, -4.7],
     source: 'MEF',
     asof: '12m mar 2026',
-    def: 'Resultado del Sector Público Global (déficit), año móvil 12 meses a marzo 2026: −4,7% del PIB, estable vs febrero y vs el cierre 2025 (~−4,4%). En línea con la meta del Presupuesto, pero señalado como principal riesgo para el rating soberano.',
+    def: 'Resultado del Sector Público Global (déficit), año móvil 12 meses a marzo 2026: −4,7% del PIB, estable vs febrero y vs el cierre 2025 (~−4,4%). En línea con la meta del Presupuesto, pero señalado como principal riesgo para el rating soberano. A abril el MEF reportó el Gobierno Central-BPS en −4,6% del PIB.',
     extra: { label: 'GC-BPS', value: '−3,7%', tone: 'neg' },
   },
   {
@@ -211,54 +213,54 @@ export const KPIS: Kpi[] = [
   {
     id: 'reservas',
     label: 'RESERVAS BCU',
-    value: 18463,
+    value: 18474,
     unit: 'M USD',
     fmt: miles,
-    delta: -118,
-    deltaLabel: '−118 M',
+    delta: 231,
+    deltaLabel: '+231 M',
     sentiment: 'neutral',
-    spark: [19948, 19451, 18581, 18463],
+    spark: [19948, 18581, 18463, 18243, 18474],
     source: 'BCU',
-    asof: 'may 2026',
-    def: 'Activos de reserva del BCU: US$18.463 M en mayo 2026 (pico reciente US$19.948 M en feb). Las reservas equivalen a ~24% del PIB; reservas netas ~US$10.300 M.',
+    asof: '25 jun',
+    def: 'Activos de reserva del BCU: US$18.474 M al 25-jun-2026 (pico reciente US$19.948 M en feb). El cierre de mayo fue US$18.243 M y el de abril US$18.463 M. Las reservas equivalen a ~24% del PIB; reservas netas ~US$10.300 M.',
     extra: { label: '% PIB', value: '~24%', tone: 'neutral' },
   },
 ];
 
 // ─────────────────────────────────────────────────────────────────────
-// MÓDULO AGRO — complejo agroexportador (módulo estrella, 28-jun-2026)
+// MÓDULO AGRO — complejo agroexportador (módulo estrella, 29-jun-2026)
 // ─────────────────────────────────────────────────────────────────────
 export const AGRO: AgroData = {
   productos: [
     {
-      id: 'carne', nombre: 'Carne bovina', precio: 5.71, precioUnidad: 'USD/kg', varPrecio: 2.5,
+      id: 'carne', nombre: 'Carne bovina', precio: 5.57, precioUnidad: 'USD/kg', varPrecio: -2.5,
       exportUsd: 1054, participacion: 20, destinoTop: 'China / EE.UU.',
-      spark: [4.4, 4.7, 5.0, 5.3, 5.6, 5.71], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · INAC',
-      nota: 'Novillo en récord (~+30% i/a); faena de abril −45% i/a (mínimo desde 2013). 1er producto de exportación.',
+      spark: [4.7, 5.0, 5.3, 5.6, 5.71, 5.57], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · INAC',
+      nota: 'Novillo ~US$5,57/kg (sem 25 jun), cerca de récords; faena recuperándose (~45 mil cab/sem) tras el piso de abril. 1er producto de exportación; mayo −14% i/a por menor volumen.',
     },
     {
-      id: 'celulosa', nombre: 'Celulosa', precio: 530, precioUnidad: 'USD/ton', varPrecio: -7,
+      id: 'celulosa', nombre: 'Celulosa', precio: 668, precioUnidad: 'USD/ton', varPrecio: -7,
       exportUsd: 931, participacion: 17, destinoTop: 'China / UE',
-      spark: [205, 198, 191, 191], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · ref. BHKP',
-      nota: 'UPM (Fray Bentos + UPM2) y Montes del Plata. 2º producto. UPM pidió ampliar Fray Bentos de 1,3 a 1,5 M t/año. Precio: referencia BHKP.',
+      spark: [205, 198, 191, 191], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · ref. BHK China',
+      nota: 'UPM (Fray Bentos + UPM2) y Montes del Plata. 2º producto; mayo −7% i/a. UPM pidió ampliar Fray Bentos de 1,3 a 1,5 M t/año. Precio: referencia BHK reventa China (~US$668/t, Fastmarkets).',
     },
     {
-      id: 'soja', nombre: 'Soja', precio: 10.5, precioUnidad: 'USD/bushel', varPrecio: 45,
+      id: 'soja', nombre: 'Soja', precio: 11.10, precioUnidad: 'USD/bushel', varPrecio: 45,
       exportUsd: 180, participacion: null, destinoTop: 'China (~70%)',
-      spark: [120, 140, 160, 180], polaridad: 'up', asof: 'may 2026', fuente: 'Uruguay XXI',
-      nota: 'Mayo +45% i/a. Cosecha 2025/26 ~1,95 M t, la mitad de la zafra récord previa.',
+      spark: [120, 140, 160, 180], polaridad: 'up', asof: 'may 2026', fuente: 'Uruguay XXI · CBOT',
+      nota: 'Exportación de mayo +45% i/a (US$180 M). Precio CBOT ~US$11,1/bushel (mínimo desde feb). Cosecha 2025/26 ~1,95 M t, la mitad de la zafra récord previa.',
     },
     {
-      id: 'lacteos', nombre: 'Lácteos', precio: 4100, precioUnidad: 'USD/ton', varPrecio: 29,
+      id: 'lacteos', nombre: 'Lácteos', precio: 3706, precioUnidad: 'USD/ton', varPrecio: 29,
       exportUsd: 346, participacion: 6, destinoTop: 'Brasil / Argelia',
-      spark: [70, 78, 85, 85], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · ref. leche en polvo',
-      nota: '3er producto. Mayo +29% i/a. Conaprole; precio de la leche al productor ~16,04 $/L. Precio: referencia leche en polvo entera.',
+      spark: [70, 78, 85, 85], polaridad: 'up', asof: 'ene-may', fuente: 'Uruguay XXI · GDT',
+      nota: '3er producto. Mayo +29% i/a. Conaprole. Precio: leche en polvo entera GDT Event 405 (2-jun) US$3.706/t (−2,2%).',
     },
     {
-      id: 'trigo', nombre: 'Trigo', precio: null, precioUnidad: 'USD/ton', varPrecio: 9,
+      id: 'trigo', nombre: 'Trigo', precio: 5.73, precioUnidad: 'USD/bushel', varPrecio: 9,
       exportUsd: 155, participacion: 5, destinoTop: 'Brasil',
-      spark: [120, 135, 145, 155], polaridad: 'up', asof: '1T 2026', fuente: 'Uruguay XXI',
-      nota: 'Acumulado 1T +9% i/a.',
+      spark: [120, 135, 145, 155], polaridad: 'up', asof: '1T 2026', fuente: 'Uruguay XXI · CBOT',
+      nota: 'Exportación acumulada 1T +9% i/a. Precio CBOT ~US$5,73/bushel (mínimo desde abr).',
     },
     {
       id: 'madera', nombre: 'Madera', precio: null, precioUnidad: 'USD/ton', varPrecio: 17,
@@ -275,20 +277,20 @@ export const AGRO: AgroData = {
   ],
   exportTotalAgro: 10300,
   participacionAgro: 76,
-  novilloPrecio: 5.71,
-  novilloVar: 30,
-  faena: null,
-  faenaPeriodo: 'faena abr −45% i/a (mínimo desde 2013)',
+  novilloPrecio: 5.57,
+  novilloVar: null,
+  faena: 45,
+  faenaPeriodo: 'sem 25 (16-22 jun): ~45 mil cab, +5% i/a; acum. 2026 −17% i/a',
   destinos: [
-    { pais: 'EE.UU. (NAFTA)', valor: 30 },
-    { pais: 'China', valor: 28 },
-    { pais: 'Unión Europea', valor: 17 },
-    { pais: 'Otros', valor: 25 },
+    { pais: 'China', valor: 31 },
+    { pais: 'EE.UU.', valor: 28 },
+    { pais: 'Unión Europea', valor: 25 },
+    { pais: 'Otros', valor: 16 },
   ],
   asof: 'ene-may 2026',
   fuente: 'Uruguay XXI · INAC',
   resumen:
-    'El complejo agroexportador es el motor de divisas de Uruguay. En ene-may 2026 las exportaciones de bienes sumaron US$5.271 M (+3% i/a); en mayo US$1.142 M (−3%). La carne bovina lidera el acumulado (US$1.054 M) con el novillo en récord (~US$5,71/kg) pese a una faena de abril −45% i/a. La celulosa es 2ª (US$931 M); la soja fue lo más dinámico (+45% i/a, ~70% a China). China es el principal destino (~27% en mayo), seguido de la UE y Brasil.',
+    'El complejo agroexportador es el motor de divisas de Uruguay. En ene-may 2026 las exportaciones de bienes sumaron US$5.271 M (+3% i/a); en mayo US$1.142 M (−3%). La carne bovina lidera el acumulado (US$1.054 M); el novillo cedió levemente a ~US$5,57/kg (sem 25 jun) pero sigue cerca de récords, con la faena recuperándose (~45 mil cab/sem) tras el piso de abril (acum. 2026 −17% i/a). La celulosa es 2ª (US$931 M); la soja fue lo más dinámico (+45% i/a en mayo, ~70% a China). China es el principal destino (~27% del total en mayo), seguido de la UE y Brasil.',
 };
 
 // ─────────────────────────────────────────────────────────────────────
@@ -300,19 +302,19 @@ export const MERCADOS: MercadosData = {
     { id: 'usd2037', name: 'Global USD 2037', moneda: 'USD', price: null, yield: 4.73, tipo: 'global', chg: null, vencimiento: '2037' },
     { id: 'uyu2035', name: 'Global UYU 2035', moneda: 'UYU', price: null, yield: 8.0, tipo: 'global', chg: null, vencimiento: '2035' },
     { id: 'sslb2034', name: 'SSLB 2034', moneda: 'USD', price: null, yield: 5.75, tipo: 'sslb', chg: null, vencimiento: '2034' },
-    { id: 'ui2034', name: 'Nota UI 2034', moneda: 'UI', price: null, yield: 2.59, tipo: 'local', chg: null, vencimiento: '2034' },
+    { id: 'ui2034', name: 'Nota UI 2034', moneda: 'UI', price: null, yield: 2.55, tipo: 'local', chg: null, vencimiento: '2034' },
   ],
   gradoInversor: {
     agencias: 4,
     nota:
-      'Grado inversor por las 4 calificadoras con perspectiva estable: S&P BBB+ (nov-2025), Moody’s Baa1 (ene-2026), Fitch BBB (sep-2025), DBRS BBB (nov-2025). Calificadoras no solicitadas (JCR, HR Ratings) lo ubican un escalón más alto (A−). Es el nivel crediticio más alto de la historia del país.',
+      'Grado inversor por las 4 calificadoras con perspectiva estable: S&P BBB+ (nov-2025), Moody\'s Baa1 (ratif. ene-2026), Fitch BBB (sep-2025), DBRS BBB (nov-2025). En ene-2026 la japonesa R&I asignó además BBB+ estable. Calificadoras no solicitadas (JCR, HR Ratings) lo ubican un escalón más alto (A−). Es el nivel crediticio más alto de la historia del país. Única operación de deuda de 2026: reapertura de la Nota Global UI 2034 (feb, corte 2,74%).',
   },
   sslb: {
     nota:
-      'Bono Indexado a Indicadores de Sostenibilidad: el primer bono soberano del mundo con cupón atado a metas ambientales (2022). ~US$2.200 M, vto. 2034.',
+      'Bono Indexado a Indicadores de Sostenibilidad: el primer bono soberano del mundo con cupón atado a metas ambientales (2022). ~US$2.200 M, vto. 2034. 4º Reporte Anual (jun-2026, datos 2024): KPI-1 a −48% (a 2 pp de la meta −50% a 2025 → riesgo de step-up); KPI-2 (bosque nativo) en cumplimiento.',
     cupon: '5,75% · step ±30 pb (efectivo may-2027)',
-    kpi1: 'Reducir la intensidad de emisiones de gases de efecto invernadero por unidad de PIB.',
-    kpi2: 'Mantener/aumentar el área de bosque nativo respecto de la línea de base 2012.',
+    kpi1: 'Reducir la intensidad de emisiones de GEI por unidad de PIB (−48% a 2024; meta −50% a 2025).',
+    kpi2: 'Mantener/aumentar el área de bosque nativo vs la línea de base 2012 (en cumplimiento).',
   },
   ratings: [
     { agencia: 'S&P', rating: 'BBB+', outlook: 'Estable', actualizado: 'nov 2025' },
@@ -373,8 +375,8 @@ export const ACTIVIDAD: ActividadData = {
     desempleo: 7.5,
     desempleoPeriodo: 'abr 2026',
     empleo: 59.5,
-    salarioReal: 1.96,
-    salarioRealPeriodo: 'abr 2026',
+    salarioReal: 2.33,
+    salarioRealPeriodo: '1T 2026',
     pobreza: 17.7,
     pobrezaPeriodo: '1S 2025',
     source: 'INE · ECH / pobreza',
@@ -393,23 +395,23 @@ export const ENERGIA: EnergiaData = {
     { id: 'termica', nombre: 'Térmica (fósil)', pct: 2 },
   ],
   renovablePct: 98,
-  demandaMax: null,
-  potenciaInstalada: 5000,
+  demandaMax: 2507,
+  potenciaInstalada: 5298,
   exportacion: {
     destino: 'Argentina / Brasil',
     valorGwh: 1043,
-    nota: 'Uruguay exportó ~8% de la generación de 2025 (13.040 GWh totales) como excedentes a la región. En enero de 2026 la matriz arrancó con 96,7% renovable.',
+    nota: 'Uruguay exportó ~8% de la generación de 2025 (13.040 GWh totales) como excedentes a la región. En mayo de 2026 la exportación eléctrica alcanzó 130 GWh, su mayor nivel del año (+364% i/a).',
   },
   combustibles: [
-    { producto: 'Gasoil (var. may m/m)', precio: 14.0, unidad: '% m/m' },
-    { producto: 'Nafta súper (var. may m/m)', precio: 7.0, unidad: '% m/m' },
-    { producto: 'Supergás (var. may m/m)', precio: 7.0, unidad: '% m/m' },
+    { producto: 'Nafta Súper 95', precio: 93.36, unidad: '$/L' },
+    { producto: 'Gasoil 50S', precio: 61.76, unidad: '$/L' },
+    { producto: 'Supergás', precio: 101.26, unidad: '$/kg' },
   ],
   hidrogeno: {
-    proyecto: 'HIF Global · Tambores',
-    inversionUsd: 4000,
-    estado: 'en desarrollo',
-    nota: 'Proyecto de e-combustibles a partir de hidrógeno verde (Paysandú/Tacuarembó). Uruguay impulsa la "Ruta del Hidrógeno Verde" como nueva frontera exportadora aprovechando su matriz renovable.',
+    proyecto: 'HIF Global · Paysandú',
+    inversionUsd: 5300,
+    estado: 'en evaluación ambiental',
+    nota: 'Proyecto de e-combustibles a partir de hidrógeno verde (Paysandú). Inversión revisada al alza a ~US$5.300 M; Solicitud de Autorización Ambiental Previa presentada (mar-2026) y posible relocalización dentro de Paysandú tras reclamos de Argentina. Producirá ~170.540 t/año de H2 verde para e-metanol y e-gasolina (primeras exportaciones previstas 2029).',
   },
   asof: '2025',
   source: 'MIEM · ADME / UTE',
@@ -423,20 +425,23 @@ export const ENERGIA: EnergiaData = {
 export const EXTERNO: ExternoData = {
   // precios de referencia que mueven las exportaciones de Uruguay.
   commodities: [
-    { id: 'novillo', label: 'Novillo gordo (carcasa)', value: 5.71, unit: 'USD/kg', chgMensual: 2.5, chgAnual: 30, polarity: 'up', source: 'INAC', asof: 'may 2026', nota: 'Récord; el más caro de la región.' },
-    { id: 'carne_export', label: 'Carne (precio medio export)', value: 6078, unit: 'USD/ton', chgMensual: null, chgAnual: null, polarity: 'up', source: 'INAC', asof: 'may 2026', nota: 'Promedio móvil 30 días, nivel histórico.' },
-    { id: 'celulosa', label: 'Celulosa (BHKP, ref.)', value: 530, unit: 'USD/ton', chgMensual: null, chgAnual: null, polarity: 'up', source: 'ref. internacional', asof: 'jun 2026', nota: 'Indicativo; 2º producto exportador.' },
-    { id: 'soja', label: 'Soja (CBOT, ref.)', value: 10.5, unit: 'USD/bushel', chgMensual: null, chgAnual: null, polarity: 'up', source: 'Trading Economics · CBOT', asof: 'jun 2026' },
-    { id: 'trigo', label: 'Trigo (CBOT, ref.)', value: 5.6, unit: 'USD/bushel', chgMensual: null, chgAnual: null, polarity: 'up', source: 'Trading Economics · CBOT', asof: 'jun 2026' },
-    { id: 'leche', label: 'Leche en polvo entera (ref.)', value: 4100, unit: 'USD/ton', chgMensual: null, chgAnual: null, polarity: 'up', source: 'ref. internacional', asof: 'jun 2026', nota: 'Lácteos: 3er producto exportador.' },
+    { id: 'novillo', label: 'Novillo gordo (carcasa)', value: 5.57, unit: 'USD/kg', chgMensual: -2.5, chgAnual: null, polarity: 'up', source: 'ACG · Blasina', asof: 'sem 25 jun', nota: 'Cedió leve desde US$5,71 (may); sigue cerca de récords.' },
+    { id: 'carne_export', label: 'Carne (precio medio export)', value: 6078, unit: 'USD/ton', chgMensual: null, chgAnual: 37, polarity: 'up', source: 'INAC', asof: 'may 2026', nota: 'Precio de exportación +37% i/a en mayo pese a menor volumen.' },
+    { id: 'celulosa', label: 'Celulosa (BHK China, ref.)', value: 668, unit: 'USD/ton', chgMensual: null, chgAnual: null, polarity: 'up', source: 'Fastmarkets', asof: 'jun 2026', nota: 'Reventa BHK en China (~US$668/t neto); 2º producto exportador.' },
+    { id: 'soja', label: 'Soja (CBOT, ref.)', value: 11.10, unit: 'USD/bushel', chgMensual: null, chgAnual: null, polarity: 'up', source: 'Trading Economics · CBOT', asof: 'jun 2026', nota: 'Mínimo desde febrero 2026.' },
+    { id: 'trigo', label: 'Trigo (CBOT, ref.)', value: 5.73, unit: 'USD/bushel', chgMensual: null, chgAnual: null, polarity: 'up', source: 'Trading Economics · CBOT', asof: 'jun 2026', nota: 'Mínimo desde el 10-abr-2026.' },
+    { id: 'leche', label: 'Leche en polvo entera (GDT)', value: 3706, unit: 'USD/ton', chgMensual: -2.2, chgAnual: null, polarity: 'up', source: 'GlobalDairyTrade', asof: 'GDT 405 · 2-jun', nota: 'Evento GDT 405; lácteos 3er producto exportador.' },
   ],
-  balanza: { exportaciones: 1142, importaciones: null, saldo: null, periodo: 'may 2026', source: 'Uruguay XXI' },
+  // Balanza en base aduanera del BCU (exp. cumplidas s/zonas francas), única base
+  // coherente para el saldo. Por solicitudes (Uruguay XXI, c/zonas francas) las
+  // exportaciones de mayo fueron US$1.142 M (acum. ene-may US$5.271 M, +3% i/a).
+  balanza: { exportaciones: 720, importaciones: 1151, saldo: -431, periodo: 'abr 2026 · base BCU', source: 'BCU · Comercio Ext. de Bienes' },
   destinos: [
-    { pais: 'China', valor: 26 },
+    { pais: 'China', valor: 27 },
+    { pais: 'Brasil', valor: 17 },
     { pais: 'Unión Europea', valor: 16 },
-    { pais: 'Brasil', valor: 14 },
-    { pais: 'EE.UU.', valor: 8 },
-    { pais: 'Otros', valor: 36 },
+    { pais: 'EE.UU.', valor: 6 },
+    { pais: 'Otros', valor: 34 },
   ],
   turismo: {
     ingresosUsd: 843,
@@ -447,15 +452,15 @@ export const EXTERNO: ExternoData = {
     source: 'Mintur',
   },
   ied: { valorUsd: 687, pctPib: 0.8, asof: '2025', source: 'BCU · Uruguay XXI' },
-  cuentaCorriente: { pctPib: -1.0, periodo: 'año móvil a jun 2025', source: 'BCU · Balanza de Pagos' },
+  cuentaCorriente: { pctPib: -0.44, periodo: 'año 2025', source: 'BCU · Balanza de Pagos' },
   competitividad: {
     tcrBrecha: -9.9,
     tcrNota:
-      'El BCU estimó una desalineación del tipo de cambio real de −9,9% respecto de sus fundamentos al cierre de 2025: el peso está sobrevaluado en términos reales («atraso cambiario»), preocupación del agro y la industria. El BCU proyecta corregir ~la mitad en 24 meses; el peso ya se depreció en el arranque de 2026.',
-    ipfFrontera: 15.1,
+      'El BCU estimó una desalineación del tipo de cambio real de −9,9% respecto de sus fundamentos al cierre de 2025: el peso está sobrevaluado en términos reales («atraso cambiario»), preocupación del agro y la industria. En junio de 2026 el ITCRE se consolidó por encima de 200 puntos y el TCR extrarregional cayó −7,7% en 8 meses; el BCU proyecta corregir ~la mitad en 24 meses.',
+    ipfFrontera: 15.0,
     ipfNota:
-      'Índice de Precios Fronterizos (UCU · Obs. Económico Salto): comprar en Salto cuesta ~15,1% más que en Concordia (mar-2026), la menor brecha en ~10 años, tras encarecerse Argentina. Sensible al descuento de IMESI a los combustibles en la frontera.',
-    asof: '2025 · mar 2026',
+      'Índice de Precios Fronterizos (UCU · Obs. Económico Salto): comprar en Salto cuesta ~15,0% más que en Concordia (may-2026), cerca de mínimos históricos, tras encarecerse Argentina. Sensible al descuento de IMESI a los combustibles en la frontera.',
+    asof: '2025 · may 2026',
     source: 'BCU · UCU',
   },
   deuda: { brutaPct: 74.9, totalUsd: 64129, asof: 'cierre 2025', source: 'MEF · UGD' },
@@ -475,14 +480,15 @@ export const FISCAL: FiscalData = {
     deudaNetaTope: 3450,
     cumple: false,
     nota:
-      '2 de 3 pilares cumplidos en 2025: resultado fiscal estructural (−3,9% PIB) y tope de endeudamiento neto (US$3.079 M, bajo el límite de US$3.450 M) SÍ; tope de crecimiento del gasto real NO (el gasto creció 5,7% vs ~2,5% potencial). El Consejo Fiscal Autónomo alertó al MEF.',
+      '2 de 3 pilares cumplidos en 2025: resultado fiscal estructural (−3,9% PIB) y tope de endeudamiento neto (US$3.079 M, bajo el límite de US$3.450 M) SÍ; tope de crecimiento del gasto real NO (el gasto creció 5,7% vs ~2,5% potencial). El Consejo Fiscal Autónomo alertó al MEF. La Ley N°20.446 (dic-2025) instauró una nueva regla fiscal dual (ancla de deuda neta + metas operativas) vigente desde 2026.',
     source: 'MEF · Consejo Fiscal Autónomo',
   },
   deuda: { brutaPct: 74.9, netaPct: 54.6, monedaLocalPct: 59, asof: 'cierre 2025', source: 'MEF · UGD' },
-  recaudacion: { varRealInteranual: 9.9, periodo: 'abr 2026', source: 'DGI · mayor suba mensual en más de un año (IVA e IRAE); acum. ene-abr +2,2% real' },
+  recaudacion: { varRealInteranual: -0.8, periodo: 'may 2026', source: 'DGI · recaudación bruta $59.716 M (+2,9% nominal, −0,8% real); fuerte caída desde +9,9% de abril; acum. 12m +0,8% real' },
   tasaPolitica: { valor: 5.75, nombre: 'Tasa de Política Monetaria (TPM)', asof: 'COPOM 26-may-2026', source: 'BCU' },
-  reservas: { valorUsd: 18463, asof: 'may 2026', source: 'BCU' },
-  expectativas: { inflacion12m: 4.7, inflacion24m: 4.5, asof: 'jun 2026', source: 'BCU · encuesta de expectativas' },
+  reservas: { valorUsd: 18474, asof: '25 jun', source: 'BCU' },
+  baseMonetaria: { valorMM: 113072, asof: 'may 2026', source: 'BCU · Emisión (Agregados Monetarios)' },
+  expectativas: { inflacion12m: 4.9, inflacion24m: 4.5, asof: 'may 2026', source: 'BCU · encuesta de expectativas' },
 };
 
 // ─────────────────────────────────────────────────────────────────────
@@ -490,7 +496,47 @@ export const FISCAL: FiscalData = {
 // ─────────────────────────────────────────────────────────────────────
 export const NOTICIAS: Noticia[] = [
   {
-    id: 'n14', t: '−5d', mins: 7920, fuente: 'Ámbito', tag: 'Político',
+    id: 'n17', t: 'hoy', mins: 180, fuente: 'Ámbito', tag: 'Internacional',
+    titular: 'Uruguay asume la presidencia pro tempore del Mercosur con foco en abrir el bloque a nuevos mercados',
+    resumen: 'En la cumbre de Luque (Paraguay), Uruguay recibe la presidencia rotativa el 1-jul con la prioridad de ejecutar el acuerdo con la UE, negociar con Asia (India, Japón, Vietnam) e impulsar el ingreso de nuevos miembros.',
+    breaking: true,
+    url: 'https://www.ambito.com/uruguay/asumira-la-presidencia-del-mercosur-la-apertura-nuevos-mercados-y-el-ingreso-paises-agenda-n6293893',
+    body: 'Uruguay asume el 1 de julio la presidencia pro tempore del Mercosur en la 68ª cumbre del bloque, reunida en Luque (Paraguay) por el 35° aniversario del Tratado de Asunción. La agenda uruguaya prioriza ejecutar el acuerdo con la Unión Europea (incluido el reparto de cuotas), abrir negociaciones comerciales hacia Asia (India, Japón, Vietnam) e impulsar el ingreso de nuevos socios (Venezuela, Colombia, Panamá, Trinidad y Tobago), buscando un "efecto dominó" de apertura comercial.',
+    keywords: ['Mercosur', 'Orsi', 'Comercio', 'UE'],
+    relacionados: ['Externo & comercio'],
+  },
+  {
+    id: 'n18', t: '−1d', mins: 1560, fuente: 'Subrayado', tag: 'Internacional',
+    titular: 'Comienza la cumbre del Mercosur en la que Uruguay recibe la presidencia pro tempore del bloque',
+    resumen: 'La cumbre arranca en Luque con cancilleres y jefes de Estado; Uruguay recibe la presidencia de manos de Paraguay con el acuerdo UE y la situación de Venezuela sobre la mesa.',
+    breaking: false,
+    url: 'https://www.subrayado.com.uy/comienza-este-lunes-cumbre-del-mercosur-la-que-uruguay-recibe-presidencia-pro-tempore-del-bloque-n1011479',
+    body: 'La 68ª cumbre del Mercosur comenzó con la reunión de cancilleres y, al día siguiente, la de jefes de Estado en la sede de la Conmebol (Luque, Paraguay), en el 35° aniversario del Tratado de Asunción. Uruguay recibe la presidencia pro tempore de manos de Paraguay, con la implementación del acuerdo con la Unión Europea y la situación de Venezuela como temas centrales del traspaso.',
+    keywords: ['Mercosur', 'Cumbre', 'Paraguay'],
+    relacionados: ['Externo & comercio'],
+  },
+  {
+    id: 'n19', t: '−2d', mins: 3000, fuente: 'Caras y Caretas', tag: 'Económico',
+    titular: 'El gobierno aumentará el gasto en US$31 millones y estima reducir 25% la pobreza infantil',
+    resumen: 'La Rendición de Cuentas suma US$31 M centrados en infancia; el gobierno estima que los cambios en transferencias sociales reducirían cerca de 25% la pobreza infantil.',
+    breaking: false,
+    url: 'https://www.carasycaretas.com.uy/politica/gobierno-aumentara-gasto-us-31-millones-y-estiman-reducir-25-pobreza-infantil-n96887',
+    body: 'El gobierno presentará una Rendición de Cuentas con un aumento adicional de gasto de US$31 millones, centrado principalmente en la infancia. Estima que los cambios en las transferencias sociales (asignaciones familiares) reducirían la pobreza infantil en torno a 25%. Sumado a lo previsto en el Presupuesto, la inversión en las cuatro prioridades (infancia, seguridad, educación y situación de calle) alcanza unos US$81 millones, financiados con reasignaciones para no afectar la meta fiscal.',
+    keywords: ['Rendición de Cuentas', 'Pobreza infantil', 'Gasto'],
+    relacionados: ['Result. fiscal', 'Fiscal · regla fiscal'],
+  },
+  {
+    id: 'n20', t: '−3d', mins: 4440, fuente: 'Subrayado', tag: 'Social',
+    titular: 'El gobierno plantea unificar las asignaciones familiares, que llegarán hasta $10.000 en la Rendición',
+    resumen: 'El Ejecutivo propone unificar las asignaciones familiares con el aumento de US$31 M: hasta $10.000 para niños de 0-3 años en los deciles más vulnerables, impactando a unos 50.000 niños.',
+    breaking: false,
+    url: 'https://www.subrayado.com.uy/gobierno-plantea-unificacion-asignaciones-familiares-que-alcanzaran-10000-algunos-casos-rendicion-n1011346',
+    body: 'El gobierno propone en la Rendición de Cuentas unificar el régimen de asignaciones familiares con un incremento de US$31 millones. Las prestaciones llegarían hasta $10.000 para niños de 0 a 3 años en los deciles más vulnerables y $6.600 en otros tramos, beneficiando a unos 50.000 niños, como herramienta central para reducir la pobreza infantil.',
+    keywords: ['Asignaciones familiares', 'Rendición de Cuentas', 'Infancia'],
+    relacionados: ['Result. fiscal'],
+  },
+  {
+    id: 'n14', t: '−6d', mins: 8760, fuente: 'Ámbito', tag: 'Político',
     titular: 'Orsi salió a blindar la gestión económica ante el desgaste de su imagen en las encuestas',
     resumen: 'El presidente defendió los resultados económicos —desempleo en 7,5%, +26.000 empleos y el mayor poder de compra en 50 años— tras caer su aprobación a 20% (Opción Consultores).',
     breaking: false,
@@ -500,7 +546,17 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Desempleo', 'Salario real'],
   },
   {
-    id: 'n15', t: '−6d', mins: 9360, fuente: 'Ámbito', tag: 'Económico',
+    id: 'n21', t: '−7d', mins: 10080, fuente: 'MEF', tag: 'Económico',
+    titular: 'El equipo económico ratifica el rumbo del gobierno: estabilidad, protección social y crecimiento',
+    resumen: 'El MEF reafirmó su estrategia de estabilidad macro y protección social, destacando que en 2025 se crearon 26.000 empleos, la inflación cerró en 3,65% y el PIB creció 1,8%.',
+    breaking: false,
+    url: 'https://www.gub.uy/ministerio-economia-finanzas/comunicacion/noticias/equipo-economico-ratifica-rumbo-del-gobierno-haciendo-foco-estabilidad',
+    body: 'El Ministerio de Economía y Finanzas difundió un comunicado ratificando la estrategia del gobierno centrada en la estabilidad macroeconómica, la protección social y el crecimiento. Destacó que en 2025 se crearon 26.000 puestos de trabajo, la inflación cerró en 3,65% (mínimo en décadas) y el PIB creció 1,8%, en el marco del proyecto de ley de competitividad. El comunicado se difundió el día de la interpelación a Oddone en el Senado.',
+    keywords: ['MEF', 'Oddone', 'Estabilidad', 'Empleo'],
+    relacionados: ['PIB · actividad', 'Result. fiscal'],
+  },
+  {
+    id: 'n15', t: '−7d', mins: 10200, fuente: 'Ámbito', tag: 'Económico',
     titular: 'La oposición interpeló a Gabriel Oddone en el Senado por el rumbo de la economía',
     resumen: 'El ministro de Economía fue interpelado por el nacionalista Sergio Botana; Oddone defendió la gestión, ratificó que no habrá cambios impositivos en el período y reafirmó la apuesta por la inversión y la apertura.',
     breaking: false,
@@ -510,7 +566,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Result. fiscal', 'PIB · actividad'],
   },
   {
-    id: 'n16', t: '−11d', mins: 16560, fuente: 'Ámbito', tag: 'Económico',
+    id: 'n16', t: '−12d', mins: 17400, fuente: 'Ámbito', tag: 'Económico',
     titular: 'El gobierno defiende una Rendición de Cuentas sin impacto fiscal y con prioridades definidas',
     resumen: 'El Ejecutivo confirmó que la Rendición de Cuentas, a presentar el 30-jun, no tendrá impacto fiscal: un aumento de US$31 M financiado con reasignaciones, con foco en infancia, seguridad, educación y situación de calle.',
     breaking: false,
@@ -520,7 +576,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Result. fiscal', 'Fiscal · regla fiscal'],
   },
   {
-    id: 'n1', t: '−12d', mins: 17280, fuente: 'Ámbito', tag: 'Económico',
+    id: 'n1', t: '−13d', mins: 18840, fuente: 'Ámbito', tag: 'Económico',
     titular: 'La economía creció 0,9% en el primer trimestre, a pesar de la caída del campo y la construcción',
     resumen: 'El BCU informó que el PIB creció 0,9% interanual en el 1T-2026 (+0,8% desestacionalizado), con recuperación de servicios pese al retroceso del agro.',
     breaking: false,
@@ -530,7 +586,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['PIB · actividad', 'Agroexportador'],
   },
   {
-    id: 'n8', t: '−13d', mins: 18720, fuente: 'Ámbito', tag: 'Internacional',
+    id: 'n8', t: '−14d', mins: 20280, fuente: 'Ámbito', tag: 'Internacional',
     titular: 'Uruguay sacará ventaja en exportaciones de carne a China ante el arancel del 55% que frenará a Brasil y Australia',
     resumen: 'Analistas prevén que Uruguay podría ganar participación en el mercado chino de carne vacuna frente a competidores afectados por aranceles; el USDA proyecta +2% de exportaciones cárnicas en 2026.',
     breaking: false,
@@ -540,7 +596,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Agroexportador', 'Novillo gordo'],
   },
   {
-    id: 'n10', t: '−15d', mins: 21600, fuente: 'El Cronista', tag: 'Sectorial',
+    id: 'n10', t: '−16d', mins: 23160, fuente: 'El Cronista', tag: 'Sectorial',
     titular: 'Ministerio de Ambiente analiza el pedido de UPM para aumentar la producción en Fray Bentos',
     resumen: 'UPM solicitó elevar la producción de su planta de Fray Bentos de 1,3 a unos 1,5 millones de toneladas anuales; el Ministerio de Ambiente evalúa el impacto.',
     breaking: false,
@@ -550,7 +606,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Agroexportador'],
   },
   {
-    id: 'n6', t: '−16d', mins: 23040, fuente: 'Ámbito', tag: 'Político',
+    id: 'n6', t: '−17d', mins: 24600, fuente: 'Ámbito', tag: 'Político',
     titular: 'Los lineamientos de gasto cero en la Rendición de Cuentas generan tensiones en el Frente Amplio',
     resumen: 'La primera Rendición de Cuentas del gobierno de Orsi (antes del 30 de junio) enfrenta al MEF, que defiende el compromiso fiscal, con sectores del FA que presionan por más gasto.',
     breaking: false,
@@ -560,7 +616,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Result. fiscal', 'Fiscal · regla fiscal'],
   },
   {
-    id: 'n5', t: '−17d', mins: 24480, fuente: 'Ámbito', tag: 'Sectorial',
+    id: 'n5', t: '−18d', mins: 26040, fuente: 'Ámbito', tag: 'Sectorial',
     titular: 'El INAC admitió el error de la exportación de carne contaminada a China y lo comparó con el caso del año pasado',
     resumen: 'China detectó residuos de antibiótico por encima del límite en carne de un frigorífico de Tacuarembó; el INAC reconoció el error y anunció trabajo con productores.',
     breaking: false,
@@ -570,7 +626,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Agroexportador'],
   },
   {
-    id: 'n9', t: '−17d', mins: 24490, fuente: 'Búsqueda', tag: 'Económico',
+    id: 'n9', t: '−18d', mins: 26050, fuente: 'Búsqueda', tag: 'Económico',
     titular: 'Consejo Fiscal advierte que el estancamiento económico podría seguir en 2026 y alerta sobre riesgos fiscales',
     resumen: 'El Consejo Fiscal Autónomo advirtió que el bajo crecimiento podría persistir en 2026 y alertó sobre los riesgos fiscales de cara a la Rendición de Cuentas.',
     breaking: false,
@@ -580,7 +636,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['PIB · actividad', 'Result. fiscal'],
   },
   {
-    id: 'n11', t: '−19d', mins: 27360, fuente: 'Ámbito', tag: 'Sectorial',
+    id: 'n11', t: '−20d', mins: 28920, fuente: 'Ámbito', tag: 'Sectorial',
     titular: 'El turismo creció en gasto pero no en volumen: la temporada 2026 dejó US$928 millones',
     resumen: 'En el verano ingresaron 1,18 millones de visitantes y el gasto alcanzó US$928 M (+2,8% interanual); el volumen cayó por menor llegada de argentinos, pero el gasto subió.',
     breaking: false,
@@ -590,7 +646,7 @@ export const NOTICIAS: Noticia[] = [
     relacionados: ['Externo & comercio'],
   },
   {
-    id: 'n2', t: '−22d', mins: 31680, fuente: 'INE', tag: 'Económico',
+    id: 'n2', t: '−23d', mins: 33240, fuente: 'INE', tag: 'Económico',
     titular: 'IPC de mayo 2026: variación mensual 0,70% e interanual 3,77%',
     resumen: 'La inflación de mayo fue 0,70% mensual y 3,77% en los últimos 12 meses, dentro del rango meta del BCU; mayores incidencias en transporte, alimentos y vivienda.',
     breaking: false,
@@ -599,86 +655,36 @@ export const NOTICIAS: Noticia[] = [
     keywords: ['IPC', 'Inflación', 'INE', 'BCU'],
     relacionados: ['IPC interanual', 'IPC mensual'],
   },
-  {
-    id: 'n12', t: '−23d', mins: 33120, fuente: 'Ámbito', tag: 'Sectorial',
-    titular: 'La matriz energética arrancó el año con 96,7% de producción renovable',
-    resumen: 'En enero de 2026 el 96,7% de la generación eléctrica fue renovable, liderada por hidráulica (43,6%) y eólica (33,7%), reafirmando el liderazgo de Uruguay en energías limpias.',
-    breaking: false,
-    url: 'https://www.ambito.com/uruguay/la-matriz-energetica-el-arranco-el-ano-el-967-produccion-renovable-n6243523',
-    body: 'En enero de 2026 el 96,7% de la generación eléctrica de Uruguay fue de origen renovable, liderada por la hidráulica (43,6%) y la eólica (33,7%). En el año completo 2025 la generación renovable alcanzó el 98%, uno de los mayores porcentajes del mundo. Uruguay exporta sus excedentes a Argentina y Brasil e impulsa proyectos de hidrógeno verde.',
-    keywords: ['Energía', 'Renovables', 'ADME', 'UTE'],
-    relacionados: ['Energía · matriz renovable'],
-  },
-  {
-    id: 'n4', t: '−26d', mins: 37440, fuente: 'Infobae', tag: 'Sectorial',
-    titular: 'Las exportaciones uruguayas volvieron a caer en mayo: bajaron 3%',
-    resumen: 'Las solicitudes de exportación sumaron US$1.142 M en mayo (−3% interanual); China lideró como destino y la soja y lácteos compensaron caídas en carne y celulosa.',
-    breaking: false,
-    url: 'https://www.infobae.com/america/america-latina/2026/06/02/las-exportaciones-uruguayas-volvieron-a-caer-en-mayo-bajaron-3/',
-    body: 'Según datos de Uruguay XXI, las solicitudes de exportación de bienes sumaron US$1.142 millones en mayo de 2026, una caída de 3% interanual. China fue el principal destino, mientras la soja (+45%) y los lácteos (+29%) compensaron las caídas en carne bovina y celulosa. En el acumulado enero-mayo las ventas crecen 3% (US$5.271 M).',
-    keywords: ['Exportaciones', 'Uruguay XXI', 'China', 'Agro'],
-    relacionados: ['Agroexportador', 'Externo & comercio'],
-  },
-  {
-    id: 'n3', t: '−33d', mins: 47520, fuente: 'En Perspectiva', tag: 'Económico',
-    titular: 'La tasa de política monetaria se mantuvo en 5,75% anual, anunció el Copom',
-    resumen: 'En su reunión del 26 de mayo el Copom mantuvo por segunda vez consecutiva la TPM en 5,75%, buscando llevar la inflación a la meta de 4,5% en un contexto de elevada incertidumbre global.',
-    breaking: false,
-    url: 'https://enperspectiva.uy/en-perspectiva-programa/la-tasa-de-politica-monetaria-se-mantuvo-en-575-anual-anuncio-el-copom-que-hay-detras-de-la-decision-que-se-puede-esperar-para-los-proximos-meses-exante/',
-    body: 'El Comité de Política Monetaria del Banco Central del Uruguay decidió mantener la Tasa de Política Monetaria en 5,75% anual por unanimidad, por segunda vez consecutiva, tras siete recortes iniciados en julio de 2025. El BCU justificó la pausa por la inestabilidad internacional (conflicto en Medio Oriente y su impacto energético) y presiones inflacionarias al alza, manteniendo la meta de 4,5%.',
-    keywords: ['TPM', 'BCU', 'Copom', 'Inflación'],
-    relacionados: ['TPM · BCU', 'Expect. infl. 24m'],
-  },
-  {
-    id: 'n7', t: '−41d', mins: 59040, fuente: 'Ámbito', tag: 'Económico',
-    titular: 'El déficit fiscal se mantuvo estable en 4,7% del PIB cerrado a marzo, en línea con la meta del Presupuesto',
-    resumen: 'El resultado del sector público para los 12 meses a marzo de 2026 quedó en 4,7% del PIB, alineado con la meta presupuestal pero señalado como principal riesgo para el rating soberano.',
-    breaking: false,
-    url: 'https://www.ambito.com/uruguay/el-deficit-fiscal-se-mantuvo-estable-47-del-pib-cerrado-marzo-linea-la-meta-del-presupuesto-n6272825',
-    body: 'El resultado fiscal del Sector Público Global para el año móvil cerrado a marzo de 2026 se ubicó en 4,7% del PIB, estable respecto a febrero y en línea con la meta del Presupuesto. El resultado del Gobierno Central-BPS ajustado fue de −3,7% del PIB. Las calificadoras señalan la reducción del déficit como el principal riesgo para el grado inversor.',
-    keywords: ['Déficit', 'Fiscal', 'MEF', 'Rating'],
-    relacionados: ['Result. fiscal', 'Deuda bruta'],
-  },
-  {
-    id: 'n13', t: '−7m', mins: 320840, fuente: 'S&P Global', tag: 'Internacional',
-    titular: "S&P ratificó la calificación de Uruguay en 'BBB+' con perspectiva estable",
-    resumen: 'S&P ratificó la nota de Uruguay en BBB+ con perspectiva estable, destacando la democracia estable y el mayor PIB per cápita regional, pero señalando la reducción del déficit fiscal como principal riesgo.',
-    breaking: false,
-    url: 'https://www.spglobal.com/ratings/en/regulatory/article/-/view/type/HTML/id/3486826',
-    body: 'S&P Global Ratings ratificó la calificación soberana de Uruguay en BBB+/A-2 con perspectiva estable, destacando la estabilidad democrática y el mayor PIB per cápita de la región. La agencia señaló la necesidad de reducir el déficit fiscal como el principal riesgo. Uruguay mantiene grado inversor por las cuatro principales calificadoras.',
-    keywords: ['S&P', 'Rating', 'Grado inversor', 'BBB+'],
-    relacionados: ['Riesgo país (UBI)', 'Mercados · crédito soberano'],
-  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────
-// MÓDULO E — Calendario (hitos reales, ventana 28-jun → 28-jul 2026).
-// d = días desde HOY (28-jun); el componente ancla d=0 a la fecha real de
+// MÓDULO E — Calendario (hitos reales, ventana 29-jun → 29-jul 2026).
+// d = días desde HOY (29-jun); el componente ancla d=0 a la fecha real de
 // ejecución. Fuentes: calendarios de difusión del INE, el BCU (COPOM, próxima
 // reunión 8-jul), Uruguay XXI, INAC, la UGD/MEF y el calendario de feriados.
 // ─────────────────────────────────────────────────────────────────────
 export const EVENTOS: Evento[] = [
-  { d: 2, tag: 'Parlamento', title: 'Rendición de Cuentas 2026 (plazo · 30-jun)', tone: 'accent' },
-  { d: 3, tag: 'Mercosur', title: 'Uruguay asume la presidencia pro tempore', tone: 'info' },
-  { d: 5, tag: 'INE', title: 'IPC junio · inflación', tone: 'accent' },
-  { d: 5, tag: 'INE', title: 'Mercado laboral ECH · mayo', tone: 'info' },
-  { d: 8, tag: 'Uruguay XXI', title: 'Comercio exterior · exportaciones junio', tone: 'info' },
-  { d: 8, tag: 'INAC', title: 'Indicadores del sector cárnico', tone: 'info' },
-  { d: 10, tag: 'BCU', title: 'Reunión del COPOM · decisión de TPM', tone: 'accent' },
-  { d: 17, tag: 'BCU', title: 'Encuesta de expectativas de inflación', tone: 'info' },
-  { d: 20, tag: 'Feriado', title: 'Jura de la Constitución de 1830', tone: 'neutral' },
+  { d: 1, tag: 'Parlamento', title: 'Rendición de Cuentas 2026 (plazo · 30-jun)', tone: 'accent' },
+  { d: 2, tag: 'Mercosur', title: 'Uruguay asume la presidencia pro tempore', tone: 'info' },
+  { d: 4, tag: 'INE', title: 'IPC junio · inflación', tone: 'accent' },
+  { d: 4, tag: 'INE', title: 'Mercado laboral ECH · mayo', tone: 'info' },
+  { d: 7, tag: 'Uruguay XXI', title: 'Comercio exterior · exportaciones junio', tone: 'info' },
+  { d: 7, tag: 'INAC', title: 'Indicadores del sector cárnico', tone: 'info' },
+  { d: 9, tag: 'BCU', title: 'Reunión del COPOM · decisión de TPM', tone: 'accent' },
+  { d: 16, tag: 'BCU', title: 'Encuesta de expectativas de inflación', tone: 'info' },
+  { d: 19, tag: 'Feriado', title: 'Jura de la Constitución de 1830', tone: 'neutral' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────
-// MÓDULO F — Fuentes (estado al 28 jun 2026)
+// MÓDULO F — Fuentes (estado al 29 jun 2026)
 // ─────────────────────────────────────────────────────────────────────
 export const FUENTES: Fuente[] = [
   { id: 'ine', name: 'INE · IPC/PIB/empleo', latency: 180, status: 'ok', last: '3 jun' },
-  { id: 'bcu', name: 'BCU · PIB/TC/TPM/reservas', latency: 150, status: 'ok', last: '26 jun' },
-  { id: 'mef', name: 'MEF · fiscal/deuda', latency: 320, status: 'ok', last: 'mar 2026' },
-  { id: 'inac', name: 'INAC · carne', latency: 90, status: 'live', last: 'jun 2026' },
+  { id: 'bcu', name: 'BCU · PIB/TC/reservas/base', latency: 150, status: 'ok', last: '25 jun' },
+  { id: 'mef', name: 'MEF · fiscal/deuda', latency: 320, status: 'ok', last: 'abr 2026' },
+  { id: 'inac', name: 'INAC · carne/faena', latency: 90, status: 'live', last: 'jun 2026' },
   { id: 'uruguayxxi', name: 'Uruguay XXI · comercio', latency: 240, status: 'ok', last: 'may 2026' },
-  { id: 'dgi', name: 'DGI · recaudación', latency: 300, status: 'ok', last: 'abr 2026' },
+  { id: 'dgi', name: 'DGI · recaudación', latency: 300, status: 'ok', last: 'may 2026' },
   { id: 'adme', name: 'ADME/UTE · energía', latency: 60, status: 'live', last: 'jun 2026' },
   { id: 'rafap', name: 'República AFAP · UBI', latency: 520, status: 'lag', last: '18 may' },
   { id: 'rating', name: 'Calificadoras', latency: null, status: 'cold', last: 'ene 2026' },

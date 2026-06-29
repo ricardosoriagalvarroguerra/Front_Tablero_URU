@@ -30,8 +30,8 @@ const lines = [];
 const w = (s = '') => lines.push(s);
 const section = (t) => { w(); w(`-- ── ${t} ${'─'.repeat(Math.max(0, 60 - t.length))}`); };
 
-const NOW = new Date(Date.UTC(2026, 5, 28, 12, 0, 0)); // 28 jun 2026 09:00 UYT
-const BASE_DATE = new Date(Date.UTC(2026, 5, 28));
+const NOW = new Date(Date.UTC(2026, 5, 29, 12, 0, 0)); // 29 jun 2026 09:00 UYT
+const BASE_DATE = new Date(Date.UTC(2026, 5, 29));
 
 // fechas mensuales terminando en jun-2026
 const monthDatesEnding = (n) => {
@@ -45,10 +45,10 @@ const monthDatesEnding = (n) => {
 };
 // fechas diarias terminando en BASE_DATE
 const dayDatesEnding = (n) =>
-  Array.from({ length: n }, (_, i) => ymd(new Date(Date.UTC(2026, 5, 28 - (n - 1 - i)))));
+  Array.from({ length: n }, (_, i) => ymd(new Date(Date.UTC(2026, 5, 29 - (n - 1 - i)))));
 
 w('-- AUTO-GENERADO por db/generate-seed.mjs — no editar a mano.');
-w('-- Datos de demostración (snapshot Uruguay ~28 jun 2026) que reflejan el tablero.');
+w('-- Datos de demostración (snapshot Uruguay ~29 jun 2026) que reflejan el tablero.');
 w('BEGIN;');
 w('SET search_path = public;');
 
@@ -349,6 +349,7 @@ pm('fiscal', 'tasa_nombre', null, F.tasaPolitica.nombre);
 pm('fiscal', 'reservas_valor', F.reservas.valorUsd, null, 'M USD', F.reservas.asof, F.reservas.source);
 pm('fiscal', 'expect_12m', F.expectativas.inflacion12m, null, '%', F.expectativas.asof, F.expectativas.source);
 pm('fiscal', 'expect_24m', F.expectativas.inflacion24m, null, '%', F.expectativas.asof, F.expectativas.source);
+pm('fiscal', 'base_monetaria', F.baseMonetaria.valorMM, null, 'M $', F.baseMonetaria.asof, F.baseMonetaria.source);
 w('INSERT INTO metricas (modulo, clave, valor, valor_texto, unidad, asof, fuente, nota) VALUES');
 w(M.join(',\n') + ';');
 
@@ -397,7 +398,7 @@ w(vinRows.join(',\n') + ';');
 section('eventos (calendario 30 días)');
 w('INSERT INTO eventos (fecha, categoria_id, titulo, tono) VALUES');
 w(EVENTOS.map((e) => {
-  const fecha = ymd(new Date(Date.UTC(2026, 5, 28 + e.d)));
+  const fecha = ymd(new Date(Date.UTC(2026, 5, 29 + e.d)));
   return `  (${q(fecha)}, ${sub('categorias_evento', 'nombre', e.tag)}, ${q(e.title)}, ${q(e.tone)})`;
 }).join(',\n') + ';');
 

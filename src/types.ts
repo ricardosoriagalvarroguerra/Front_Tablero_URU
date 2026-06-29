@@ -283,6 +283,8 @@ export interface FiscalData {
   };
   tasaPolitica: { valor: number | null; nombre: string; asof: string; source: string };
   reservas: { valorUsd: number | null; asof: string; source: string };
+  /** Base monetaria (Emisión, saldo fin de mes; millones de pesos). */
+  baseMonetaria: { valorMM: number | null; asof: string; source: string };
   /** Expectativas de inflación de la encuesta del BCU. */
   expectativas: { inflacion12m: number | null; inflacion24m: number | null; asof: string; source: string };
 }
