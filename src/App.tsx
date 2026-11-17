@@ -6,7 +6,7 @@ import type { TabDef } from './components/Tabs';
 import { KpiCard } from './components/modules/KpiCard';
 import { FeaturedKpiCard } from './components/modules/FeaturedKpiCard';
 import { KpiGroup } from './components/modules/KpiGroup';
-import { FEATURED, FEATURED_BAND, GROUPS } from './kpiLayout';
+import { FEATURED, FEATURED_BAND, GROUPS, SOLO_HISTORICO } from './kpiLayout';
 import { AgroResumen } from './components/modules/AgroResumen';
 import { AgroPanel } from './components/modules/AgroPanel';
 import { MercadosPanel } from './components/modules/MercadosPanel';
@@ -141,7 +141,7 @@ export default function App() {
     [indicadores],
   );
   const featuredKpis = FEATURED.map((id) => byId[id]).filter(Boolean);
-  const grouped = new Set([...FEATURED, ...GROUPS.flatMap((g) => g.ids)]);
+  const grouped = new Set([...FEATURED, ...GROUPS.flatMap((g) => g.ids), ...SOLO_HISTORICO]);
   const leftover = indicadores.filter((k) => !grouped.has(k.id));
   const groups = leftover.length
     ? [...GROUPS, { title: 'Otros', ids: leftover.map((k) => k.id) }]

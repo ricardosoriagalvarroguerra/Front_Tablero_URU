@@ -79,11 +79,13 @@ const FUENTE_META = {
   dgi: ['oficial', 'https://www.gub.uy/direccion-general-impositiva/'],
   adme: ['oficial', 'https://adme.com.uy/'],
   jpm: ['mercado', 'https://www.jpmorgan.com/'],
+  rafap: ['mercado', 'https://www.rafap.com.uy/'],
   rating: ['mercado', 'https://deuda.mef.gub.uy/'],
   news: ['agregador', null],
 };
 const fuenteNombre = Object.fromEntries(FUENTES.map((f) => [f.id, f.name]));
 fuenteNombre.news = 'Agregador de prensa';
+fuenteNombre.rafap = 'República AFAP · UBI';
 w('INSERT INTO fuentes (codigo, nombre, categoria, url) VALUES');
 w(Object.keys(FUENTE_META).map((code) => {
   const [cat, url] = FUENTE_META[code];
@@ -170,6 +172,8 @@ const IND_META = {
   novillo: { cat: 'agro', per: 'semanal', fuente: 'inac', dec: 2, unidad: 'USD/kg' },
   pobreza: { cat: 'social', per: 'semestral', fuente: 'ine', dec: 1, unidad: '%' },
   exportaciones: { cat: 'externo', per: 'mensual', fuente: 'uruguayxxi', dec: 0, unidad: 'M USD' },
+  ubi_hist: { cat: 'mercados', per: 'anual', fuente: 'rafap', dec: 0, unidad: 'pb' },
+  cuenta_corriente: { cat: 'externo', per: 'anual', fuente: 'bcu', dec: 1, unidad: '% PIB' },
   resultado_fiscal: { cat: 'fiscal', per: 'mensual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   deuda: { cat: 'fiscal', per: 'anual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   reservas: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 0, unidad: 'M USD' },
@@ -299,6 +303,7 @@ pm('agro', 'resumen', null, AGRO.resumen, null, AGRO.asof, AGRO.fuente);
 pm('mercados', 'grado_agencias', MERCADOS.gradoInversor.agencias);
 pm('mercados', 'riesgo_indice', null, MERCADOS.ubi.indice ?? null, null, MERCADOS.ubi.asof ?? null);
 pm('mercados', 'riesgo_regional', null, MERCADOS.ubi.regional ? JSON.stringify(MERCADOS.ubi.regional) : null);
+pm('mercados', 'ratings_historia', null, MERCADOS.ratingsHistoria ? JSON.stringify(MERCADOS.ratingsHistoria) : null);
 pm('mercados', 'grado_nota', null, MERCADOS.gradoInversor.nota);
 if (MERCADOS.sslb) {
   pm('mercados', 'sslb_nota', null, MERCADOS.sslb.nota);

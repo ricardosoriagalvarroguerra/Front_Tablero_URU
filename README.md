@@ -53,6 +53,7 @@ distintivo de su realidad económica:
 | ID | Pestaña / módulo | Descripción |
 |----|------------------|-------------|
 | A | Indicadores macro | Tira de 15 KPIs (IPC i/a y m/m, PIB, TPM, expectativas, dólar, reservas, desempleo, salario real, pobreza, novillo, exportaciones, resultado fiscal, deuda, UBI) + cinta de cotizaciones + modal con serie por período, estadísticas y lectura. |
+| H | **Histórico** | Series anuales 2015 → hoy de 13 indicadores con promedio, mínimo y máximo; línea de tiempo de calificaciones. |
 | Z | **Análisis** | Tesis, semáforo macro (8 dimensiones), indicadores derivados calculados en vivo, proyecciones de consenso, escenarios 2027 y mapa de riesgos/catalizadores. |
 | AG | **Agro** | Complejo agroexportador: novillo, faena, destinos y grilla de productos (módulo estrella). |
 | C | Mercados | **Grado inversor**: UBI, bonos USD/UYU/UI, SSLB, ratings de las 4 calificadoras. |
@@ -97,7 +98,7 @@ locales»).
   inlinea en build-time); si falta, el front cae a los datos locales.
 - **Backend** (`Back_Tablero_URU`): Node + `npm start`; setear `DATABASE_URL`,
   `CORS_ORIGIN` (la URL de este front) y dejar que Railway inyecte `PORT`.
-- **BDR**: `psql "$DATABASE_URL" -f db/schema.sql && node db/generate-seed.mjs && psql "$DATABASE_URL" -f db/seed.sql`.
+- **BDR**: el backend aplica `db/schema.sql` + `db/seed.sql` **automáticamente al arrancar** cuando cambia la versión del seed (ver Back_Tablero_URU · `src/bootstrap.ts`). Tras regenerar el seed aquí, copiarlo al backend con `npm run sync:db` en ese repo. Manual: `psql "$DATABASE_URL" -f db/schema.sql && psql "$DATABASE_URL" -f db/seed.sql`.
 
 ## Atajos de teclado
 

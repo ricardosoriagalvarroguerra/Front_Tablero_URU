@@ -41,6 +41,7 @@ function HistoricoCard({ k, onOpen }: { k: Kpi; onOpen: (k: Kpi) => void }) {
         refs={[{ value: prom, label: `prom. ${fmt(prom)}`, color: 'var(--fg-subtle)' }]}
         fmt={(v) => (Math.abs(v) >= 1000 ? Math.round(v).toLocaleString('es-UY') : c1(v))}
         height={150}
+        neutralBars
       />
       <div className="grid grid-cols-3 gap-2 text-[11.5px]">
         <div>
@@ -56,10 +57,10 @@ function HistoricoCard({ k, onOpen }: { k: Kpi; onOpen: (k: Kpi) => void }) {
           </div>
         </div>
         <div>
-          <div className="text-subtle">Hoy vs prom.</div>
+          <div className="text-subtle">Último vs prom.</div>
           <div className={`mono ${favorable == null ? '' : favorable ? 'text-pos' : 'text-neg'}`}>
             {vsProm > 0 ? '+' : ''}
-            {fmt(vsProm)}
+            {Math.abs(vsProm) >= 100 ? Math.round(vsProm).toLocaleString('es-UY') : c1(vsProm)}
           </div>
         </div>
       </div>

@@ -115,6 +115,37 @@ su **fecha original** y se rotula **«sin actualizar»** en la interfaz.
 - **Semáforo, escenarios y probabilidades** son **juicio del tablero**, explícito y
   fechado; no son datos de fuente.
 
+## Series históricas 2015 → hoy (pestaña Histórico)
+
+Un valor por año (cierre o promedio según la serie) más el último dato vigente (`2026*`).
+Los años sin dato verificable se **omiten** (no se interpolan). Rupturas a tener en cuenta:
+PIB base 2005 → 2016 (ratios fiscales hasta 2019), ingresos FSS desde 2018, ECH telefónica
+2020–2021, metodología de pobreza 2006 → 2017.
+
+| Serie | Años | Definición | Fuentes | Confianza |
+|---|---|---|---|---|
+| Inflación | 2015–2025 | dic/dic (INE) | INE, Presidencia, BBVA, Bloomberg Línea, Montevideo Portal | Alta (2016 y 2019 Media) |
+| PIB | 2015–2025 | var. anual, base 2016, vintage mar-2026 | UCU Indicadores may-26, Itaú, Banco Mundial | Media-Alta (2019: 0,9 vs 0,35 según vintage) |
+| Tasa de política | 2020–2025 | TPM a fin de año (no existía antes de sep-2020) | BCU, Focus Economics, El Observador | Alta |
+| Dólar | 2020–2025 | cierre de diciembre, interbancario | El Observador, Ámbito, Montevideo Portal | Media-Alta (2025 calculado) |
+| Reservas | 2015–2025 | activos de reserva a fin de año | Banco Mundial/FMI, Focus, Trading Economics | Media-Alta |
+| Desempleo | 2015–2025 (sin 2021) | promedio anual ECH | INE, CEPAL, MEF, Cuesta Duarte | Media |
+| Salario real | 2015–2025 (sin 2019) | var. del promedio anual | Cuesta Duarte, MEF | Media |
+| Pobreza | 2019, 2023–2025 | personas, método 2017 | INE vía Montevideo Portal, Bloomberg Línea | Media-Alta |
+| Exportaciones | 2017–2019, 2021–2025 | anual, Uruguay XXI c/zonas francas | Uruguay XXI, MercoPress, Presidencia | Media |
+| Resultado fiscal | 2015–2025 | SPG % PIB, sin FSS desde 2018 | MEF, Montevideo Portal, El Observador | Media-Alta |
+| Deuda bruta | 2019–2025 | SPG % PIB, base 2016 | BCU vía UCU Indicadores jul-26 | Media (salto 2025 a confirmar) |
+| Riesgo país UBI | 2019–2025 | UBI fin de año (no se encadena con el EMBI) | República AFAP vía UCU | Media |
+| Cuenta corriente | 2016–2025 | % PIB | BCU vía UCU, Focus, OMC | Media (2016–2018 Baja-Media) |
+| Calificaciones | 2015–2026 | S&P y Moody's a fin de año | MEF/UGD, Bloomberg Línea, El Observador | Alta en años con acción |
+
+Sin serie anual verificable: novillo (promedio anual), expectativas a 24 meses (sólo 2022–2023),
+dólar 2015–2019, deuda 2015–2018.
+
+> **Exportaciones de octubre 2026 (US$1.089 M):** coincide con el valor que Uruguay XXI publicó
+> para octubre 2025; el acumulado ene-oct (US$11.430 M vs 11.356 en 2025) sí difiere. Se mantiene
+> con confianza **Media** hasta cotejar el informe mensual oficial.
+
 ## Limitaciones reconocidas
 
 - UBI (República AFAP) e IRUBEVSA sin datos 2026 → riesgo país con el EMBI de JP Morgan.

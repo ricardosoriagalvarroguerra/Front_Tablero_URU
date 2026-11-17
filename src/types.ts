@@ -140,6 +140,8 @@ export interface MercadosData {
   /** Bono sustentable indexado a indicadores ambientales (SSLB), si aplica. */
   sslb: { nota: string; cupon: string; kpi1: string; kpi2: string } | null;
   ratings: Rating[];
+  /** Calificación a fin de cada año (línea de tiempo). */
+  ratingsHistoria?: { anio: number; sp: string; moodys: string }[];
 }
 
 // ─── MÓDULO ACTIVIDAD & PRECIOS ───────────────────────────────────────
