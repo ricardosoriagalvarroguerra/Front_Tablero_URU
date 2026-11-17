@@ -18,11 +18,11 @@ export interface KpiGroupDef {
 export const GROUPS: KpiGroupDef[] = [
   { title: 'Precios y monetario', ids: ['ipc_mensual', 'expectativas_inflacion', 'tipo_cambio', 'reservas'] },
   { title: 'Empleo, ingresos y agro', ids: ['desempleo', 'salario_real', 'pobreza', 'novillo'] },
-  { title: 'Fiscal, crédito y externo', ids: ['resultado_fiscal', 'deuda', 'ubi', 'exportaciones'] },
+  { title: 'Fiscal, crédito y externo', ids: ['resultado_fiscal', 'deuda', 'embi', 'exportaciones'] },
 ];
 
 /** Indicadores de la cinta de cotizaciones del encabezado. */
 export const TICKER = [
   'tipo_cambio', 'tpm', 'ipc_interanual', 'ipc_mensual', 'expectativas_inflacion', 'pib', 'desempleo',
-  'novillo', 'exportaciones', 'reservas', 'resultado_fiscal', 'deuda', 'salario_real', 'pobreza', 'ubi',
+  'novillo', 'exportaciones', 'reservas', 'resultado_fiscal', 'deuda', 'salario_real', 'pobreza', 'embi',
 ];

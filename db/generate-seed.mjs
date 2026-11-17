@@ -78,7 +78,7 @@ const FUENTE_META = {
   uruguayxxi: ['oficial', 'https://www.uruguayxxi.gub.uy/'],
   dgi: ['oficial', 'https://www.gub.uy/direccion-general-impositiva/'],
   adme: ['oficial', 'https://adme.com.uy/'],
-  rafap: ['mercado', 'https://www.rafap.com.uy/'],
+  jpm: ['mercado', 'https://www.jpmorgan.com/'],
   rating: ['mercado', 'https://deuda.mef.gub.uy/'],
   news: ['agregador', null],
 };
@@ -134,6 +134,7 @@ w(MERCADOS.bonos.map((b, i) =>
 // ── índices de riesgo ──────────────────────────────────────────────────
 section('indices_riesgo');
 w("INSERT INTO indices_riesgo (codigo, nombre, unidad) VALUES");
+w("  ('EMBI', 'EMBI · riesgo país (JP Morgan)', 'pb'),");
 w("  ('UBI', 'Uruguay Bond Index · riesgo país (República AFAP)', 'pb');");
 
 // ── productos agro ──────────────────────────────────────────────────────
@@ -158,7 +159,7 @@ w(terminos.map((t) => `  (${q(t)})`).join(',\n') + ';');
 section('indicadores (KPIs macro)');
 const IND_META = {
   ipc_interanual: { cat: 'precios', per: 'mensual', fuente: 'ine', dec: 2, unidad: '%' },
-  ubi: { cat: 'mercados', per: 'diaria', fuente: 'rafap', dec: 0, unidad: 'pb' },
+  embi: { cat: 'mercados', per: 'mensual', fuente: 'jpm', dec: 0, unidad: 'pb' },
   pib: { cat: 'actividad', per: 'trimestral', fuente: 'bcu', dec: 1, unidad: '% i/a' },
   ipc_mensual: { cat: 'precios', per: 'mensual', fuente: 'ine', dec: 2, unidad: '%' },
   tpm: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 2, unidad: '%' },
@@ -202,18 +203,18 @@ w(MERCADOS.bonos.map((b) =>
 ).join(',\n') + ';');
 
 // ── indice_riesgo_observaciones (UBI) ──────────────────────────────────
-section('indice_riesgo_observaciones (UBI)');
+section('indice_riesgo_observaciones (EMBI)');
 const ubiRows = [];
 {
   const serie = MERCADOS.ubi.series;
   const n = serie.length;
-  const dates = dayDatesEnding(n);
+  const dates = monthDatesEnding(n + 1).slice(0, n); // cierres de mes hasta oct-2026
   for (let i = 0; i < n; i++) {
     const last = i === n - 1;
-    ubiRows.push(`  (${sub('indices_riesgo', 'codigo', 'UBI')}, ${q(dates[i])}, ${num(serie[i])}, ${last ? num(MERCADOS.ubi.chg) : 'NULL'})`);
+    ubiRows.push(`  (${sub('indices_riesgo', 'codigo', 'EMBI')}, ${q(dates[i])}, ${num(serie[i])}, ${q(MERCADOS.ubi.periodos?.[i] ?? null)}, ${last ? num(MERCADOS.ubi.chg) : 'NULL'})`);
   }
 }
-w('INSERT INTO indice_riesgo_observaciones (indice_id, fecha, valor, variacion) VALUES');
+w('INSERT INTO indice_riesgo_observaciones (indice_id, fecha, valor, periodo, variacion) VALUES');
 w(ubiRows.join(',\n') + ';');
 
 // ── calificaciones ─────────────────────────────────────────────────────
@@ -284,6 +285,8 @@ pm('agro', 'faena_periodo', null, AGRO.faenaPeriodo);
 pm('agro', 'resumen', null, AGRO.resumen, null, AGRO.asof, AGRO.fuente);
 // mercados
 pm('mercados', 'grado_agencias', MERCADOS.gradoInversor.agencias);
+pm('mercados', 'riesgo_indice', null, MERCADOS.ubi.indice ?? null, null, MERCADOS.ubi.asof ?? null);
+pm('mercados', 'riesgo_regional', null, MERCADOS.ubi.regional ? JSON.stringify(MERCADOS.ubi.regional) : null);
 pm('mercados', 'grado_nota', null, MERCADOS.gradoInversor.nota);
 if (MERCADOS.sslb) {
   pm('mercados', 'sslb_nota', null, MERCADOS.sslb.nota);

@@ -1,6 +1,6 @@
 import { Panel } from '../primitives/Panel';
 import { SectionTitle } from '../primitives/SectionTitle';
-import { estadoColor, estadoSoft, type Derivado } from '../../analytics';
+import { estadoColor, type Derivado } from '../../analytics';
 
 interface DerivadosPanelProps {
   items: Derivado[];
@@ -8,28 +8,22 @@ interface DerivadosPanelProps {
 
 const fmt = (v: number) => `${v > 0 ? '+' : ''}${v.toFixed(1).replace('.', ',')}`;
 
-/** Indicadores derivados: relaciones entre datos con fórmula y lectura por reglas. */
+/** Indicadores derivados: cifra + fórmula; la interpretación va en el tooltip. */
 export function DerivadosPanel({ items }: DerivadosPanelProps) {
   return (
-    <Panel className="h-full flex flex-col">
-      <SectionTitle id="Z2" title="Indicadores derivados" sub="Calculados en vivo a partir de los datos de fuente · fórmula a la vista" right={<span>motor analítico</span>} />
-      <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-px flex-1" style={{ background: 'var(--border)' }}>
+    <Panel>
+      <SectionTitle title="Indicadores derivados" right={<span>calculados en vivo</span>} />
+      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6">
         {items.map((d) => (
-          <div key={d.id} className="p-4 flex flex-col gap-1.5" style={{ background: 'var(--bg-elev)' }}>
-            <div className="flex items-center justify-between gap-2">
-              <span className="eyebrow">{d.label}</span>
-              <span className="w-2 h-2 rounded-full" style={{ background: estadoColor(d.estado) }} />
-            </div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="mono text-[26px] font-medium leading-none tracking-[-0.02em]" style={{ color: estadoColor(d.estado) }}>
+          <div key={d.id} className="px-5 py-4 cursor-help" title={d.lectura}>
+            <div className="eyebrow truncate">{d.label}</div>
+            <div className="mt-2 flex items-baseline gap-1">
+              <span className="mono text-[24px] leading-none" style={{ color: estadoColor(d.estado) }}>
                 {d.value == null ? 's/d' : d.id === 'miseria' ? d.value.toFixed(1).replace('.', ',') : fmt(d.value)}
               </span>
-              <span className="mono text-[10px] text-subtle">{d.unit}</span>
+              <span className="text-[11px] text-subtle">{d.unit}</span>
             </div>
-            <div className="mono text-[9.5px] text-subtle rounded-[4px] px-1.5 py-1 self-start" style={{ background: estadoSoft(d.estado) }}>
-              {d.formula}
-            </div>
-            <p className="text-[11.5px] text-muted leading-snug">{d.lectura}</p>
+            <div className="mt-2 text-[11px] text-subtle leading-snug">{d.formula}</div>
           </div>
         ))}
       </div>

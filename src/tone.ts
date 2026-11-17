@@ -21,7 +21,8 @@ const POLARITY: Record<string, Polarity> = {
   tpm: 'none', // tasa de política: instrumento, no "bueno/malo" per se
   tipo_cambio: 'none', // peso flotante, libremente convertible
   // crédito soberano
-  ubi: 'down', // menor riesgo país = mejor (Uruguay grado inversor)
+  embi: 'down', // menor riesgo país = mejor (Uruguay grado inversor)
+  ubi: 'down',
   // actividad y social
   pib: 'up',
   desempleo: 'down',

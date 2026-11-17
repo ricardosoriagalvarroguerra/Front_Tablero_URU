@@ -42,7 +42,7 @@ export function ActividadPanel({ data }: ActividadPanelProps) {
           <Stat label="Industria (IVFIM) i/a" value={pp(industria.varInteranual)} tone={tone(industria.varInteranual)} sub={`${industria.asof} · ${industria.source}`} />
           <div>
             <div className="eyebrow mb-2.5">IPC · rubros que más subieron (m/m)</div>
-            <BarList items={ipcRubros} mode="share" polarity="down" color="var(--neg)" />
+            <BarList items={ipcRubros} mode="share" polarity="down" color="var(--fg-subtle)" />
           </div>
         </div>
 

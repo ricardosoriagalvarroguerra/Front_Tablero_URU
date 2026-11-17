@@ -119,7 +119,17 @@ export interface Rating {
 
 export interface MercadosData {
   /** Uruguay Bond Index — riesgo país (puntos básicos). */
-  ubi: { value: number; chg: number; series: number[]; periodos?: string[] };
+  ubi: {
+    value: number;
+    chg: number;
+    series: number[];
+    periodos?: string[];
+    /** Índice usado como riesgo país (EMBI de JP Morgan; históricamente el UBI). */
+    indice?: string;
+    asof?: string;
+    /** Comparación regional del mismo índice (pb). */
+    regional?: { pais: string; pb: number }[];
+  };
   bonos: Bono[];
   /** Resumen del estatus grado inversor (cuántas agencias, escalones sobre el umbral). */
   gradoInversor: { agencias: number; nota: string };

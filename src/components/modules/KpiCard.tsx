@@ -18,7 +18,7 @@ export function KpiCard({ k, onClick }: KpiCardProps) {
       title={k.def}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="mono text-[9.5px] uppercase tracking-[0.12em] text-subtle">{k.label}</div>
+        <div className="text-[11px] text-subtle">{k.label}</div>
         <Delta value={k.delta} label={k.deltaLabel} sentiment={deltaTone(pol, k.delta)} />
       </div>
       <div className="mt-2 flex items-baseline gap-1">
@@ -37,7 +37,7 @@ export function KpiCard({ k, onClick }: KpiCardProps) {
       )}
       <div className="mt-auto pt-2 flex items-end justify-between">
         <Sparkline data={k.spark} sentiment={trendTone(pol, k.spark)} width={120} height={22} />
-        <span className="mono text-[9px] text-subtle">{k.asof}</span>
+        <span className="text-[11px] text-subtle">{k.asof}</span>
       </div>
     </button>
   );

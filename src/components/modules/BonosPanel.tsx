@@ -63,17 +63,17 @@ export function BonosPanel({ data }: BonosPanelProps) {
             <div className="eyebrow mb-1">
               Bono Indexado a Indicadores de Sostenibilidad (SSLB)
             </div>
-            <div className="text-[11px] text-muted leading-snug">{data.sslb.nota}</div>
+            <p className="text-[12px] text-muted mt-1.5 leading-snug line-clamp-2 cursor-help" title={data.sslb.nota}>{data.sslb.nota}</p>
             <div className="mt-2 grid grid-cols-1 gap-2">
-              <div className="surface-sunk rounded-[8px] p-2 flex items-center justify-between">
+              <div className="rounded-[10px] p-3 border border-token flex items-center justify-between">
                 <span className="eyebrow">Cupón / step</span>
                 <span className="mono text-[12px]">{data.sslb.cupon}</span>
               </div>
-              <div className="surface-sunk rounded-[8px] p-2">
+              <div className="rounded-[10px] p-3 border border-token">
                 <div className="eyebrow mb-0.5">KPI 1 · emisiones GEI</div>
                 <div className="text-[11px]">{data.sslb.kpi1}</div>
               </div>
-              <div className="surface-sunk rounded-[8px] p-2">
+              <div className="rounded-[10px] p-3 border border-token">
                 <div className="eyebrow mb-0.5">KPI 2 · bosque nativo</div>
                 <div className="text-[11px]">{data.sslb.kpi2}</div>
               </div>

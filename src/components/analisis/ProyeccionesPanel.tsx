@@ -26,12 +26,12 @@ export function ProyeccionesPanel({ rows }: ProyeccionesPanelProps) {
   };
   return (
     <Panel className="h-full flex flex-col">
-      <SectionTitle id="Z3" title="Proyecciones 2026–2027" sub="PIB e IPC en % · TC en $/US$ · déficit en % del PIB según la cobertura de cada fuente (SPG, GC-BPS o gobierno general)" />
+      <SectionTitle title="Proyecciones" sub="PIB e IPC en % · TC en $/US$ · déficit en % del PIB según la cobertura de cada fuente (SPG, GC-BPS o gobierno general)" right={<span>% salvo TC</span>} />
       <div className="overflow-x-auto scrollbar-thin">
         <table className="w-full text-[12px]">
           <thead>
             <tr className="border-b border-token">
-              <th className="text-left font-normal eyebrow px-4 py-2">Fuente</th>
+              <th className="text-left font-normal eyebrow px-5 py-2.5">Fuente</th>
               {COLS.map((c) => (
                 <th key={c.key} className="text-right font-normal eyebrow px-3 py-2 whitespace-nowrap">{c.label}</th>
               ))}
@@ -39,24 +39,22 @@ export function ProyeccionesPanel({ rows }: ProyeccionesPanelProps) {
           </thead>
           <tbody>
             {rows.map((r) => (
-              <tr key={r.fuente} className="border-b border-token last:border-b-0 row-hover">
-                <td className="px-4 py-2.5">
-                  <div className="font-medium">{r.fuente}</div>
-                  <div className="mono text-[9.5px] text-subtle">{r.fecha}</div>
+              <tr key={r.fuente} className="row-hover">
+                <td className="px-5 py-2.5" title={r.fecha}>
+                  {r.fuente}
                 </td>
                 {COLS.map((c) => {
                   const v = r[c.key] as number | null;
-                  const neg = c.key === 'fiscal2026' && v != null && v < 0;
-                  return (
-                    <td key={c.key} className={`px-3 py-2.5 text-right mono tabular-nums ${neg ? 'text-neg' : ''}`}>
+                                    return (
+                    <td key={c.key} className={`px-3 py-2.5 text-right mono tabular-nums ${v == null ? 'text-subtle' : ''}`}>
                       {f(v, c.d)}
                     </td>
                   );
                 })}
               </tr>
             ))}
-            <tr style={{ background: 'var(--bg-sunk)' }}>
-              <td className="px-4 py-2 eyebrow">Rango</td>
+            <tr className="border-t border-token">
+              <td className="px-5 py-2.5 eyebrow">Rango</td>
               {COLS.map((c) => {
                 const r = rng(c.key);
                 return (

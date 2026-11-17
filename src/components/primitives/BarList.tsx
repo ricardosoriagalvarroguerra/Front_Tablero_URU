@@ -23,10 +23,10 @@ export function BarList({ items, fmt = fmtDef, mode = 'diverging', polarity = 'u
           <div key={it.label} className="grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 items-center">
             <div className="min-w-0">
               <div className="flex items-baseline justify-between gap-2">
-                <span className="text-[11.5px] truncate" title={it.label}>{it.label}</span>
-                {it.hint && <span className="mono text-[9px] text-subtle shrink-0">{it.hint}</span>}
+                <span className="text-[12px] truncate" title={it.label}>{it.label}</span>
+                {it.hint && <span className="text-[11px] text-subtle shrink-0">{it.hint}</span>}
               </div>
-              <div className="relative h-1.5 mt-1 rounded-full" style={{ background: 'var(--bg-sunk)' }}>
+              <div className="relative h-1 mt-1.5 rounded-full" style={{ background: 'var(--bg-sunk)' }}>
                 {mode === 'diverging' && <div className="absolute left-1/2 -top-0.5 -bottom-0.5 w-px" style={{ background: 'var(--border-strong)' }} />}
                 <div
                   className="absolute top-0 bottom-0 rounded-full"

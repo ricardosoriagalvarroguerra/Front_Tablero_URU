@@ -1,4 +1,3 @@
-import { Panel } from '../primitives/Panel';
 import type { AnalisisData } from '../../types';
 
 interface TesisPanelProps {
@@ -6,37 +5,28 @@ interface TesisPanelProps {
   onVerAnalisis?: () => void;
 }
 
-/** Tesis del mes: la lectura de conjunto, en titular + bajada + puntos clave. */
+/** Tesis: titular + tres ideas. Sin caja, como encabezado editorial. */
 export function TesisPanel({ data, onVerAnalisis }: TesisPanelProps) {
   const { tesis } = data;
   return (
-    <Panel className="h-full flex flex-col relative">
-      <div
-        className="absolute inset-x-0 top-0 h-[3px]"
-        style={{ background: 'linear-gradient(90deg, var(--accent), var(--info))' }}
-        aria-hidden
-      />
-      <div className="px-5 pt-5 pb-4 flex flex-col gap-3 flex-1">
-        <div className="flex items-center gap-2">
-          <span className="mono text-[9.5px] uppercase tracking-[0.18em] text-accent">Tesis · lectura de conjunto</span>
-          <span className="mono text-[9.5px] text-subtle">· {data.asof}</span>
-        </div>
-        <h2 className="max-w-[920px] text-[19px] sm:text-[23px] leading-[1.25] font-semibold tracking-[-0.015em] text-balance">{tesis.titulo}</h2>
-        <p className="max-w-[920px] text-[13px] text-muted leading-relaxed">{tesis.bajada}</p>
-        <ol className="grid gap-x-6 gap-y-2.5 sm:grid-cols-2 xl:grid-cols-3 mt-1">
-          {tesis.puntos.map((p, i) => (
-            <li key={i} className="flex gap-2.5 text-[12px] leading-snug">
-              <span className="mono text-[10px] text-accent shrink-0 mt-[2px]">{String(i + 1).padStart(2, '0')}</span>
-              <span>{p}</span>
-            </li>
-          ))}
-        </ol>
-        {onVerAnalisis && (
-          <button onClick={onVerAnalisis} className="self-start mt-auto text-[11.5px] text-accent hover:underline underline-offset-4">
-            Ver escenarios, proyecciones y riesgos →
-          </button>
-        )}
-      </div>
-    </Panel>
+    <section className="py-2">
+      <div className="text-[11.5px] text-subtle">Lectura al {data.asof}</div>
+      <h2 className="mt-2 max-w-[860px] text-[22px] sm:text-[26px] leading-[1.2] font-semibold tracking-[-0.02em] text-balance">
+        {tesis.titulo}
+      </h2>
+      <ul className="mt-4 grid gap-x-8 gap-y-2 md:grid-cols-3 max-w-[1100px]">
+        {tesis.puntos.slice(0, 3).map((p, i) => (
+          <li key={i} className="text-[13px] text-muted leading-snug flex gap-2">
+            <span className="text-accent">—</span>
+            <span>{p}</span>
+          </li>
+        ))}
+      </ul>
+      {onVerAnalisis && (
+        <button onClick={onVerAnalisis} className="mt-4 text-[12.5px] text-accent hover:underline underline-offset-4">
+          Ver análisis completo →
+        </button>
+      )}
+    </section>
   );
 }

@@ -63,14 +63,13 @@ export function FiscalPanel({ data }: FiscalPanelProps) {
           />
           <Stat label="Recaudación DGI" value={pctPib(recaudacion.varRealInteranual)} unit="real i/a" tone={(recaudacion.varRealInteranual ?? 0) >= 0 ? 'pos' : 'neg'} sub={recaudacion.periodo} size="sm" />
         </div>
-        <div className="px-4 py-2.5 border-b border-token text-[11px] text-muted leading-snug">{recaudacion.source}</div>
 
         {/* Regla fiscal — 3 pilares */}
-        <div className="px-4 py-3">
+        <div className="px-4 py-3" title={reglaFiscal.nota}>
           <div className="flex items-center justify-between mb-2">
             <div className="eyebrow">Regla fiscal · 3 pilares (evaluación 2025)</div>
             {reglaFiscal.cumple != null && (
-              <span className={`mono text-[9.5px] uppercase tracking-wider px-1.5 py-[2px] rounded-[4px] ${reglaFiscal.cumple ? 'text-pos bg-pos-soft' : 'text-neg bg-neg-soft'}`}>
+              <span className={`text-[11px] px-1.5 py-[2px] rounded-[4px] ${reglaFiscal.cumple ? 'text-pos' : 'text-neg'}`}>
                 {reglaFiscal.cumple ? '✓ cumple' : '⚠ 2 de 3'}
               </span>
             )}
@@ -81,14 +80,14 @@ export function FiscalPanel({ data }: FiscalPanelProps) {
               { l: 'Gasto real', v: pctAbs(reglaFiscal.topeGastoReal), ok: false },
               { l: 'Tope endeudamiento', v: reglaFiscal.deudaNetaTope != null ? `US$${(reglaFiscal.deudaNetaTope / 1000).toFixed(2).replace('.', ',')} mil M` : 's/d', ok: true },
             ].map((p) => (
-              <div key={p.l} className="rounded-[8px] p-2.5" style={{ background: p.ok ? 'var(--pos-soft)' : 'var(--neg-soft)' }}>
-                <div className="mono text-[8.5px] uppercase tracking-wider text-subtle">{p.l}</div>
+              <div key={p.l} className="rounded-[10px] p-3 border border-token">
+                <div className="eyebrow">{p.l}</div>
                 <div className="mono text-[13px] mt-0.5">{p.v}</div>
                 <div className={`mono text-[9px] mt-0.5 ${p.ok ? 'text-pos' : 'text-neg'}`}>{p.ok ? '✓ cumplido' : '✕ excedido'}</div>
               </div>
             ))}
           </div>
-          <div className="text-[11.5px] text-muted mt-2.5 leading-snug">{reglaFiscal.nota}</div>
+
         </div>
       </div>
     </Panel>

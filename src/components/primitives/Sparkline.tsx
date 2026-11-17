@@ -12,34 +12,18 @@ interface SparklineProps {
 }
 
 const colorOf = (s: Sentiment): string =>
-  s === 'pos'
-    ? 'var(--pos)'
-    : s === 'neg'
-      ? 'var(--neg)'
-      : s === 'accent'
-        ? 'var(--accent)'
-        : 'var(--fg-muted)';
+  s === 'pos' ? 'var(--pos)' : s === 'neg' ? 'var(--neg)' : s === 'accent' ? 'var(--accent)' : 'var(--fg-muted)';
 
-export function Sparkline({
-  data,
-  width = 110,
-  height = 24,
-  sentiment = 'neutral',
-  filled = true,
-}: SparklineProps) {
+/** Sparkline sobrio: línea neutra; sólo el último punto lleva el color de la tendencia. */
+export function Sparkline({ data, width = 110, height = 24, sentiment = 'neutral' }: SparklineProps) {
   const theme = useTheme();
-  // Geometría con d3 (escala lineal + generadores de línea/área, curva monótona).
-  const chart = useMemo(() => buildLineChart(data, width, height, 1.5), [data, width, height]);
-  if (!data || !data.length) return null;
-
-  const color = colorOf(sentiment);
+  const chart = useMemo(() => buildLineChart(data, width, height, 2), [data, width, height]);
+  if (!data || data.length < 2) return <svg width={width} height={height} />;
   const last = chart.points[chart.points.length - 1];
-
   return (
     <svg key={theme} width={width} height={height} className="block" style={{ overflow: 'visible' }}>
-      {filled && <path d={chart.area} opacity="0.08" style={{ fill: color }} />}
-      <path d={chart.line} strokeWidth="1" style={{ fill: 'none', stroke: color }} />
-      <circle cx={last[0]} cy={last[1]} r="1.6" style={{ fill: color }} />
+      <path d={chart.line} strokeWidth="1.25" style={{ fill: 'none', stroke: 'var(--fg-subtle)' }} />
+      <circle cx={last[0]} cy={last[1]} r="2" style={{ fill: colorOf(sentiment) }} />
     </svg>
   );
 }

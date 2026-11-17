@@ -6,7 +6,7 @@ import type { TabDef } from './components/Tabs';
 import { KpiCard } from './components/modules/KpiCard';
 import { FeaturedKpiCard } from './components/modules/FeaturedKpiCard';
 import { KpiGroup } from './components/modules/KpiGroup';
-import { FEATURED, FEATURED_BAND, GROUPS, TICKER } from './kpiLayout';
+import { FEATURED, FEATURED_BAND, GROUPS } from './kpiLayout';
 import { AgroResumen } from './components/modules/AgroResumen';
 import { AgroPanel } from './components/modules/AgroPanel';
 import { MercadosPanel } from './components/modules/MercadosPanel';
@@ -146,30 +146,19 @@ export default function App() {
     ? [...GROUPS, { title: 'Otros', ids: leftover.map((k) => k.id) }]
     : GROUPS;
   const searching = query.trim().length > 0;
-  const tickerKpis = TICKER.map((id) => byId[id]).filter(Boolean);
   const derived = useMemo(() => derivados(indicadores, fiscal), [indicadores, fiscal]);
   const snapshotDate = useMemo(() => new Date(`${SNAPSHOT.iso}T12:00:00Z`), []);
   const lectura = (k: string) => analisis.lecturas[k];
 
   const tabs: TabDef[] = [
-    { id: 'panorama', label: 'Panorama', code: '00' },
-    {
-      id: 'analisis',
-      label: 'Análisis',
-      code: 'Z',
-      badge: <span className="mono text-[9px] px-1.5 py-[1px] rounded-full bg-accent-soft text-accent">nuevo</span>,
-    },
-    {
-      id: 'agro',
-      label: 'Agro',
-      code: 'AG',
-      badge: agro.novilloPrecio != null ? <span className="mono text-[9.5px] text-subtle">US${agro.novilloPrecio.toFixed(2).replace('.', ',')}</span> : undefined,
-    },
-    { id: 'mercados', label: 'Mercados', code: 'C', badge: <span className="mono text-[9.5px] text-subtle">{mercados.ratings[0]?.rating}</span> },
-    { id: 'actividad', label: 'Actividad', code: 'AC' },
-    { id: 'energia', label: 'Energía', code: 'EN', badge: energia.renovablePct != null ? <span className="mono text-[9.5px] text-pos">{energia.renovablePct.toFixed(1).replace('.', ',')}%</span> : undefined },
-    { id: 'externo', label: 'Externo', code: 'EX' },
-    { id: 'fiscal', label: 'Fiscal & monetario', code: 'F$' },
+    { id: 'panorama', label: 'Panorama' },
+    { id: 'analisis', label: 'Análisis' },
+    { id: 'agro', label: 'Agro' },
+    { id: 'mercados', label: 'Mercados' },
+    { id: 'actividad', label: 'Actividad' },
+    { id: 'energia', label: 'Energía' },
+    { id: 'externo', label: 'Externo' },
+    { id: 'fiscal', label: 'Fiscal y monetario' },
   ];
 
   return (
@@ -185,32 +174,11 @@ export default function App() {
           setQuery={setQuery}
           now={now}
           snapshot={SNAPSHOT.fecha}
-          ticker={tickerKpis}
           source={source}
         />
 
-        {/* KPI strip — siempre visible (command bar) */}
-        <section className="px-3 sm:px-5 pt-4 sm:pt-5 pb-2">
-          <div className="flex items-end justify-between mb-3 gap-3">
-            <div>
-              <div className="eyebrow">A · Indicadores macro</div>
-              <h1 className="text-[17px] sm:text-[19px] font-semibold tracking-[-0.015em] mt-0.5">Uruguay en {indicadores.length} indicadores</h1>
-            </div>
-            <div className="mono text-[10px] text-subtle hidden md:flex items-center gap-3">
-              <span className="flex items-center gap-1">
-                <span className="kbd">1–8</span> módulos
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="kbd">/</span> buscar
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="kbd">D</span> modo
-              </span>
-              <span className="flex items-center gap-1">
-                <span className="kbd">R</span> refrescar
-              </span>
-            </div>
-          </div>
+        {/* KPI strip — siempre visible */}
+        <section className="px-4 sm:px-6 pt-6 pb-4">
           {searching ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-7 gap-2">
               {kpiFiltered.map((k) => (
@@ -223,13 +191,13 @@ export default function App() {
               )}
             </div>
           ) : (
-            <div className="grid gap-2 grid-cols-1 lg:grid-cols-12 items-stretch">
-              <div className="lg:col-span-5 xl:col-span-6 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 gap-2">
+            <div className="grid gap-3 grid-cols-1 lg:grid-cols-12 items-stretch">
+              <div className="lg:col-span-5 xl:col-span-6 grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3 gap-3">
                 {featuredKpis.map((k) => (
                   <FeaturedKpiCard key={k.id} k={k} onClick={setOpenKpi} band={FEATURED_BAND[k.id]} />
                 ))}
               </div>
-              <div className="lg:col-span-7 xl:col-span-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2">
+              <div className="lg:col-span-7 xl:col-span-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-3">
                 {groups.map((g) => (
                   <KpiGroup
                     key={g.title}
@@ -247,9 +215,9 @@ export default function App() {
         <Tabs tabs={tabs} active={tab} onChange={(id) => setTab(id as TabId)} />
 
         {/* Contenido de la pestaña activa */}
-        <main key={tab} className="flex-1 px-3 sm:px-5 pt-4 pb-6">
+        <main key={tab} className="flex-1 px-4 sm:px-6 pt-6 pb-10">
           {tab === 'panorama' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               <div className="col-span-12">
                 <TesisPanel data={analisis} onVerAnalisis={() => setTab('analisis')} />
               </div>
@@ -259,7 +227,7 @@ export default function App() {
               <div className="col-span-12 lg:col-span-5">
                 <AgroResumen data={agro} onVerDetalle={() => setTab('agro')} />
               </div>
-              <div className="col-span-12 lg:col-span-7 h-[620px]">
+              <div className="col-span-12 lg:col-span-7 h-[560px]">
                 <NewsPanel noticias={noticias} onSelect={openNoticia} leidas={leidas} />
               </div>
               <div className="col-span-12">
@@ -269,34 +237,24 @@ export default function App() {
           )}
 
           {tab === 'analisis' && (
-            <section className="grid gap-3 grid-cols-12">
-              <div className="col-span-12">
-                <Insight title="Cómo leer esta pestaña" tone="info">
-                  Los <b>derivados</b> se calculan en vivo a partir de los datos de fuente (fórmula a la vista). Las
-                  <b> proyecciones</b> son de terceros, con fecha. El <b>semáforo, los escenarios y los riesgos</b> son juicio
-                  analítico del tablero al {analisis.asof}: explícito, fechado y separado del dato.
-                </Insight>
-              </div>
+            <section className="grid gap-4 grid-cols-12">
               <div className="col-span-12">
                 <DerivadosPanel items={derived} />
               </div>
               <div className="col-span-12 xl:col-span-7">
                 <ProyeccionesPanel rows={analisis.proyecciones} />
               </div>
-              <div className="col-span-12 xl:col-span-5 xl:h-[480px]">
+              <div className="col-span-12 xl:col-span-5">
                 <RiesgosPanel items={analisis.riesgos} />
               </div>
               <div className="col-span-12">
                 <EscenariosPanel items={analisis.escenarios} />
               </div>
-              <div className="col-span-12">
-                <SemaforoPanel items={analisis.semaforo} />
-              </div>
             </section>
           )}
 
           {tab === 'agro' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('agro') && <div className="col-span-12"><Insight>{lectura('agro')}</Insight></div>}
               <div className="col-span-12">
                 <AgroPanel data={agro} />
@@ -305,7 +263,7 @@ export default function App() {
           )}
 
           {tab === 'mercados' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('mercados') && <div className="col-span-12"><Insight>{lectura('mercados')}</Insight></div>}
               <div className="col-span-12 lg:col-span-6">
                 <MercadosPanel data={mercados} />
@@ -317,7 +275,7 @@ export default function App() {
           )}
 
           {tab === 'actividad' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('actividad') && <div className="col-span-12"><Insight>{lectura('actividad')}</Insight></div>}
               <div className="col-span-12 lg:col-span-6">
                 <ActividadPanel data={actividad} />
@@ -329,7 +287,7 @@ export default function App() {
           )}
 
           {tab === 'energia' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('energia') && <div className="col-span-12"><Insight>{lectura('energia')}</Insight></div>}
               <div className="col-span-12">
                 <EnergiaPanel data={energia} />
@@ -338,7 +296,7 @@ export default function App() {
           )}
 
           {tab === 'externo' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('externo') && <div className="col-span-12"><Insight>{lectura('externo')}</Insight></div>}
               <div className="col-span-12 lg:col-span-6">
                 <ExternoPanel data={externo} />
@@ -350,7 +308,7 @@ export default function App() {
           )}
 
           {tab === 'fiscal' && (
-            <section className="grid gap-3 grid-cols-12">
+            <section className="grid gap-4 grid-cols-12">
               {lectura('fiscal') && <div className="col-span-12"><Insight>{lectura('fiscal')}</Insight></div>}
               <div className="col-span-12 lg:col-span-6">
                 <FiscalPanel data={fiscal} />
