@@ -13,6 +13,7 @@ import { dirname, resolve } from 'node:path';
 import {
   KPIS, AGRO, MERCADOS, ACTIVIDAD, ENERGIA, EXTERNO, FISCAL, NOTICIAS, EVENTOS, FUENTES, ANALISIS,
 } from '../src/data/mockData.ts';
+import { REGION } from '../src/data/region.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(__dirname, 'seed.sql');
@@ -449,6 +450,20 @@ w(EVENTOS.map((e) => {
   const fecha = ymd(new Date(Date.UTC(2026, 10, 17 + e.d)));
   return `  (${q(fecha)}, ${sub('categorias_evento', 'nombre', e.tag)}, ${q(e.title)}, ${q(e.tone)})`;
 }).join(',\n') + ';');
+
+// ── region_observaciones (FMI WEO) ────────────────────────────────────
+section('region_observaciones (FMI WEO, comparador regional)');
+{
+  const R = [];
+  for (const [ind, porPais] of Object.entries(REGION.datos))
+    for (const [iso, serie] of Object.entries(porPais))
+      for (const p of serie)
+        R.push(`  (${q(iso)}, ${q(ind)}, ${p.anio}, ${num(p.valor)}, ${p.proyeccion}, ${q(REGION.vintage)})`);
+  if (R.length) {
+    w('INSERT INTO region_observaciones (pais, indicador, anio, valor, proyeccion, vintage) VALUES');
+    w(R.join(',\n') + ';');
+  }
+}
 
 // ── analisis (Módulo Z) ─────────────────────────────────────────────────
 section('analisis (capa analítica vigente)');

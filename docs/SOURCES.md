@@ -148,11 +148,13 @@ dólar 2015–2019, deuda 2015–2018.
 
 ## Comparador regional (FMI WEO)
 
-Fuente: API pública del DataMapper del FMI (`/external/datamapper/api/v1/{indicador}`), descargada por la
-ingesta del backend; cada fila guarda su `vintage` (fecha de descarga). Desde 2026 los valores son
-proyecciones del WEO. **El seed no trae datos regionales**: desde el entorno de desarrollo imf.org no es
-accesible, y no se cargan cifras sin verificar; la pestaña se llena con la primera corrida de la ingesta en
-Railway.
+Fuente: API pública del DataMapper del FMI (`/external/datamapper/api/v1/{indicador}`), 2015–2027;
+desde 2026 los valores son proyecciones. El respaldo embebido y el seed (`src/data/region.ts`, 696
+valores) los descargó el Tablero BOL con la misma especificación (vintage 17-nov-2026); en Railway la
+ingesta del backend los refresca. **Verificación cruzada** para Uruguay: PIB 2015–2025, inflación dic/dic y
+cuenta corriente coinciden con las series históricas verificadas del tablero, y la proyección 2026–2027
+(1,3% / 2,4%) coincide con la del Artículo IV. El déficit y la deuda del FMI son de **gobierno general**
+(no SPG), por eso difieren de los del MEF/BCU.
 
 ## Limitaciones reconocidas
 
