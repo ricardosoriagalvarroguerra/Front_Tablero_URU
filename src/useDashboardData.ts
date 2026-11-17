@@ -49,7 +49,10 @@ export interface DashboardData {
   alertas: Alerta[];
 }
 
-const REGION_VACIA: RegionData = { vintage: null, paises: [], indicadores: [], datos: {} };
+import { REGION } from './data/region';
+
+/** Si el backend todavía no tiene datos regionales, se usa el respaldo embebido. */
+const conDatos = (r: RegionData | null) => (r && Object.keys(r.datos ?? {}).length ? r : REGION);
 
 function fromMock(): DashboardData {
   return {
@@ -64,7 +67,7 @@ function fromMock(): DashboardData {
     eventos: EVENTOS,
     fuentes: FUENTES,
     analisis: ANALISIS,
-    region: REGION_VACIA,
+    region: REGION,
     alertas: evaluarAlertas(KPIS),
   };
 }
@@ -98,7 +101,7 @@ export function useDashboardData(): DashboardData & { source: DataSource; reload
         const analisis = await api.analisis(ctrl.signal).catch(() => ANALISIS);
         // Piezas v0.9: si el backend es anterior, se degradan sin romper el resto.
         const [region, alertasApi] = await Promise.all([
-          api.region(ctrl.signal).catch(() => REGION_VACIA),
+          api.region(ctrl.signal).then(conDatos).catch(() => REGION),
           api.alertas(ctrl.signal).catch(() => null),
         ]);
         const kpis = indicadores.map(toKpi);
