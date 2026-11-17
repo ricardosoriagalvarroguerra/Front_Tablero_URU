@@ -12,6 +12,7 @@ import type {
   Evento,
   Fuente,
   Kpi,
+  AnalisisData,
 } from './types';
 
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:5174';
@@ -47,6 +48,7 @@ export function toKpi(k: ApiKpi): Kpi {
     unit: k.unit ?? undefined,
     def: k.def ?? '',
     source: k.source ?? '',
+    periodos: k.periodos ?? undefined,
     fmt: makeFmt(k.id, k.decimales),
   };
 }
@@ -63,4 +65,5 @@ export const api = {
   noticia: (codigo: string) => get<Noticia>(`/api/noticias/${codigo}`),
   eventos: (signal?: AbortSignal) => get<Evento[]>('/api/eventos', signal),
   fuentes: (signal?: AbortSignal) => get<Fuente[]>('/api/fuentes', signal),
+  analisis: (signal?: AbortSignal) => get<AnalisisData>('/api/analisis', signal),
 };

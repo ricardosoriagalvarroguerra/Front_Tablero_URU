@@ -11,7 +11,7 @@ import { writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import {
-  KPIS, AGRO, MERCADOS, ACTIVIDAD, ENERGIA, EXTERNO, FISCAL, NOTICIAS, EVENTOS, FUENTES,
+  KPIS, AGRO, MERCADOS, ACTIVIDAD, ENERGIA, EXTERNO, FISCAL, NOTICIAS, EVENTOS, FUENTES, ANALISIS,
 } from '../src/data/mockData.ts';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -30,12 +30,12 @@ const lines = [];
 const w = (s = '') => lines.push(s);
 const section = (t) => { w(); w(`-- ── ${t} ${'─'.repeat(Math.max(0, 60 - t.length))}`); };
 
-const NOW = new Date(Date.UTC(2026, 5, 29, 12, 0, 0)); // 29 jun 2026 09:00 UYT
-const BASE_DATE = new Date(Date.UTC(2026, 5, 29));
+const NOW = new Date(Date.UTC(2026, 10, 17, 12, 0, 0)); // 17 nov 2026 09:00 UYT
+const BASE_DATE = new Date(Date.UTC(2026, 10, 17));
 
-// fechas mensuales terminando en jun-2026
+// fechas mensuales terminando en nov-2026 (orden; la etiqueta real va en `periodo`)
 const monthDatesEnding = (n) => {
-  const end = 2026 * 12 + 5; // jun-2026
+  const end = 2026 * 12 + 10; // nov-2026
   return Array.from({ length: n }, (_, i) => {
     const idx = end - (n - 1 - i);
     const y = Math.floor(idx / 12);
@@ -45,10 +45,10 @@ const monthDatesEnding = (n) => {
 };
 // fechas diarias terminando en BASE_DATE
 const dayDatesEnding = (n) =>
-  Array.from({ length: n }, (_, i) => ymd(new Date(Date.UTC(2026, 5, 29 - (n - 1 - i)))));
+  Array.from({ length: n }, (_, i) => ymd(new Date(Date.UTC(2026, 10, 17 - (n - 1 - i)))));
 
 w('-- AUTO-GENERADO por db/generate-seed.mjs — no editar a mano.');
-w('-- Datos de demostración (snapshot Uruguay ~29 jun 2026) que reflejan el tablero.');
+w('-- Datos del tablero (snapshot Uruguay 17 nov 2026), idénticos a src/data/mockData.ts.');
 w('BEGIN;');
 w('SET search_path = public;');
 
@@ -96,7 +96,9 @@ const MEDIO_META = {
   'Ámbito': ['nacional', 'UY'], 'El País': ['nacional', 'UY'], 'El Observador': ['nacional', 'UY'],
   'Búsqueda': ['nacional', 'UY'], 'la diaria': ['nacional', 'UY'], 'Montevideo Portal': ['nacional', 'UY'],
   'El Cronista': ['internacional', 'UY'], 'Infobae': ['internacional', 'AR'], 'En Perspectiva': ['nacional', 'UY'],
-  'INE': ['nacional', 'UY'], 'S&P Global': ['agencia', 'US'],
+  'INE': ['nacional', 'UY'], 'S&P Global': ['agencia', 'US'], 'EFE': ['agencia', 'ES'],
+  'Investing.com': ['internacional', 'US'], 'Shale24': ['internacional', 'AR'], 'Prensa Latina': ['agencia', 'CU'],
+  'Bloomberg Línea': ['internacional', 'US'], 'FMI': ['internacional', 'US'], 'El Telégrafo': ['nacional', 'UY'],
 };
 const medios = [...new Set(NOTICIAS.map((n) => n.fuente))];
 w('INSERT INTO medios (nombre, tipo, pais) VALUES');
@@ -160,11 +162,13 @@ const IND_META = {
   pib: { cat: 'actividad', per: 'trimestral', fuente: 'bcu', dec: 1, unidad: '% i/a' },
   ipc_mensual: { cat: 'precios', per: 'mensual', fuente: 'ine', dec: 2, unidad: '%' },
   tpm: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 2, unidad: '%' },
-  expectativas_inflacion: { cat: 'precios', per: 'mensual', fuente: 'bcu', dec: 1, unidad: '%' },
+  expectativas_inflacion: { cat: 'precios', per: 'mensual', fuente: 'bcu', dec: 2, unidad: '%' },
   tipo_cambio: { cat: 'monetario', per: 'diaria', fuente: 'bcu', dec: 2, unidad: null },
   desempleo: { cat: 'social', per: 'mensual', fuente: 'ine', dec: 1, unidad: '%' },
   salario_real: { cat: 'social', per: 'mensual', fuente: 'ine', dec: 2, unidad: '% i/a' },
   novillo: { cat: 'agro', per: 'semanal', fuente: 'inac', dec: 2, unidad: 'USD/kg' },
+  pobreza: { cat: 'social', per: 'semestral', fuente: 'ine', dec: 1, unidad: '%' },
+  exportaciones: { cat: 'externo', per: 'mensual', fuente: 'uruguayxxi', dec: 0, unidad: 'M USD' },
   resultado_fiscal: { cat: 'fiscal', per: 'mensual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   deuda: { cat: 'fiscal', per: 'anual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   reservas: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 0, unidad: 'M USD' },
@@ -184,10 +188,10 @@ for (const k of KPIS) {
   const dates = monthDatesEnding(n);
   for (let i = 0; i < n; i++) {
     const last = i === n - 1;
-    obsRows.push(`  (${sub('indicadores', 'codigo', k.id)}, ${q(dates[i])}, ${num(k.spark[i])}, ${last ? num(k.delta) : 'NULL'}, ${last ? q(k.deltaLabel) : 'NULL'})`);
+    obsRows.push(`  (${sub('indicadores', 'codigo', k.id)}, ${q(dates[i])}, ${num(k.spark[i])}, ${q(k.periodos?.[i] ?? null)}, ${last ? num(k.delta) : 'NULL'}, ${last ? q(k.deltaLabel) : 'NULL'})`);
   }
 }
-w('INSERT INTO indicador_observaciones (indicador_id, fecha, valor, variacion, variacion_etiqueta) VALUES');
+w('INSERT INTO indicador_observaciones (indicador_id, fecha, valor, periodo, variacion, variacion_etiqueta) VALUES');
 w(obsRows.join(',\n') + ';');
 
 // ── bono_cotizaciones ──────────────────────────────────────────────────
@@ -228,7 +232,7 @@ w(MERCADOS.ratings.map((r) =>
 // ── ipc_rubros ─────────────────────────────────────────────────────────
 section('ipc_rubros');
 w('INSERT INTO ipc_rubros (orden, label, valor, asof) VALUES');
-w(ACTIVIDAD.ipcRubros.map((r, i) => `  (${i}, ${q(r.label)}, ${num(r.value)}, ${q('may 2026')})`).join(',\n') + ';');
+w(ACTIVIDAD.ipcRubros.map((r, i) => `  (${i}, ${q(r.label)}, ${num(r.value)}, ${q('sep-oct 2026')})`).join(',\n') + ';');
 
 // ── pib_sectores ───────────────────────────────────────────────────────
 section('pib_sectores');
@@ -356,11 +360,12 @@ w(M.join(',\n') + ';');
 // ── series (sparklines por módulo) ──────────────────────────────────────
 section('series (sparklines por módulo)');
 const S = [];
-const ps = (modulo, clave, serie) => serie.forEach((v, i) => S.push(`  (${q(modulo)}, ${q(clave)}, ${i}, ${num(v)})`));
-ps('actividad', 'pib', ACTIVIDAD.pib.series);
-ps('fiscal', 'result_global', FISCAL.resultadoGlobal.series);
+const ps = (modulo, clave, serie, periodos = []) =>
+  serie.forEach((v, i) => S.push(`  (${q(modulo)}, ${q(clave)}, ${i}, ${num(v)}, ${q(periodos[i] ?? null)})`));
+ps('actividad', 'pib', ACTIVIDAD.pib.series, ACTIVIDAD.pib.periodos);
+ps('fiscal', 'result_global', FISCAL.resultadoGlobal.series, FISCAL.resultadoGlobal.periodos);
 for (const p of AGRO.productos) ps('agro', p.id, p.spark);
-w('INSERT INTO series (modulo, clave, idx, valor) VALUES');
+w('INSERT INTO series (modulo, clave, idx, valor, periodo) VALUES');
 w(S.join(',\n') + ';');
 
 // ── fuente_estado ──────────────────────────────────────────────────────
@@ -398,13 +403,19 @@ w(vinRows.join(',\n') + ';');
 section('eventos (calendario 30 días)');
 w('INSERT INTO eventos (fecha, categoria_id, titulo, tono) VALUES');
 w(EVENTOS.map((e) => {
-  const fecha = ymd(new Date(Date.UTC(2026, 5, 29 + e.d)));
+  const fecha = ymd(new Date(Date.UTC(2026, 10, 17 + e.d)));
   return `  (${q(fecha)}, ${sub('categorias_evento', 'nombre', e.tag)}, ${q(e.title)}, ${q(e.tone)})`;
 }).join(',\n') + ';');
+
+// ── analisis (Módulo Z) ─────────────────────────────────────────────────
+section('analisis (capa analítica vigente)');
+w('INSERT INTO analisis (clave, asof, contenido) VALUES');
+w(`  ('vigente', ${q(ANALISIS.asof)}, ${q(JSON.stringify(ANALISIS))}::jsonb);`);
 
 w();
 w('COMMIT;');
 
 writeFileSync(OUT, lines.join('\n') + '\n');
 console.log(`✓ wrote ${OUT} (${lines.length} líneas)`);
+console.log(`  análisis: ${ANALISIS.semaforo.length} dimensiones · ${ANALISIS.escenarios.length} escenarios · ${ANALISIS.riesgos.length} riesgos`);
 console.log(`  ${KPIS.length} indicadores · ${AGRO.productos.length} productos agro · ${MERCADOS.bonos.length} bonos · ${MERCADOS.ratings.length} ratings · ${EXTERNO.commodities.length} commodities · ${ENERGIA.matriz.length} fuentes energía · ${NOTICIAS.length} noticias · ${EVENTOS.length} eventos`);

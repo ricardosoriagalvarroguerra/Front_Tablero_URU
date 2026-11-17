@@ -12,7 +12,7 @@ sin tocar el frontend.
 # 1) estructura (idempotente: reinicia el schema public)
 psql -d uruguay -v ON_ERROR_STOP=1 -f db/schema.sql
 
-# 2) datos (snapshot ~17-jun-2026, generado desde mockData.ts)
+# 2) datos (snapshot 17-nov-2026, generado desde mockData.ts)
 node db/generate-seed.mjs            # regenera db/seed.sql
 psql -d uruguay -v ON_ERROR_STOP=1 -f db/seed.sql
 ```
@@ -34,6 +34,7 @@ psql -d uruguay -v ON_ERROR_STOP=1 -f db/seed.sql
 | **D** Noticias | `noticias`, `medios`, `categorias_noticia`, `terminos`, `noticia_terminos`, `noticia_vinculos` |
 | **E** Calendario | `eventos`, `categorias_evento` |
 | **F** Health-check | `fuentes`, `fuente_estado` |
+| **Z** Análisis | `analisis` (documento `jsonb` vigente: tesis, semáforo, proyecciones, escenarios, riesgos, lecturas) |
 
 ## Diseño incorporado
 

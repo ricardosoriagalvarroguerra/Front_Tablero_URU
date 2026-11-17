@@ -1,10 +1,14 @@
 // Organización visual del Módulo A: unos pocos indicadores DESTACADOS (tarjeta
 // con gráfico grande) + el resto agrupado por categoría en paneles compactos.
-// Los tres destacados son los más seguidos de la coyuntura uruguaya: la
-// estabilidad de precios dentro del rango meta, el riesgo país grado inversor y
-// el crecimiento de la actividad.
+// Los destacados son las tres variables que definen la coyuntura al corte:
+// inflación vs meta, el freno de la actividad y la respuesta del BCU.
 
-export const FEATURED = ['ipc_interanual', 'ubi', 'pib'];
+export const FEATURED = ['ipc_interanual', 'pib', 'tpm'];
+
+/** Banda objetivo dibujada detrás de la serie de un destacado (rango meta BCU). */
+export const FEATURED_BAND: Record<string, [number, number]> = {
+  ipc_interanual: [3, 6],
+};
 
 export interface KpiGroupDef {
   title: string;
@@ -12,7 +16,13 @@ export interface KpiGroupDef {
 }
 
 export const GROUPS: KpiGroupDef[] = [
-  { title: 'Precios y monetario', ids: ['ipc_mensual', 'tpm', 'expectativas_inflacion', 'tipo_cambio'] },
-  { title: 'Actividad y social', ids: ['desempleo', 'salario_real', 'novillo'] },
-  { title: 'Crédito y fiscal', ids: ['resultado_fiscal', 'deuda', 'reservas'] },
+  { title: 'Precios y monetario', ids: ['ipc_mensual', 'expectativas_inflacion', 'tipo_cambio', 'reservas'] },
+  { title: 'Empleo, ingresos y agro', ids: ['desempleo', 'salario_real', 'pobreza', 'novillo'] },
+  { title: 'Fiscal, crédito y externo', ids: ['resultado_fiscal', 'deuda', 'ubi', 'exportaciones'] },
+];
+
+/** Indicadores de la cinta de cotizaciones del encabezado. */
+export const TICKER = [
+  'tipo_cambio', 'tpm', 'ipc_interanual', 'ipc_mensual', 'expectativas_inflacion', 'pib', 'desempleo',
+  'novillo', 'exportaciones', 'reservas', 'resultado_fiscal', 'deuda', 'salario_real', 'pobreza', 'ubi',
 ];

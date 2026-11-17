@@ -1,159 +1,117 @@
-import { useEffect, useMemo, useState } from 'react';
-import type { MouseEvent } from 'react';
-import { pointer } from 'd3-selection';
-import { useTheme } from '../../theme';
+import { useEffect } from 'react';
 import { Delta } from '../primitives/Delta';
-import { buildLineChart } from '../../charts/line';
+import { SeriesChart } from '../primitives/SeriesChart';
+import { Insight } from '../primitives/Insight';
 import { polarityOf, deltaTone, trendTone } from '../../tone';
+import { FEATURED_BAND } from '../../kpiLayout';
 import type { Kpi } from '../../types';
 
 interface KpiModalProps {
   kpi: Kpi | null;
   onClose: () => void;
+  /** Lectura analítica del tablero para este indicador. */
+  lectura?: string;
 }
 
-const W = 720;
-const H = 220;
-
-export function KpiModal({ kpi, onClose }: KpiModalProps) {
-  const theme = useTheme();
-  const [hi, setHi] = useState<number | null>(null); // índice bajo el cursor
-
-  // serie histórica REAL (la misma que entrega la BDR / v_indicadores_actuales)
-  const data = useMemo(() => (kpi ? kpi.spark : []), [kpi]);
-  // Geometría con d3 (escalas + generadores línea/área); las escalas se reusan
-  // para ubicar marcadores y para mapear el cursor → índice (x.invert).
-  const chart = useMemo(() => buildLineChart(data, W, H, 10), [data]);
-
+export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
   useEffect(() => {
-    setHi(null);
+    if (!kpi) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = prev;
+    };
   }, [kpi]);
 
   if (!kpi) return null;
 
-  const tone = trendTone(polarityOf(kpi.id), data);
-  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--fg-muted)';
-
-  // d3.pointer → coordenadas en el espacio del viewBox; x.invert → índice.
-  function onMove(e: MouseEvent<SVGRectElement>) {
-    const [px] = pointer(e.nativeEvent, e.currentTarget);
-    const idx = Math.round(chart.x.invert(px));
-    setHi(Math.max(0, Math.min(data.length - 1, idx)));
-  }
-
-  // caja del tooltip (en coordenadas del viewBox)
-  let tip: { x: number; y: number; bx: number; by: number; lbl: string; val: string } | null = null;
-  if (hi != null && chart.points[hi]) {
-    const [x, y] = chart.points[hi];
-    const boxW = 104;
-    const boxH = 34;
-    tip = {
-      x,
-      y,
-      bx: Math.min(Math.max(x - boxW / 2, 2), W - boxW - 2),
-      by: Math.max(y - boxH - 12, 2),
-      lbl: hi === data.length - 1 ? 'dato actual' : `${hi + 1} / ${data.length}`,
-      val: kpi.fmt(data[hi]) + (kpi.unit ? ` ${kpi.unit}` : ''),
-    };
-  }
+  const data = kpi.spark;
+  const pol = polarityOf(kpi.id);
+  const tone = trendTone(pol, data);
+  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--info)';
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const avg = data.reduce((a, b) => a + b, 0) / Math.max(1, data.length);
+  const cambio = data.length > 1 ? data[data.length - 1] - data[0] : 0;
+  const unit = kpi.unit ? ` ${kpi.unit}` : '';
+  const neg = data.some((v) => v < 0);
+  const stats = [
+    { l: 'Mínimo', v: kpi.fmt(min) + unit },
+    { l: 'Máximo', v: kpi.fmt(max) + unit },
+    { l: 'Promedio', v: kpi.fmt(avg) + unit },
+    {
+      l: `Cambio en la ventana${kpi.periodos ? ` (${kpi.periodos[0]} → ${kpi.periodos[kpi.periodos.length - 1]})` : ''}`,
+      v: `${cambio > 0 ? '+' : ''}${kpi.fmt(cambio)}`,
+      c: deltaTone(pol, cambio),
+    },
+  ];
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-6"
-      style={{ background: 'rgba(0,0,0,0.55)' }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
+      style={{ background: 'rgba(3,4,7,0.6)', backdropFilter: 'blur(3px)' }}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${kpi.label}: serie histórica`}
     >
-      <div
-        className="surface rounded-[6px] w-full max-w-[860px] flex flex-col"
-        onClick={(e) => e.stopPropagation()}
-        style={{ maxHeight: '86vh' }}
-      >
-        <div className="flex items-start justify-between px-5 pt-4 pb-3 border-b border-token">
-          <div>
-            <div className="mono text-[9px] uppercase tracking-[0.18em] text-subtle">
-              {kpi.label} · serie histórica
-            </div>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="mono text-[32px] leading-none" style={{ letterSpacing: '-0.02em' }}>
+      <div className="card w-full max-w-[880px] flex flex-col fade-up overflow-hidden" onClick={(e) => e.stopPropagation()} style={{ maxHeight: '90vh' }}>
+        <div className="flex items-start justify-between gap-4 px-5 pt-4 pb-3 border-b border-token">
+          <div className="min-w-0">
+            <div className="eyebrow">{kpi.label} · serie histórica</div>
+            <div className="mt-1.5 flex items-baseline gap-2 flex-wrap">
+              <span className="mono text-[34px] leading-none font-medium" style={{ letterSpacing: '-0.03em' }}>
                 {kpi.fmt(kpi.value)}
               </span>
               {kpi.unit && <span className="mono text-[12px] text-muted">{kpi.unit}</span>}
-              <Delta value={kpi.delta} label={kpi.deltaLabel} sentiment={deltaTone(polarityOf(kpi.id), kpi.delta)} />
+              <Delta value={kpi.delta} label={kpi.deltaLabel} sentiment={deltaTone(pol, kpi.delta)} />
+              <span className="mono text-[10px] text-subtle">· {kpi.asof}</span>
             </div>
-            <div className="mt-1 text-[11px] text-muted max-w-[640px] leading-snug">{kpi.def}</div>
           </div>
-          <button
-            onClick={onClose}
-            className="mono text-[10px] uppercase tracking-wider text-muted hover:text-accent"
-          >
-            cerrar [esc]
+          <button onClick={onClose} className="text-[11.5px] text-muted hover:text-accent shrink-0 surface-sunk rounded-[7px] px-2.5 h-8">
+            Cerrar <span className="kbd ml-1">esc</span>
           </button>
         </div>
-        <div className="p-5">
-          <svg key={theme} viewBox={`0 0 ${W} ${H}`} className="w-full block" style={{ overflow: 'visible' }}>
-            {[0.25, 0.5, 0.75].map((t) => (
-              <line
-                key={t}
-                x1="0"
-                y1={H * t}
-                x2={W}
-                y2={H * t}
-                strokeWidth="0.5"
-                strokeDasharray="2 3"
-                style={{ stroke: 'var(--border)' }}
-              />
-            ))}
-            <path d={chart.area} opacity="0.08" style={{ fill: color }} />
-            <path d={chart.line} strokeWidth="1.25" style={{ fill: 'none', stroke: color }} />
-            {chart.points.map((p, i) => (
-              <circle key={i} cx={p[0]} cy={p[1]} r="2" style={{ fill: color }} />
-            ))}
-
-            {/* tooltip al pasar el cursor */}
-            {tip && (
-              <g style={{ pointerEvents: 'none' }}>
-                <line x1={tip.x} y1={0} x2={tip.x} y2={H} strokeWidth="0.75" strokeDasharray="2 2" style={{ stroke: 'var(--border-strong)' }} />
-                <circle cx={tip.x} cy={tip.y} r="3.2" strokeWidth="1.5" style={{ fill: color, stroke: 'var(--bg-elev)' }} />
-                <rect x={tip.bx} y={tip.by} width="104" height="34" rx="4" style={{ fill: 'var(--bg-elev)', stroke: 'var(--border-strong)' }} />
-                <text x={tip.bx + 8} y={tip.by + 13} fontSize="10" fontFamily='"JetBrains Mono", monospace' style={{ fill: 'var(--fg-subtle)' }}>
-                  {tip.lbl}
-                </text>
-                <text x={tip.bx + 8} y={tip.by + 27} fontSize="13" fontFamily='"JetBrains Mono", monospace' style={{ fill: 'var(--fg)' }}>
-                  {tip.val}
-                </text>
-              </g>
-            )}
-
-            {/* capa transparente que captura el cursor en toda el área */}
-            <rect
-              x="0"
-              y="0"
-              width={W}
-              height={H}
-              fill="transparent"
-              style={{ cursor: 'crosshair' }}
-              onMouseMove={onMove}
-              onMouseLeave={() => setHi(null)}
+        <div className="overflow-y-auto scrollbar-thin">
+          <div className="px-5 pt-4">
+            <SeriesChart
+              data={data}
+              labels={kpi.periodos}
+              color={color}
+              band={FEATURED_BAND[kpi.id]}
+              kind={neg && kpi.id !== 'tipo_cambio' ? 'bars' : 'line'}
+              fmt={(v) => kpi.fmt(v)}
+              height={230}
+              showValues={data.length <= 8}
             />
-          </svg>
-          <div className="mt-2 flex items-center justify-between mono text-[10px] text-subtle uppercase tracking-wider">
-            <span>← histórico</span>
-            <span>{data.length} datos reales</span>
-            <span>{kpi.asof}</span>
           </div>
+          <div className="px-5 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {stats.map((s) => (
+              <div key={s.l} className="surface-sunk rounded-[8px] px-3 py-2">
+                <div className="mono text-[9px] uppercase tracking-wider text-subtle truncate" title={s.l}>{s.l}</div>
+                <div className={`mono text-[14px] mt-0.5 ${s.c === 'pos' ? 'text-pos' : s.c === 'neg' ? 'text-neg' : ''}`}>{s.v}</div>
+              </div>
+            ))}
+          </div>
+          <div className="px-5 pb-3 text-[12.5px] leading-relaxed text-muted">{kpi.def}</div>
+          {lectura && (
+            <div className="px-5 pb-4">
+              <Insight title="Lectura del tablero">{lectura}</Insight>
+            </div>
+          )}
         </div>
-        <div className="px-5 py-3 border-t border-token grid grid-cols-3 gap-6 text-[11px]">
+        <div className="px-5 py-3 border-t border-token grid grid-cols-3 gap-6 text-[11.5px]">
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Fuente</div>
+            <div className="eyebrow">Fuente</div>
             <div className="mt-0.5">{kpi.source}</div>
           </div>
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Última actualización</div>
+            <div className="eyebrow">Último dato</div>
             <div className="mt-0.5 mono">{kpi.asof}</div>
           </div>
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Conexión</div>
-            <div className="mt-0.5 text-muted">BDR · vista v_indicadores_actuales</div>
+            <div className="eyebrow">Polaridad</div>
+            <div className="mt-0.5 text-muted">{pol === 'up' ? 'subir es favorable' : pol === 'down' ? 'bajar es favorable' : 'neutral (instrumento/precio)'}</div>
           </div>
         </div>
       </div>

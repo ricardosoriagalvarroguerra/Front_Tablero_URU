@@ -25,22 +25,22 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
       <SectionTitle id="EN ·" title="Energía · matriz renovable" right={<span>ADME / UTE · {data.asof}</span>} />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         {/* renovable hero + matriz donut */}
-        <div className="px-3 py-3 border-b border-token grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="px-4 py-3 border-b border-token grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Generación renovable</div>
+            <div className="eyebrow">Generación renovable</div>
             <div className="mt-0.5 flex items-baseline gap-2">
               <span className="mono text-[34px] text-pos leading-none">
-                {data.renovablePct != null ? `${data.renovablePct.toFixed(0)}%` : 's/d'}
+                {data.renovablePct != null ? `${data.renovablePct.toFixed(1).replace('.', ',')}%` : 's/d'}
               </span>
             </div>
-            <div className="mono text-[9px] text-subtle mt-1.5 leading-snug">{data.resumen}</div>
+            <div className="text-[11px] text-muted mt-1.5 leading-snug">{data.resumen}</div>
             <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className="surface-sunk rounded-[4px] p-2">
-                <div className="mono text-[9px] uppercase tracking-wider text-subtle">Potencia instalada</div>
+              <div className="surface-sunk rounded-[8px] p-2">
+                <div className="eyebrow">Potencia instalada</div>
                 <div className="mono text-[15px]">{num(data.potenciaInstalada)} <span className="text-subtle text-[9px]">MW</span></div>
               </div>
-              <div className="surface-sunk rounded-[4px] p-2">
-                <div className="mono text-[9px] uppercase tracking-wider text-subtle">Demanda máxima</div>
+              <div className="surface-sunk rounded-[8px] p-2">
+                <div className="eyebrow">Demanda máxima</div>
                 <div className="mono text-[15px]">{num(data.demandaMax)} <span className="text-subtle text-[9px]">MW</span></div>
               </div>
             </div>
@@ -48,7 +48,7 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
 
           {/* matriz por fuente */}
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">Matriz de generación eléctrica</div>
+            <div className="eyebrow mb-1.5">Matriz de generación eléctrica</div>
             <div className="flex items-center gap-3">
               <Donut size={84} data={data.matriz.map((f) => ({ v: f.pct, color: colorOf(f) }))} />
               <div className="flex-1 space-y-1 text-[11px]">
@@ -67,21 +67,21 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
         </div>
 
         {/* exportación de energía */}
-        <div className="px-3 py-2.5 border-b border-token">
+        <div className="px-4 py-2.5 border-b border-token">
           <div className="flex items-center justify-between">
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">
+            <div className="eyebrow">
               Exportación eléctrica → {data.exportacion.destino}
             </div>
             <div className="mono text-[14px] text-pos">
               {data.exportacion.valorGwh != null ? `${num(data.exportacion.valorGwh)} GWh` : 's/d'}
             </div>
           </div>
-          <div className="mono text-[9px] text-subtle mt-1 leading-snug">{data.exportacion.nota}</div>
+          <div className="text-[11px] text-muted mt-1 leading-snug">{data.exportacion.nota}</div>
         </div>
 
         {/* combustibles ANCAP */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">Combustibles · ANCAP</div>
+        <div className="px-4 py-2.5 border-b border-token">
+          <div className="eyebrow mb-1.5">Combustibles · ANCAP</div>
           <div className="space-y-1">
             {data.combustibles.map((c) => (
               <div key={c.producto} className="flex items-center justify-between text-[11px]">
@@ -96,8 +96,8 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
         </div>
 
         {/* hidrógeno verde */}
-        <div className="px-3 py-2.5">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle">Hidrógeno verde · {data.hidrogeno.proyecto}</div>
+        <div className="px-4 py-2.5">
+          <div className="eyebrow">Hidrógeno verde · {data.hidrogeno.proyecto}</div>
           <div className="mt-0.5 flex items-baseline gap-2">
             <span className="mono text-[20px]">
               {data.hidrogeno.inversionUsd != null ? `US$${(data.hidrogeno.inversionUsd / 1000).toFixed(1).replace('.', ',')} mil M` : 's/d'}
