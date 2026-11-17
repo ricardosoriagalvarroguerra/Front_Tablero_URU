@@ -33,6 +33,10 @@ export interface Kpi {
   spark: number[];
   /** Etiqueta de período de cada punto de `spark` (eje X del gráfico). */
   periodos?: string[];
+  /** Serie histórica anual (2015 → último año cerrado, y el dato vigente marcado «2026*»). */
+  historico?: { periodo: string; valor: number }[];
+  /** Definición de la serie histórica cuando difiere del dato vigente (p. ej. «dic/dic»). */
+  historicoNota?: string;
   source: string;
   asof: string;
   def: string;

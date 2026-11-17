@@ -174,11 +174,11 @@ const IND_META = {
   deuda: { cat: 'fiscal', per: 'anual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   reservas: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 0, unidad: 'M USD' },
 };
-w('INSERT INTO indicadores (codigo, nombre, unidad, categoria, sentido, decimales, definicion, asof, periodicidad, fuente_id, extra_label, extra_valor, extra_tono) VALUES');
+w('INSERT INTO indicadores (codigo, nombre, unidad, categoria, sentido, decimales, definicion, asof, periodicidad, fuente_id, extra_label, extra_valor, extra_tono, historico_nota) VALUES');
 w(KPIS.map((k) => {
   const m = IND_META[k.id];
   const e = k.extra;
-  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'})`;
+  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'}, ${q(k.historicoNota ?? null)})`;
 }).join(',\n') + ';');
 
 // ── indicador_observaciones ────────────────────────────────────────────
@@ -194,6 +194,18 @@ for (const k of KPIS) {
 }
 w('INSERT INTO indicador_observaciones (indicador_id, fecha, valor, periodo, variacion, variacion_etiqueta) VALUES');
 w(obsRows.join(',\n') + ';');
+
+// ── indicador_historico (serie anual 2015 → hoy) ──────────────────────
+section('indicador_historico (serie anual larga)');
+{
+  const H = [];
+  for (const k of KPIS) (k.historico ?? []).forEach((h, i) =>
+    H.push(`  (${sub('indicadores', 'codigo', k.id)}, ${i}, ${q(h.periodo)}, ${num(h.valor)})`));
+  if (H.length) {
+    w('INSERT INTO indicador_historico (indicador_id, orden, periodo, valor) VALUES');
+    w(H.join(',\n') + ';');
+  }
+}
 
 // ── bono_cotizaciones ──────────────────────────────────────────────────
 section('bono_cotizaciones (cierre vigente)');
