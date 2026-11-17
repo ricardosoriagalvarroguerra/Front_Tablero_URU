@@ -54,6 +54,9 @@ distintivo de su realidad económica:
 |----|------------------|-------------|
 | A | Indicadores macro | Tira de 15 KPIs (IPC i/a y m/m, PIB, TPM, expectativas, dólar, reservas, desempleo, salario real, pobreza, novillo, exportaciones, resultado fiscal, deuda, UBI) + cinta de cotizaciones + modal con serie por período, estadísticas y lectura. |
 | H | **Histórico** | Series anuales 2015 → hoy de 13 indicadores con promedio, mínimo y máximo; línea de tiempo de calificaciones. |
+| R | **Región** | Comparador con 8 países de la región (FMI WEO 2015–2027): ranking por año y trayectoria vs mediana regional y Bolivia (tablero hermano). Se llena con la ingesta del backend. |
+| ! | Alertas | Reglas explícitas sobre los datos vigentes (`src/alertas.ts`, idéntico en el backend): tira en Panorama + contador en el encabezado. |
+| N | Nota ejecutiva | Botón «Nota» (atajo `N`): tesis, KPIs, semáforo, alertas y agenda en una hoja imprimible / PDF. |
 | Z | **Análisis** | Tesis, semáforo macro (8 dimensiones), indicadores derivados calculados en vivo, proyecciones de consenso, escenarios 2027 y mapa de riesgos/catalizadores. |
 | AG | **Agro** | Complejo agroexportador: novillo, faena, destinos y grilla de productos (módulo estrella). |
 | C | Mercados | **Grado inversor**: UBI, bonos USD/UYU/UI, SSLB, ratings de las 4 calificadoras. |
@@ -102,7 +105,7 @@ locales»).
 
 ## Atajos de teclado
 
-- `/` — enfocar búsqueda · `1–8` — cambiar de módulo · `D` — modo claro/oscuro · `R` — refrescar · `Esc` — cerrar overlays
+- `/` — enfocar búsqueda · `1–9` — cambiar de módulo · `N` — nota ejecutiva · `D` — modo claro/oscuro · `R` — refrescar · `Esc` — cerrar overlays
 
 ## Desarrollo
 

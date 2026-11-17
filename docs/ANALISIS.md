@@ -3,7 +3,23 @@
 Estado al **17-nov-2026**. La sección 0 documenta la versión 0.2 (rediseño + capa
 analítica); las secciones 1–6 conservan las decisiones de la adaptación BOL/ARG → URU.
 
-## 0. Versión 0.2 — «llevar el tablero a otro nivel»
+## 0. Versión 0.9 — «tablero vivo» (coordinada con el Tablero BOL)
+
+Misma forma de API y piezas reutilizables en ambos tableros:
+
+| Pieza | URU | Detalle |
+|---|---|---|
+| Ingesta automática | backend `src/ingest/` | BCU (dólar interbancario, web service SOAP) y FMI WEO (región). `npm run ingest`, `POST /api/ingesta` (Bearer `INGEST_TOKEN`), bitácora `ingesta_corridas`, UPSERT en `indicador_observaciones` con recálculo del delta y `fuente_estado` real. Corre también al arrancar, después del seed. |
+| Comparador regional | `GET /api/region` · pestaña Región | ARG BOL BRA CHL COL ECU PER PRY URY; PIB, inflación, deuda, resultado fiscal, cuenta corriente y desempleo 2015–2027 (proyección desde 2026). |
+| Alertas | `src/alertas.ts` (idéntico en front y back) · `GET /api/alertas` | Umbrales explícitos: inflación vs rango meta, expectativas > 4,75%, tasa real < 0,5 pp, PIB < 1% (< 0 alta), déficit > 3,5% (> 4,5% alta), deuda > 70%, desempleo > 8,5%, salario real < 0, riesgo país > 150 pb o +20 pb, reservas −5% vs máximo, indicadores desactualizados. |
+| Frescura | `src/frescura.ts` (idéntico en front y back) | Umbral = vigencia + rezago habitual de publicación: diaria 4 días, semanal 14, mensual 75, trimestral 170, semestral 290, anual 500. Hasta 2× = «con rezago»; más = «desactualizado». |
+| Nota ejecutiva | `NotaEjecutiva.tsx` | Hoja imprimible con CSS de impresión propio. |
+
+> Diferencia deliberada con la propuesta inicial de BOL: los umbrales de frescura suman el rezago de
+> publicación (un dato mensual de 48 días, como el desempleo de septiembre publicado a fines de octubre,
+> está «al día»), y se agregan semanal y semestral.
+
+## 0.b Versión 0.2 — «llevar el tablero a otro nivel»
 
 ### 0.1 Capa analítica (Módulo Z, pestaña **Análisis**)
 

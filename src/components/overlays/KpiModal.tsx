@@ -4,6 +4,7 @@ import { SeriesChart } from '../primitives/SeriesChart';
 import { Insight } from '../primitives/Insight';
 import { polarityOf, deltaTone, trendTone } from '../../tone';
 import { FEATURED_BAND } from '../../kpiLayout';
+import { FrescuraDot } from '../primitives/FrescuraDot';
 import type { Kpi } from '../../types';
 
 interface KpiModalProps {
@@ -65,7 +66,7 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
       <div className="card w-full max-w-[880px] flex flex-col fade-up overflow-hidden" onClick={(e) => e.stopPropagation()} style={{ maxHeight: '90vh' }}>
         <div className="flex items-start justify-between gap-4 px-5 pt-4 pb-3 border-b border-token">
           <div className="min-w-0">
-            <div className="eyebrow">{kpi.label}</div>
+            <div className="eyebrow flex items-center gap-3">{kpi.label}<FrescuraDot k={kpi} withText /></div>
             <div className="mt-1.5 flex items-baseline gap-2 flex-wrap">
               <span className="mono text-[34px] leading-none font-medium" style={{ letterSpacing: '-0.03em' }}>
                 {kpi.fmt(kpi.value)}

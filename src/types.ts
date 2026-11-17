@@ -9,6 +9,8 @@
 
 export type Theme = 'dark' | 'light';
 
+export type Periodicidad = 'diaria' | 'semanal' | 'mensual' | 'trimestral' | 'semestral' | 'anual';
+
 export type Sentiment = 'pos' | 'neg' | 'neutral' | 'accent';
 export type Tone = 'neutral' | 'accent' | 'pos' | 'neg' | 'info';
 
@@ -37,6 +39,11 @@ export interface Kpi {
   historico?: { periodo: string; valor: number }[];
   /** Definición de la serie histórica cuando difiere del dato vigente (p. ej. «dic/dic»). */
   historicoNota?: string;
+  /** Fecha (ISO) del último dato y su periodicidad: base del indicador de frescura. */
+  fecha?: string;
+  periodicidad?: Periodicidad;
+  /** Fechas (ISO) de cada punto de `spark`, cuando se conocen con exactitud. */
+  fechas?: string[];
   source: string;
   asof: string;
   def: string;
@@ -346,6 +353,14 @@ export interface Fuente {
   latency: number | null;
   status: FuenteStatus;
   last: string;
+}
+
+// ─── MÓDULO R — Comparador regional (FMI WEO) ─────────────────────────
+export interface RegionData {
+  vintage: string | null;
+  paises: { iso: string; nombre: string }[];
+  indicadores: { id: string; label: string; unidad: string; polaridad: 'up' | 'down' }[];
+  datos: Record<string, Record<string, { anio: number; valor: number; proyeccion: boolean }[]>>;
 }
 
 // ─── MÓDULO Z — Análisis (capa de inteligencia sobre los datos) ────────

@@ -33,6 +33,10 @@ interface HeaderProps {
   /** Indicadores para la cinta (obsoleto, no se muestra). */
   ticker?: Kpi[];
   source: 'api' | 'mock' | 'loading';
+  /** Alertas activas de nivel alto/medio (contador). */
+  alertas?: number;
+  onAlertas?: () => void;
+  onNota?: () => void;
 }
 
 /** Marca: sol estilizado (genérico) en ámbar. */
@@ -69,6 +73,9 @@ export function Header({
   now,
   snapshot,
   source,
+  alertas = 0,
+  onAlertas,
+  onNota,
 }: HeaderProps) {
   const t = formatNow(now);
   const origen = source === 'api' ? 'BDR en vivo' : source === 'mock' ? 'datos embebidos' : 'conectando…';
@@ -116,6 +123,32 @@ export function Header({
 
         {/* acciones */}
         <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          {onAlertas && (
+            <button
+              onClick={onAlertas}
+              title={`${alertas} alertas activas`}
+              aria-label={`${alertas} alertas activas`}
+              className="relative h-9 w-9 surface-sunk rounded-[8px] flex items-center justify-center text-muted hover:ring-accent"
+            >
+              <svg width="14" height="14" viewBox="0 0 16 16" aria-hidden>
+                <path d="M8 2a4 4 0 0 0-4 4v2.5L2.5 11h11L12 8.5V6a4 4 0 0 0-4-4ZM6.5 13a1.5 1.5 0 0 0 3 0" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+              </svg>
+              {alertas > 0 && (
+                <span className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 rounded-full text-[10px] mono leading-4 text-center" style={{ background: 'var(--accent)', color: '#0a0a0b' }}>
+                  {alertas}
+                </span>
+              )}
+            </button>
+          )}
+          {onNota && (
+            <button
+              onClick={onNota}
+              title="Nota ejecutiva imprimible [N]"
+              className="h-9 px-3 surface-sunk rounded-[8px] text-[12px] text-muted hover:ring-accent"
+            >
+              Nota
+            </button>
+          )}
           <button
             onClick={onRefresh}
             title="Refrescar [R]"

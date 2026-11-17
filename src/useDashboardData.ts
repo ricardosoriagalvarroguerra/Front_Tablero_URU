@@ -28,7 +28,9 @@ import type {
   Evento,
   Fuente,
   AnalisisData,
+  RegionData,
 } from './types';
+import { evaluarAlertas, type Alerta } from './alertas';
 
 export interface DashboardData {
   indicadores: Kpi[];
@@ -42,7 +44,12 @@ export interface DashboardData {
   eventos: Evento[];
   fuentes: Fuente[];
   analisis: AnalisisData;
+  /** Comparador regional; vacío hasta que la ingesta del FMI corre en el backend. */
+  region: RegionData;
+  alertas: Alerta[];
 }
+
+const REGION_VACIA: RegionData = { vintage: null, paises: [], indicadores: [], datos: {} };
 
 function fromMock(): DashboardData {
   return {
@@ -57,6 +64,8 @@ function fromMock(): DashboardData {
     eventos: EVENTOS,
     fuentes: FUENTES,
     analisis: ANALISIS,
+    region: REGION_VACIA,
+    alertas: evaluarAlertas(KPIS),
   };
 }
 
@@ -87,8 +96,14 @@ export function useDashboardData(): DashboardData & { source: DataSource; reload
         // El análisis es opcional en el backend: si el endpoint no existe (API
         // anterior), se conserva la capa analítica embebida.
         const analisis = await api.analisis(ctrl.signal).catch(() => ANALISIS);
+        // Piezas v0.9: si el backend es anterior, se degradan sin romper el resto.
+        const [region, alertasApi] = await Promise.all([
+          api.region(ctrl.signal).catch(() => REGION_VACIA),
+          api.alertas(ctrl.signal).catch(() => null),
+        ]);
+        const kpis = indicadores.map(toKpi);
         setData({
-          indicadores: indicadores.map(toKpi),
+          indicadores: kpis,
           agro,
           mercados,
           actividad,
@@ -99,6 +114,8 @@ export function useDashboardData(): DashboardData & { source: DataSource; reload
           eventos,
           fuentes,
           analisis,
+          region,
+          alertas: alertasApi ?? evaluarAlertas(kpis),
         });
         setSource('api');
       } catch (err) {
