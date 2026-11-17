@@ -31,6 +31,8 @@ const POLARITY: Record<string, Polarity> = {
   // agro (exportador)
   novillo: 'up', // mayor precio del novillo favorece a Uruguay
   exportaciones: 'up',
+  cuenta_corriente: 'up',
+  ubi_hist: 'down',
   // fiscal y monetario
   resultado_fiscal: 'up', // menor déficit/superávit = bueno
   deuda: 'down',

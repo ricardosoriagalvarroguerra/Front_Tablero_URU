@@ -79,11 +79,13 @@ const FUENTE_META = {
   dgi: ['oficial', 'https://www.gub.uy/direccion-general-impositiva/'],
   adme: ['oficial', 'https://adme.com.uy/'],
   jpm: ['mercado', 'https://www.jpmorgan.com/'],
+  rafap: ['mercado', 'https://www.rafap.com.uy/'],
   rating: ['mercado', 'https://deuda.mef.gub.uy/'],
   news: ['agregador', null],
 };
 const fuenteNombre = Object.fromEntries(FUENTES.map((f) => [f.id, f.name]));
 fuenteNombre.news = 'Agregador de prensa';
+fuenteNombre.rafap = 'República AFAP · UBI';
 w('INSERT INTO fuentes (codigo, nombre, categoria, url) VALUES');
 w(Object.keys(FUENTE_META).map((code) => {
   const [cat, url] = FUENTE_META[code];
@@ -170,15 +172,17 @@ const IND_META = {
   novillo: { cat: 'agro', per: 'semanal', fuente: 'inac', dec: 2, unidad: 'USD/kg' },
   pobreza: { cat: 'social', per: 'semestral', fuente: 'ine', dec: 1, unidad: '%' },
   exportaciones: { cat: 'externo', per: 'mensual', fuente: 'uruguayxxi', dec: 0, unidad: 'M USD' },
+  ubi_hist: { cat: 'mercados', per: 'anual', fuente: 'rafap', dec: 0, unidad: 'pb' },
+  cuenta_corriente: { cat: 'externo', per: 'anual', fuente: 'bcu', dec: 1, unidad: '% PIB' },
   resultado_fiscal: { cat: 'fiscal', per: 'mensual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   deuda: { cat: 'fiscal', per: 'anual', fuente: 'mef', dec: 1, unidad: '% PIB' },
   reservas: { cat: 'monetario', per: 'mensual', fuente: 'bcu', dec: 0, unidad: 'M USD' },
 };
-w('INSERT INTO indicadores (codigo, nombre, unidad, categoria, sentido, decimales, definicion, asof, periodicidad, fuente_id, extra_label, extra_valor, extra_tono) VALUES');
+w('INSERT INTO indicadores (codigo, nombre, unidad, categoria, sentido, decimales, definicion, asof, periodicidad, fuente_id, extra_label, extra_valor, extra_tono, historico_nota) VALUES');
 w(KPIS.map((k) => {
   const m = IND_META[k.id];
   const e = k.extra;
-  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'})`;
+  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'}, ${q(k.historicoNota ?? null)})`;
 }).join(',\n') + ';');
 
 // ── indicador_observaciones ────────────────────────────────────────────
@@ -194,6 +198,18 @@ for (const k of KPIS) {
 }
 w('INSERT INTO indicador_observaciones (indicador_id, fecha, valor, periodo, variacion, variacion_etiqueta) VALUES');
 w(obsRows.join(',\n') + ';');
+
+// ── indicador_historico (serie anual 2015 → hoy) ──────────────────────
+section('indicador_historico (serie anual larga)');
+{
+  const H = [];
+  for (const k of KPIS) (k.historico ?? []).forEach((h, i) =>
+    H.push(`  (${sub('indicadores', 'codigo', k.id)}, ${i}, ${q(h.periodo)}, ${num(h.valor)})`));
+  if (H.length) {
+    w('INSERT INTO indicador_historico (indicador_id, orden, periodo, valor) VALUES');
+    w(H.join(',\n') + ';');
+  }
+}
 
 // ── bono_cotizaciones ──────────────────────────────────────────────────
 section('bono_cotizaciones (cierre vigente)');
@@ -287,6 +303,7 @@ pm('agro', 'resumen', null, AGRO.resumen, null, AGRO.asof, AGRO.fuente);
 pm('mercados', 'grado_agencias', MERCADOS.gradoInversor.agencias);
 pm('mercados', 'riesgo_indice', null, MERCADOS.ubi.indice ?? null, null, MERCADOS.ubi.asof ?? null);
 pm('mercados', 'riesgo_regional', null, MERCADOS.ubi.regional ? JSON.stringify(MERCADOS.ubi.regional) : null);
+pm('mercados', 'ratings_historia', null, MERCADOS.ratingsHistoria ? JSON.stringify(MERCADOS.ratingsHistoria) : null);
 pm('mercados', 'grado_nota', null, MERCADOS.gradoInversor.nota);
 if (MERCADOS.sslb) {
   pm('mercados', 'sslb_nota', null, MERCADOS.sslb.nota);

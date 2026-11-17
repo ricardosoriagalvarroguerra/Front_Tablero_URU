@@ -6,7 +6,7 @@ import type { TabDef } from './components/Tabs';
 import { KpiCard } from './components/modules/KpiCard';
 import { FeaturedKpiCard } from './components/modules/FeaturedKpiCard';
 import { KpiGroup } from './components/modules/KpiGroup';
-import { FEATURED, FEATURED_BAND, GROUPS } from './kpiLayout';
+import { FEATURED, FEATURED_BAND, GROUPS, SOLO_HISTORICO } from './kpiLayout';
 import { AgroResumen } from './components/modules/AgroResumen';
 import { AgroPanel } from './components/modules/AgroPanel';
 import { MercadosPanel } from './components/modules/MercadosPanel';
@@ -21,6 +21,7 @@ import { MonetarioPanel } from './components/modules/MonetarioPanel';
 import { NewsPanel } from './components/modules/NewsPanel';
 import { CalendarioPanel } from './components/modules/CalendarioPanel';
 import { HealthFooter } from './components/modules/HealthFooter';
+import { HistoricoPanel } from './components/modules/HistoricoPanel';
 import { KpiModal } from './components/overlays/KpiModal';
 import { NewsModal } from './components/overlays/NewsModal';
 import { useDashboardData } from './useDashboardData';
@@ -36,8 +37,8 @@ import { SNAPSHOT } from './data/mockData';
 import { api } from './api';
 import type { Kpi, Noticia, Theme } from './types';
 
-type TabId = 'panorama' | 'analisis' | 'agro' | 'mercados' | 'actividad' | 'energia' | 'externo' | 'fiscal';
-const TAB_ORDER: TabId[] = ['panorama', 'analisis', 'agro', 'mercados', 'actividad', 'energia', 'externo', 'fiscal'];
+type TabId = 'panorama' | 'analisis' | 'historico' | 'agro' | 'mercados' | 'actividad' | 'energia' | 'externo' | 'fiscal';
+const TAB_ORDER: TabId[] = ['panorama', 'analisis', 'historico', 'agro', 'mercados', 'actividad', 'energia', 'externo', 'fiscal'];
 
 export default function App() {
   const { indicadores, agro, mercados, actividad, energia, externo, fiscal, noticias, eventos, fuentes, analisis, source, reload } =
@@ -97,7 +98,7 @@ export default function App() {
         setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
       } else if (e.key.toLowerCase() === 'r') {
         triggerRefresh();
-      } else if (/^[1-8]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      } else if (/^[1-9]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
         setTab(TAB_ORDER[Number(e.key) - 1]);
         window.scrollTo({ top: 0 });
       } else if (e.key === 'Escape') {
@@ -140,7 +141,7 @@ export default function App() {
     [indicadores],
   );
   const featuredKpis = FEATURED.map((id) => byId[id]).filter(Boolean);
-  const grouped = new Set([...FEATURED, ...GROUPS.flatMap((g) => g.ids)]);
+  const grouped = new Set([...FEATURED, ...GROUPS.flatMap((g) => g.ids), ...SOLO_HISTORICO]);
   const leftover = indicadores.filter((k) => !grouped.has(k.id));
   const groups = leftover.length
     ? [...GROUPS, { title: 'Otros', ids: leftover.map((k) => k.id) }]
@@ -153,6 +154,7 @@ export default function App() {
   const tabs: TabDef[] = [
     { id: 'panorama', label: 'Panorama' },
     { id: 'analisis', label: 'Análisis' },
+    { id: 'historico', label: 'Histórico' },
     { id: 'agro', label: 'Agro' },
     { id: 'mercados', label: 'Mercados' },
     { id: 'actividad', label: 'Actividad' },
@@ -250,6 +252,16 @@ export default function App() {
               <div className="col-span-12">
                 <EscenariosPanel items={analisis.escenarios} />
               </div>
+            </section>
+          )}
+
+          {tab === 'historico' && (
+            <section className="flex flex-col gap-4">
+              <Insight>
+                Series anuales desde 2015: cada cierre de año más el último dato disponible (marcado con *). La línea
+                punteada es el promedio 2015–2025.
+              </Insight>
+              <HistoricoPanel kpis={indicadores} onOpen={setOpenKpi} />
             </section>
           )}
 

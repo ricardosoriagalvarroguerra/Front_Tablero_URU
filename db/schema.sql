@@ -94,6 +94,12 @@ CREATE TABLE analisis (
 );
 COMMENT ON TABLE analisis IS 'Capa analítica (Módulo Z): juicio fechado del tablero, separado del dato de fuente.';
 
+CREATE TABLE seed_meta (
+  version     text        PRIMARY KEY,           -- hash de schema.sql + seed.sql aplicado
+  aplicado_en timestamptz NOT NULL DEFAULT now()
+);
+COMMENT ON TABLE seed_meta IS 'Versión del seed cargado; la API la usa para auto-aplicar schema+seed al desplegar.';
+
 -- ════════════════════════════════════════════════════════════════════════
 -- CATÁLOGOS
 -- ════════════════════════════════════════════════════════════════════════
@@ -203,6 +209,7 @@ CREATE TABLE indicadores (
   extra_label    text,
   extra_valor    text,
   extra_tono     tono_extra,
+  historico_nota text,
   creado_en      timestamptz         NOT NULL DEFAULT now(),
   actualizado_en timestamptz         NOT NULL DEFAULT now()
 );
@@ -289,6 +296,15 @@ CREATE TABLE indicador_observaciones (
   creado_en          timestamptz  NOT NULL DEFAULT now(),
   UNIQUE (indicador_id, fecha)
 );
+
+CREATE TABLE indicador_historico (
+  indicador_id smallint     NOT NULL REFERENCES indicadores(id) ON DELETE CASCADE,
+  orden        smallint     NOT NULL,
+  periodo      text         NOT NULL,          -- '2015' … '2025', '2026*' (dato vigente)
+  valor        numeric(20,4) NOT NULL,
+  PRIMARY KEY (indicador_id, orden)
+);
+COMMENT ON TABLE indicador_historico IS 'Serie anual larga (2015 → hoy) por indicador, para la vista histórica.';
 
 CREATE TABLE bono_cotizaciones (
   id          bigserial    PRIMARY KEY,
@@ -416,7 +432,10 @@ SELECT
             WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS spark,
   (SELECT array_agg(periodo ORDER BY fecha)
      FROM (SELECT periodo, fecha FROM indicador_observaciones
-            WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS periodos
+            WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS periodos,
+  (SELECT json_agg(json_build_object('periodo', h.periodo, 'valor', h.valor) ORDER BY h.orden)
+     FROM indicador_historico h WHERE h.indicador_id = i.id) AS historico,
+  i.historico_nota
 FROM indicadores i
 LEFT JOIN fuentes f ON f.id = i.fuente_id
 LEFT JOIN LATERAL (

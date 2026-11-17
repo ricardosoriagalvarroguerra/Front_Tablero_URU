@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Panel } from '../primitives/Panel';
 import { SectionTitle } from '../primitives/SectionTitle';
 import { Delta } from '../primitives/Delta';
@@ -98,6 +99,45 @@ export function MercadosPanel({ data }: MercadosPanelProps) {
             ))}
           </div>
         </div>
+
+        {/* Línea de tiempo de calificaciones */}
+        {data.ratingsHistoria && data.ratingsHistoria.length > 0 && (
+          <div className="px-5 py-4 border-t border-token">
+            <div className="eyebrow mb-3">Calificación a fin de año · S&amp;P y Moody&apos;s</div>
+            <div className="grid gap-y-1.5" style={{ gridTemplateColumns: `56px repeat(${data.ratingsHistoria.length}, minmax(0, 1fr))` }}>
+              <span />
+              {data.ratingsHistoria.map((h) => (
+                <span key={h.anio} className="text-[10px] text-subtle text-center">
+                  {String(h.anio).slice(2)}
+                </span>
+              ))}
+              {(['sp', 'moodys'] as const).map((ag) => (
+                <Fragment key={ag}>
+                  <span className="text-[11px] text-muted">{ag === 'sp' ? 'S&P' : "Moody's"}</span>
+                  {data.ratingsHistoria!.map((h, i) => {
+                    const v = h[ag];
+                    const prev = i > 0 ? data.ratingsHistoria![i - 1][ag] : v;
+                    const base = v.split(' ')[0];
+                    const sube = i > 0 && base !== prev.split(' ')[0];
+                    const nivel = NOTCH[base] ?? 0;
+                    return (
+                      <span key={h.anio} className="flex justify-center" title={`${h.anio}: ${v}`}>
+                        <span
+                          className="h-2 w-full mx-[1px] rounded-[2px]"
+                          style={{
+                            background: sube ? 'var(--pos)' : `color-mix(in srgb, var(--fg-muted) ${25 + nivel * 25}%, transparent)`,
+                            outline: v.includes('neg') ? '1px solid var(--neg)' : v.includes('pos') ? '1px solid var(--pos)' : undefined,
+                          }}
+                        />
+                      </span>
+                    );
+                  })}
+                </Fragment>
+              ))}
+            </div>
+            <div className="mt-2 text-[11px] text-subtle">Más oscuro = más escalones sobre grado inversor · verde = suba de nota</div>
+          </div>
+        )}
       </div>
     </Panel>
   );

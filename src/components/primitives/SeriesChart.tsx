@@ -20,6 +20,8 @@ export interface SeriesChartProps {
   /** Serie secundaria opcional (p. ej. TPM sobre la inflación). */
   overlay?: { data: number[]; color: string; label: string };
   showValues?: boolean;
+  /** Barras en gris (último dato resaltado) en vez de verde/rojo por signo. */
+  neutralBars?: boolean;
 }
 
 const W = 640;
@@ -39,6 +41,7 @@ export function SeriesChart({
   kind = 'line',
   overlay,
   showValues = false,
+  neutralBars = false,
 }: SeriesChartProps) {
   const theme = useTheme();
   const [hi, setHi] = useState<number | null>(null);
@@ -127,7 +130,7 @@ export function SeriesChart({
           {data.map((v, i) => {
             const y0 = geo.y(0);
             const y1 = geo.y(v);
-            const c = v >= 0 ? 'var(--pos)' : 'var(--neg)';
+            const c = neutralBars ? (i === data.length - 1 ? 'var(--fg)' : 'var(--fg-subtle)') : v >= 0 ? 'var(--pos)' : 'var(--neg)';
             return (
               <rect key={i} x={geo.x(i) - geo.bw / 2} width={geo.bw} y={Math.min(y0, y1)} height={Math.max(1, Math.abs(y1 - y0))} rx="2"
                 style={{ fill: c }} opacity={hi == null || hi === i ? (i === data.length - 1 ? 1 : 0.7) : 0.35} />

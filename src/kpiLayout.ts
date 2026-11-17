@@ -22,6 +22,9 @@ export const GROUPS: KpiGroupDef[] = [
 ];
 
 /** Indicadores de la cinta de cotizaciones del encabezado. */
+/** Indicadores que sólo se muestran en la pestaña Histórico (no en la tira). */
+export const SOLO_HISTORICO = ['ubi_hist', 'cuenta_corriente'];
+
 export const TICKER = [
   'tipo_cambio', 'tpm', 'ipc_interanual', 'ipc_mensual', 'expectativas_inflacion', 'pib', 'desempleo',
   'novillo', 'exportaciones', 'reservas', 'resultado_fiscal', 'deuda', 'salario_real', 'pobreza', 'embi',

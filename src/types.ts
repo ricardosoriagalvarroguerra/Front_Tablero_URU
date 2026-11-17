@@ -33,6 +33,10 @@ export interface Kpi {
   spark: number[];
   /** Etiqueta de período de cada punto de `spark` (eje X del gráfico). */
   periodos?: string[];
+  /** Serie histórica anual (2015 → último año cerrado, y el dato vigente marcado «2026*»). */
+  historico?: { periodo: string; valor: number }[];
+  /** Definición de la serie histórica cuando difiere del dato vigente (p. ej. «dic/dic»). */
+  historicoNota?: string;
   source: string;
   asof: string;
   def: string;
@@ -136,6 +140,8 @@ export interface MercadosData {
   /** Bono sustentable indexado a indicadores ambientales (SSLB), si aplica. */
   sslb: { nota: string; cupon: string; kpi1: string; kpi2: string } | null;
   ratings: Rating[];
+  /** Calificación a fin de cada año (línea de tiempo). */
+  ratingsHistoria?: { anio: number; sp: string; moodys: string }[];
 }
 
 // ─── MÓDULO ACTIVIDAD & PRECIOS ───────────────────────────────────────

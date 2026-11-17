@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Delta } from '../primitives/Delta';
 import { SeriesChart } from '../primitives/SeriesChart';
 import { Insight } from '../primitives/Insight';
@@ -14,6 +14,11 @@ interface KpiModalProps {
 }
 
 export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
+  const tieneHist = (kpi?.historico?.length ?? 0) >= 5;
+  const [vista, setVista] = useState<'reciente' | 'historico'>('reciente');
+  useEffect(() => {
+    setVista((kpi?.historico?.length ?? 0) >= 5 ? 'historico' : 'reciente');
+  }, [kpi]);
   useEffect(() => {
     if (!kpi) return;
     const prev = document.body.style.overflow;
@@ -25,10 +30,12 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
 
   if (!kpi) return null;
 
-  const data = kpi.spark;
+  const hist = vista === 'historico' && tieneHist;
+  const data = hist ? kpi.historico!.map((h) => h.valor) : kpi.spark;
+  const labels = hist ? kpi.historico!.map((h) => h.periodo) : kpi.periodos;
   const pol = polarityOf(kpi.id);
   const tone = trendTone(pol, data);
-  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--info)';
+  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--fg-muted)';
   const min = Math.min(...data);
   const max = Math.max(...data);
   const avg = data.reduce((a, b) => a + b, 0) / Math.max(1, data.length);
@@ -40,7 +47,7 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
     { l: 'Máximo', v: kpi.fmt(max) + unit },
     { l: 'Promedio', v: kpi.fmt(avg) + unit },
     {
-      l: `Cambio en la ventana${kpi.periodos ? ` (${kpi.periodos[0]} → ${kpi.periodos[kpi.periodos.length - 1]})` : ''}`,
+      l: `Cambio${labels ? ` ${labels[0]} → ${labels[labels.length - 1]}` : ''}`,
       v: `${cambio > 0 ? '+' : ''}${kpi.fmt(cambio)}`,
       c: deltaTone(pol, cambio),
     },
@@ -58,7 +65,7 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
       <div className="card w-full max-w-[880px] flex flex-col fade-up overflow-hidden" onClick={(e) => e.stopPropagation()} style={{ maxHeight: '90vh' }}>
         <div className="flex items-start justify-between gap-4 px-5 pt-4 pb-3 border-b border-token">
           <div className="min-w-0">
-            <div className="eyebrow">{kpi.label} · serie histórica</div>
+            <div className="eyebrow">{kpi.label}</div>
             <div className="mt-1.5 flex items-baseline gap-2 flex-wrap">
               <span className="mono text-[34px] leading-none font-medium" style={{ letterSpacing: '-0.03em' }}>
                 {kpi.fmt(kpi.value)}
@@ -73,21 +80,36 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
           </button>
         </div>
         <div className="overflow-y-auto scrollbar-thin">
+          {tieneHist && (
+            <div className="px-5 pt-4 flex items-center gap-1">
+              {(['historico', 'reciente'] as const).map((v) => (
+                <button
+                  key={v}
+                  onClick={() => setVista(v)}
+                  className={`text-[12px] px-2.5 h-7 rounded-[6px] ${vista === v ? '' : 'text-muted'}`}
+                  style={vista === v ? { background: 'var(--bg-sunk)' } : undefined}
+                >
+                  {v === 'historico' ? `${kpi.historico![0].periodo}–hoy` : 'Últimos datos'}
+                </button>
+              ))}
+              {hist && kpi.historicoNota && <span className="ml-auto text-[11px] text-subtle">{kpi.historicoNota}</span>}
+            </div>
+          )}
           <div className="px-5 pt-4">
             <SeriesChart
               data={data}
-              labels={kpi.periodos}
+              labels={labels}
               color={color}
               band={FEATURED_BAND[kpi.id]}
               kind={neg && kpi.id !== 'tipo_cambio' ? 'bars' : 'line'}
               fmt={(v) => kpi.fmt(v)}
               height={230}
-              showValues={data.length <= 8}
+              showValues={data.length <= 12}
             />
           </div>
           <div className="px-5 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((s) => (
-              <div key={s.l} className="surface-sunk rounded-[8px] px-3 py-2">
+              <div key={s.l} className="rounded-[10px] px-3 py-2 border border-token">
                 <div className="text-[11px] text-subtle truncate" title={s.l}>{s.l}</div>
                 <div className={`mono text-[14px] mt-0.5 ${s.c === 'pos' ? 'text-pos' : s.c === 'neg' ? 'text-neg' : ''}`}>{s.v}</div>
               </div>
