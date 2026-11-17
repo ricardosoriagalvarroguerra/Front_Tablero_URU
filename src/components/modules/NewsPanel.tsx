@@ -50,26 +50,21 @@ export function NewsPanel({ noticias, onSelect, leidas }: NewsPanelProps) {
           <article
             key={n.id}
             onClick={() => onSelect && onSelect(n)}
-            className={`px-4 py-3 border-b border-token row-hover cursor-pointer group ${leida ? 'opacity-50' : ''}`}
+            className={`px-5 py-3 border-b border-token last:border-b-0 row-hover cursor-pointer group ${leida ? 'opacity-50' : ''}`}
+            title={n.resumen}
           >
             <div className="flex items-center gap-1.5 eyebrow">
               <span>{n.t}</span>
               <span className="text-subtle">·</span>
-              <span className="text-muted">{n.fuente}</span>
-              <span className="text-subtle">·</span>
-              <span>{n.tag}</span>
+              <span>{n.fuente}</span>
               {leida && <span className="text-pos">· leída</span>}
               {n.breaking && !leida && (
-                <span className="ml-auto mono text-[9px] uppercase tracking-wider text-accent flex items-center gap-1">
-                  <span className="inline-block w-1 h-1 rounded-full bg-accent pulse-dot" />
-                  breaking
-                </span>
+                <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-accent" title="Último momento" />
               )}
             </div>
-            <h4 className="mt-1 text-[13px] font-medium leading-snug group-hover:text-accent transition-colors">
+            <h4 className="mt-0.5 text-[13px] leading-snug group-hover:text-accent transition-colors">
               {n.titular}
             </h4>
-            <p className="text-[11.5px] text-muted mt-1 leading-snug line-clamp-2">{n.resumen}</p>
           </article>
           );
         })}

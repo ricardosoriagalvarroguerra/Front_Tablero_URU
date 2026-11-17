@@ -5,7 +5,7 @@
 -- Modela los módulos del tablero:
 --   A   · Indicadores macro   → indicadores + indicador_observaciones
 --   AG  · Agroexportador      → productos_agro + agro_destinos (+ metricas + series)
---   C   · Mercados            → indices_riesgo (UBI), bonos_soberanos, calificaciones
+--   C   · Mercados            → indices_riesgo (EMBI/UBI), bonos_soberanos, calificaciones
 --   AC  · Actividad & precios → metricas/series + ipc_rubros + actividad_departamental
 --   EN  · Energía             → energia_matriz + energia_combustibles (+ metricas)
 --   EX  · Externo & comercio  → commodities + comercio_destinos + metricas
@@ -305,6 +305,7 @@ CREATE TABLE indice_riesgo_observaciones (
   indice_id smallint    NOT NULL REFERENCES indices_riesgo(id) ON DELETE CASCADE,
   fecha     date        NOT NULL,
   valor     numeric(16,2) NOT NULL,
+  periodo   text,
   variacion numeric(10,2),
   UNIQUE (indice_id, fecha)
 );

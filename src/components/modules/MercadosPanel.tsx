@@ -15,29 +15,48 @@ const NOTCH: Record<string, number> = { 'AAA': 9, 'AA+': 8, 'AA': 7, 'AA-': 6, '
 export function MercadosPanel({ data }: MercadosPanelProps) {
   return (
     <Panel className="flex flex-col h-full">
-      <SectionTitle id="C ·" title="Mercados · crédito soberano" right={<span className="text-pos">grado inversor</span>} />
+      <SectionTitle title="Crédito soberano" right={<span>grado inversor</span>} />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
-        {/* UBI — riesgo país */}
-        <div className="px-4 py-3 border-b border-token">
-          <div className="flex items-center justify-between">
+        {/* Riesgo país */}
+        <div className="px-5 py-4 border-b border-token">
+          <div className="flex items-center justify-between gap-4">
             <div>
-              <div className="eyebrow">UBI · riesgo país (República AFAP)</div>
-              <div className="mt-0.5 flex items-baseline gap-2">
-                <span className="mono text-[26px]">{data.ubi.value.toLocaleString('es-UY')}</span>
-                <span className="mono text-[10px] text-subtle">pb</span>
+              <div className="eyebrow">Riesgo país · {data.ubi.indice ?? 'UBI'}</div>
+              <div className="mt-1 flex items-baseline gap-2">
+                <span className="mono text-[30px] leading-none">{data.ubi.value.toLocaleString('es-UY')}</span>
+                <span className="text-[11px] text-subtle">pb</span>
                 <Delta
                   value={data.ubi.chg}
-                  label={`${data.ubi.chg > 0 ? '+' : ''}${data.ubi.chg}`}
+                  label={`${data.ubi.chg > 0 ? '+' : ''}${data.ubi.chg} pb`}
                   sentiment={deltaTone('down', data.ubi.chg)}
                 />
               </div>
-              <div className="mono text-[9.5px] text-subtle mt-1">spread soberano · el más bajo de la región</div>
-              <div className="mt-1.5 inline-block mono text-[9px] uppercase tracking-wider px-1.5 py-[2px] rounded-[4px] bg-accent-soft text-accent">
-                último dato verificado 18-may · fuente no accesible en este corte
-              </div>
+              {data.ubi.asof && <div className="text-[11px] text-subtle mt-1.5">{data.ubi.asof}</div>}
             </div>
             <Sparkline data={data.ubi.series} sentiment={trendTone('down', data.ubi.series)} width={140} height={40} />
           </div>
+          {data.ubi.regional && data.ubi.regional.length > 0 && (
+            <div className="mt-4">
+              <div className="eyebrow mb-2">En la región</div>
+              <div className="flex flex-col gap-1.5">
+                {(() => {
+                  const max = Math.max(...data.ubi.regional.map((r) => r.pb));
+                  return data.ubi.regional.map((r) => (
+                    <div key={r.pais} className="grid grid-cols-[72px_1fr_44px] items-center gap-3">
+                      <span className={`text-[12px] ${r.pais === 'Uruguay' ? '' : 'text-muted'}`}>{r.pais}</span>
+                      <span className="h-1 rounded-full" style={{ background: 'var(--bg-sunk)' }}>
+                        <span
+                          className="block h-1 rounded-full"
+                          style={{ width: `${Math.max(2, (r.pb / max) * 100)}%`, background: r.pais === 'Uruguay' ? 'var(--accent)' : 'var(--fg-subtle)' }}
+                        />
+                      </span>
+                      <span className="mono text-[12px] text-right">{r.pb}</span>
+                    </div>
+                  ));
+                })()}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* grado inversor */}
@@ -46,14 +65,14 @@ export function MercadosPanel({ data }: MercadosPanelProps) {
             <div className="eyebrow">Estatus grado inversor</div>
             <div className="mono text-[14px] text-pos">{data.gradoInversor.agencias} agencias</div>
           </div>
-          <div className="text-[11px] text-muted mt-1 leading-snug">{data.gradoInversor.nota}</div>
+          <p className="text-[12px] text-muted mt-1.5 leading-snug line-clamp-2 cursor-help" title={data.gradoInversor.nota}>{data.gradoInversor.nota}</p>
         </div>
 
         {/* ratings */}
         <div className="px-4 py-2">
           <div className="flex items-center justify-between mb-2">
             <span className="eyebrow">Calificación soberana vigente</span>
-            <span className="mono text-[9px] text-subtle">● = escalones sobre grado inversor</span>
+            <span className="text-[11px] text-subtle">● = escalones sobre grado inversor</span>
           </div>
           <div className="space-y-2">
             {data.ratings.map((r) => (
@@ -67,13 +86,13 @@ export function MercadosPanel({ data }: MercadosPanelProps) {
                   </span>
                   <span className="mono text-pos w-10 text-right">{r.rating}</span>
                   <span
-                    className={`mono text-[9px] uppercase tracking-wider ${
+                    className={`text-[11px] ${
                       r.outlook === 'Negativo' ? 'text-neg' : r.outlook === 'Positivo' ? 'text-pos' : 'text-muted'
                     }`}
                   >
                     {r.outlook}
                   </span>
-                  <span className="mono text-[9px] text-subtle w-16 text-right">{r.actualizado}</span>
+                  <span className="text-[11px] text-subtle w-16 text-right">{r.actualizado}</span>
                 </div>
               </div>
             ))}

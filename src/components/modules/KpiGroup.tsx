@@ -13,9 +13,8 @@ interface KpiGroupProps {
 export function KpiGroup({ title, items, onOpen }: KpiGroupProps) {
   return (
     <Panel className="flex flex-col h-full">
-      <div className="flex items-center justify-between px-3.5 h-9 border-b border-token">
-        <span className="text-[11.5px] font-semibold">{title}</span>
-        <span className="mono text-[9px] text-subtle">{items.length}</span>
+      <div className="px-4 pt-3.5 pb-1">
+        <span className="text-[12px] text-muted">{title}</span>
       </div>
       <div className="flex flex-col flex-1">
         {items.map((k) => {
@@ -24,13 +23,10 @@ export function KpiGroup({ title, items, onOpen }: KpiGroupProps) {
             <button
               key={k.id}
               onClick={() => onOpen && onOpen(k)}
-              className="w-full text-left px-3.5 py-2 border-b border-token last:border-b-0 row-hover flex-1"
-              title={k.def}
+              className="w-full text-left px-4 py-2 row-hover flex-1"
+              title={`${k.asof} · ${k.source}`}
             >
-              <div className="flex items-center justify-between gap-2">
-                <span className="mono text-[9.5px] uppercase tracking-[0.1em] text-subtle truncate">{k.label}</span>
-                <span className="mono text-[9px] text-subtle shrink-0">{k.asof}</span>
-              </div>
+              <div className="text-[11px] text-subtle truncate">{k.label}</div>
               <div className="mt-1 flex items-center gap-1.5">
                 <span className="mono text-[17px] tabular-nums leading-none tracking-[-0.02em] shrink-0">
                   {k.fmt(k.value)}

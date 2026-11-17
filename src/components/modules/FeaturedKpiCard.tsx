@@ -15,14 +15,11 @@ interface FeaturedKpiCardProps {
 
 const W = 300;
 const H = 64;
-const toneVar = (t: 'pos' | 'neg' | 'neutral') =>
-  t === 'pos' ? 'var(--pos)' : t === 'neg' ? 'var(--neg)' : 'var(--fg-muted)';
-
 export function FeaturedKpiCard({ k, onClick, band }: FeaturedKpiCardProps) {
   const theme = useTheme();
   const pol = polarityOf(k.id);
   const tone = trendTone(pol, k.spark);
-  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--info)';
+  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--fg-muted)';
 
   // Escala Y común a la serie y a la banda, para que la banda quede a escala.
   const geo = useMemo(() => {
@@ -44,32 +41,24 @@ export function FeaturedKpiCard({ k, onClick, band }: FeaturedKpiCardProps) {
   return (
     <button
       onClick={() => onClick && onClick(k)}
-      className="card card-hover text-left flex flex-col p-4 h-full"
+      className="card card-hover text-left flex flex-col p-5 h-full"
       style={{ minHeight: 184 }}
       title={k.def}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="mono text-[10px] uppercase tracking-[0.14em] text-muted">{k.label}</div>
+        <div className="text-[12px] text-muted">{k.label}</div>
         <Delta value={k.delta} label={k.deltaLabel} sentiment={deltaTone(pol, k.delta)} />
       </div>
 
       <div className="mt-2.5 flex items-baseline gap-1.5 flex-wrap">
-        <span className="mono text-[36px] font-medium leading-none" style={{ letterSpacing: '-0.03em' }}>
+        <span className="mono text-[38px] leading-none" style={{ letterSpacing: '-0.03em' }}>
           {k.fmt(k.value)}
         </span>
         {k.unit && <span className="mono text-[12px] text-muted">{k.unit}</span>}
       </div>
       {k.extra && (
-        <div className="mt-1.5">
-          <span
-            className="mono text-[9.5px] uppercase tracking-wider px-1.5 py-[2px] rounded-[4px]"
-            style={{
-              color: toneVar(k.extra.tone),
-              background: k.extra.tone === 'pos' ? 'var(--pos-soft)' : k.extra.tone === 'neg' ? 'var(--neg-soft)' : 'var(--bg-sunk)',
-            }}
-          >
-            {k.extra.label} · {k.extra.value}
-          </span>
+        <div className="mt-2 text-[11.5px] text-muted">
+          {k.extra.label} {k.extra.value}
         </div>
       )}
 
@@ -78,13 +67,12 @@ export function FeaturedKpiCard({ k, onClick, band }: FeaturedKpiCardProps) {
           {band && (
             <rect x="0" width={W} y={geo.y(band[1])} height={Math.max(0, geo.y(band[0]) - geo.y(band[1]))} style={{ fill: 'var(--pos-soft)' }} />
           )}
-          <path d={geo.area} opacity="0.1" style={{ fill: color }} />
-          <path d={geo.path} strokeWidth="1.8" vectorEffect="non-scaling-stroke" style={{ fill: 'none', stroke: color }} />
+          <path d={geo.path} strokeWidth="1.5" vectorEffect="non-scaling-stroke" style={{ fill: 'none', stroke: color }} />
           
         </svg>
-        <div className="mt-1.5 flex items-center justify-between mono text-[9px] text-subtle uppercase tracking-wider">
-          <span>{p0 ?? `${k.spark.length} datos`}</span>
-          {band && <span className="text-pos normal-case tracking-normal">▮ rango meta</span>}
+        <div className="mt-2 flex items-center justify-between text-[11px] text-subtle">
+          <span>{p0 ?? ''}</span>
+          {band && <span>banda: meta 3–6%</span>}
           <span>{pN ?? k.asof}</span>
         </div>
       </div>

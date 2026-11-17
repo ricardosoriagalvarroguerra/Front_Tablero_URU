@@ -33,7 +33,7 @@ export const SNAPSHOT = { fecha: '17-nov-2026', iso: '2026-11-17' };
 export const KPIS: Kpi[] = [
   {
     id: 'ipc_interanual',
-    label: 'IPC INTERANUAL',
+    label: 'Inflación interanual',
     value: 4.87,
     unit: '%',
     fmt: pct2,
@@ -46,11 +46,11 @@ export const KPIS: Kpi[] = [
     source: 'INE · IPC octubre 2026',
     asof: 'oct 2026',
     def: 'Variación del IPC en los últimos 12 meses (INE). Octubre 2026: 4,87% (0,59% en el mes), cuarto mes consecutivo por encima del centro de la meta del BCU (4,5%) aunque dentro del rango 3%–6%. Acumulado del año 4,82%. Empujaron vestimenta (+2,97% por cambio de temporada), gasoil y hortalizas; en septiembre, alimentos (+1,73%; tomate +49%).',
-    extra: { label: 'VS CENTRO 4,5%', value: '+0,37 pp', tone: 'neg' },
+    extra: { label: 'vs centro de la meta', value: '+0,37 pp', tone: 'neg' },
   },
   {
     id: 'pib',
-    label: 'PIB · ACTIVIDAD',
+    label: 'PIB',
     value: -0.5,
     unit: '% i/a',
     fmt: pct1,
@@ -63,11 +63,11 @@ export const KPIS: Kpi[] = [
     source: 'BCU · Cuentas Nacionales',
     asof: '2T 2026',
     def: 'PIB, variación interanual del 2T 2026: −0,5% (−0,8% desestacionalizado vs 1T). Primera caída interanual desde 2023, explicada por la sequía: el agro se desplomó −22,2% (incidencia −1,7 pp). Crecieron construcción (+4,2%), comercio (+2,8%), servicios financieros (+2,3%) e industria (+1,9%); el consumo privado subió +2,6%. El IMAE de agosto cayó −1,1% m/m. El 3T se publica el 15-dic.',
-    extra: { label: 'T/T DESEST.', value: '−0,8%', tone: 'neg' },
+    extra: { label: 'trimestral', value: '−0,8%', tone: 'neg' },
   },
   {
     id: 'tpm',
-    label: 'TPM · BCU',
+    label: 'Tasa de política',
     value: 6.0,
     unit: '%',
     fmt: pct2,
@@ -80,11 +80,11 @@ export const KPIS: Kpi[] = [
     source: 'BCU · COPOM',
     asof: '16 nov',
     def: 'Tasa de Política Monetaria. El COPOM la subió 25 pb a 6,00% el 8-oct-2026 (unánime, primera suba desde abr-2025, sorprendió al consenso) como medida preventiva ante dos meses de inflación sobre el centro de la meta, y la mantuvo el 16-nov con «riesgos equilibrados»: ve la inflación transitoriamente sobre 4,5% por petróleo y alimentos, y descarta presiones generalizadas. Minuta: 24-nov.',
-    extra: { label: 'CICLO', value: '1ª suba desde 2025', tone: 'neutral' },
+    extra: { label: '1ª suba desde 2025', value: '', tone: 'neutral' },
   },
   {
     id: 'ipc_mensual',
-    label: 'IPC MENSUAL',
+    label: 'Inflación mensual',
     value: 0.59,
     unit: '%',
     fmt: pct2,
@@ -95,11 +95,11 @@ export const KPIS: Kpi[] = [
     periodos: ['may', 'jul', 'ago', 'sep', 'oct'],
     source: 'INE · IPC',
     asof: 'oct 2026',
-    def: 'Variación mensual del IPC (INE). Octubre 2026: 0,59%, tras 0,54% en septiembre: dos meses seguidos por encima de 0,5%. Julio había sido casi nulo (0,07%) por la baja de combustibles. La subyacente ronda 4,6% i/a. El IPC de noviembre se publica el 3-dic.',
+    def: 'Variación mensual del IPC (INE). Octubre 2026: 0,59%, tras 0,54% en septiembre: dos meses seguidos por encima de 0,5%. Julio había sido casi nulo (0,07%) por la baja de combustibles. La subyacente (sin frutas, verduras ni combustibles) fue 4,47% en septiembre. El IPC de noviembre se publica el 3-dic.',
   },
   {
     id: 'expectativas_inflacion',
-    label: 'EXPECT. INFL. 24M',
+    label: 'Expectativas 24m',
     value: 4.57,
     unit: '%',
     fmt: pct2,
@@ -111,11 +111,11 @@ export const KPIS: Kpi[] = [
     source: 'BCU · encuesta de expectativas',
     asof: 'nov 2026',
     def: 'Expectativas de inflación a 24 meses (horizonte de política) según el comunicado del COPOM del 16-nov: analistas 4,57%, operadores financieros 4,6%, empresas ~5%. Siguen cerca del centro de la meta pese al repunte del IPC; a 12 meses los analistas esperan 4,6% (oct). Para el cierre de 2026 la encuesta de noviembre apunta a ~5,1%.',
-    extra: { label: 'ANCLAJE', value: 'cerca de 4,5%', tone: 'pos' },
+    extra: { label: 'ancladas cerca de 4,5%', value: '', tone: 'pos' },
   },
   {
     id: 'tipo_cambio',
-    label: 'DÓLAR (UYU/USD)',
+    label: 'Dólar',
     value: 40.61,
     fmt: tc,
     delta: 1.0,
@@ -130,7 +130,7 @@ export const KPIS: Kpi[] = [
   },
   {
     id: 'reservas',
-    label: 'RESERVAS BCU',
+    label: 'Reservas',
     value: 18216,
     unit: 'M USD',
     fmt: miles,
@@ -142,11 +142,11 @@ export const KPIS: Kpi[] = [
     source: 'BCU (vía Trading Economics)',
     asof: 'oct 2026',
     def: 'Activos de reserva del BCU, fin de mes: US$18.216 M en octubre 2026, tras recuperarse a US$18.552 M en septiembre desde el mínimo de agosto (US$17.486 M). Récord: US$19.948 M (feb-2026). *jun = dato del 25-jun. Confianza media: serie tomada de Trading Economics, pendiente de cotejo con la planilla del BCU.',
-    extra: { label: 'VS RÉCORD FEB', value: '−US$1.732 M', tone: 'neutral' },
+    extra: { label: 'vs récord', value: '−US$1.732 M', tone: 'neutral' },
   },
   {
     id: 'desempleo',
-    label: 'DESEMPLEO',
+    label: 'Desempleo',
     value: 7.1,
     unit: '%',
     fmt: pct1,
@@ -161,7 +161,7 @@ export const KPIS: Kpi[] = [
   },
   {
     id: 'salario_real',
-    label: 'SALARIO REAL',
+    label: 'Salario real',
     value: 1.25,
     unit: '% i/a',
     fmt: pct2,
@@ -176,7 +176,7 @@ export const KPIS: Kpi[] = [
   },
   {
     id: 'pobreza',
-    label: 'POBREZA (PERSONAS)',
+    label: 'Pobreza',
     value: 14.8,
     unit: '%',
     fmt: pct1,
@@ -188,11 +188,11 @@ export const KPIS: Kpi[] = [
     source: 'INE · ECH (pobreza)',
     asof: '1S 2026',
     def: 'Incidencia de la pobreza en personas (INE, método 2017). 1S 2026: 14,8%, frente a 17,7% un año antes: unas 95.000 personas salieron de la pobreza y es el mínimo de la serie. Hogares 11,6%; indigencia 1,2%. Pobreza en menores de 6 años 24,9% (vs 32,4%, cifra difundida por Presidencia en base al INE).',
-    extra: { label: 'MÍNIMO', value: 'de la serie 2017', tone: 'pos' },
+    extra: { label: 'mínimo de la serie', value: '', tone: 'pos' },
   },
   {
     id: 'novillo',
-    label: 'NOVILLO GORDO',
+    label: 'Novillo',
     value: 6.01,
     unit: 'USD/kg',
     fmt: pct2,
@@ -204,11 +204,11 @@ export const KPIS: Kpi[] = [
     source: 'ACG · INAC',
     asof: 'sem 44-45',
     def: 'Precio del novillo gordo (USD/kg carcasa, grilla ACG). El 30-oct superó por primera vez en la historia los US$6/kg; a inicios de noviembre US$6,01 (especial 6,05), con negocios en US$5,95–6,00 al 16-nov. El Novillo Tipo (INAC) marcó US$2.212/cabeza en octubre, máximo histórico, y el precio medio de exportación US$6.240/t. Pesos de carcasa récord (314 kg).',
-    extra: { label: 'NIVEL', value: 'récord histórico', tone: 'pos' },
+    extra: { label: 'récord histórico', value: '', tone: 'pos' },
   },
   {
     id: 'exportaciones',
-    label: 'EXPORTACIONES',
+    label: 'Exportaciones',
     value: 1089,
     unit: 'M USD',
     fmt: miles,
@@ -220,11 +220,11 @@ export const KPIS: Kpi[] = [
     source: 'Uruguay XXI (c/zonas francas)',
     asof: 'oct 2026',
     def: 'Exportaciones de bienes (solicitudes, incluye zonas francas). Octubre 2026: US$1.089 M (+1% i/a); acumulado ene-oct US$11.430 M (+1%). Por primera vez la UE fue el primer destino del mes (16%). La celulosa lideró octubre (US$229 M, +37%); la soja acumula −37% por la sequía. *ago estimado por diferencia de acumulados.',
-    extra: { label: 'ENE-OCT', value: 'US$11.430 M', tone: 'neutral' },
+    extra: { label: 'ene-oct', value: 'US$11.430 M', tone: 'neutral' },
   },
   {
     id: 'resultado_fiscal',
-    label: 'RESULT. FISCAL',
+    label: 'Resultado fiscal',
     value: -4.7,
     unit: '% PIB',
     fmt: pct1,
@@ -240,7 +240,7 @@ export const KPIS: Kpi[] = [
   },
   {
     id: 'deuda',
-    label: 'DEUDA BRUTA SPG',
+    label: 'Deuda bruta',
     value: 73.2,
     unit: '% PIB',
     fmt: pct1,
@@ -252,22 +252,24 @@ export const KPIS: Kpi[] = [
     source: 'BCU · MEF/UGD',
     asof: 'mar 2026',
     def: 'Deuda bruta del Sector Público Global: 73,2% del PIB (US$63.861 M) a marzo 2026; neta 54,0%; 59% en moneda nacional. La del Gobierno Central (UGD) subió a 62,5% bruta / 58,2% neta a septiembre. En 2026 el 92% de los bonos emitidos (US$4.403 M de US$4.802 M) se colocó en moneda nacional: desdolarización récord.',
-    extra: { label: 'NETA', value: '54,0%', tone: 'neutral' },
+    extra: { label: 'neta', value: '54,0%', tone: 'neutral' },
   },
   {
-    id: 'ubi',
-    label: 'RIESGO PAÍS (UBI)',
-    value: 53,
+    id: 'embi',
+    label: 'Riesgo país',
+    value: 84,
     unit: 'pb',
     fmt: miles,
-    delta: 3,
-    deltaLabel: '+3 pb',
-    sentiment: 'pos',
-    spark: [62, 58, 50, 55, 53],
-    source: 'República AFAP · UBI',
-    asof: '18 may',
-    def: 'Uruguay Bond Index (República AFAP): 53 pb al 18-may-2026, cerca del mínimo histórico de 50 pb (10-abr). SIN ACTUALIZAR: la fuente no pudo consultarse para este corte. Referencia más reciente verificada: el Global USD 2037 se reabrió el 28-jul con un spread de 75 pb sobre el Tesoro de EE.UU. S&P y Moody\'s ratificaron BBB+/Baa1 estable en noviembre.',
-    extra: { label: 'DATO', value: 'sin actualizar', tone: 'neutral' },
+    delta: 6,
+    deltaLabel: '+6 pb',
+    sentiment: 'neutral',
+    // EMBI de JP Morgan, cierre de mes (Bloomberg Línea): jun 58 · jul 68 · ago 65 · sep 78 · oct 84
+    spark: [58, 68, 65, 78, 84],
+    periodos: ['jun', 'jul', 'ago', 'sep', 'oct'],
+    source: 'JP Morgan · EMBI',
+    asof: 'oct 2026',
+    def: 'Riesgo país según el EMBI de JP Morgan (spread soberano sobre bonos del Tesoro de EE.UU.): 84 pb al cierre de octubre 2026 (83 pb el 2-nov), desde 58 pb en junio. Sigue siendo el más bajo de América Latina: Chile 104, Paraguay 122, Perú 127, Brasil 194, Argentina 787. La suba acompaña el aumento del riesgo regional que mencionó el BCU. El UBI de República AFAP no tiene datos publicados de 2026.',
+    extra: { label: 'el más bajo de la región', value: '', tone: 'pos' },
   },
 ];
 
@@ -349,7 +351,14 @@ export const AGRO: AgroData = {
 // MÓDULO MERCADOS — grado inversor (UBI, bonos, SSLB, ratings)
 // ─────────────────────────────────────────────────────────────────────
 export const MERCADOS: MercadosData = {
-  ubi: { value: 53, chg: 3, series: [62, 58, 50, 55, 53] },
+  ubi: {
+    value: 84, chg: 6, series: [58, 68, 65, 78, 84], periodos: ['jun', 'jul', 'ago', 'sep', 'oct'],
+    indice: 'EMBI · JP Morgan', asof: 'oct 2026',
+    regional: [
+      { pais: 'Uruguay', pb: 84 }, { pais: 'Chile', pb: 104 }, { pais: 'Paraguay', pb: 122 },
+      { pais: 'Perú', pb: 127 }, { pais: 'Brasil', pb: 194 }, { pais: 'Argentina', pb: 787 },
+    ],
+  },
   bonos: [
     { id: 'usd2037', name: 'Global USD 2037', moneda: 'USD', price: null, yield: 5.36, tipo: 'global', chg: null, vencimiento: '2037' },
     { id: 'uyu2035', name: 'Global UYU 2035', moneda: 'UYU', price: 101.58, yield: 7.75, tipo: 'global', chg: null, vencimiento: '2035' },
@@ -359,19 +368,19 @@ export const MERCADOS: MercadosData = {
   gradoInversor: {
     agencias: 4,
     nota:
-      'Grado inversor ratificado en noviembre: S&P reafirmó BBB+ estable (11-nov; proyecta un déficit del gobierno general de ~3,7% del PIB en 2026, bajando a 3% en 2029) y Moody\'s mantuvo Baa1 estable (10-nov; PIB 1,6% en 2026 y 1,9% en 2027; riesgos: crecimiento bajo el potencial, deterioro fiscal y deuda sobre el tope). Fitch BBB y DBRS BBB estables (sin acciones verificadas desde 2025). Rendimientos: colocación primaria del 28-jul (Global UYU 2035 a 7,75%, USD 2037 a 5,356%, spread 75 pb); UI 2034: corte de feb.',
+      'Grado inversor ratificado en noviembre: S&P reafirmó BBB+ estable (11-nov; proyecta un déficit del gobierno general de ~3,7% del PIB en 2026, bajando a 3% en 2029) y Moody\'s mantuvo Baa1 estable (10-nov; PIB 1,6% en 2026 y 1,9% en 2027; riesgos: crecimiento bajo el potencial, deterioro fiscal y deuda sobre el tope). Fitch ratificó BBB estable (11-sep; proyecta PIB 1% y deuda del gobierno general de 68% del PIB en 2026) y DBRS mantiene BBB (última confirmación nov-2025). Rendimientos: colocación primaria del 28-jul (Global UYU 2035 a 7,75%, USD 2037 a 5,356%, spread 75 pb); UI 2034: corte de feb.',
   },
   sslb: {
     nota:
-      'Bono Indexado a Indicadores de Sostenibilidad: el primer bono soberano del mundo con cupón atado a metas ambientales (2022). ~US$2.200 M, vto. 2034. 4º Reporte Anual (jun-2026, datos 2024): KPI-1 a −48% (a 2 pp de la meta −50% a 2025 → riesgo de step-up); KPI-2 (bosque nativo) en cumplimiento. La verificación del KPI-1 2025 (que define el step) sigue pendiente.',
-    cupon: '5,75% · step ±30 pb (efectivo may-2027)',
+      'Bono Indexado a Indicadores de Sostenibilidad: el primer bono soberano del mundo con cupón atado a metas ambientales (2022). ~US$2.200 M, vto. 2034. 4º Reporte Anual (jun-2026, datos 2024): KPI-1 a −48% (a 2 pp de la meta −50% a 2025 → riesgo de step-up); KPI-2 (bosque nativo) en cumplimiento. El dato 2025 del KPI-1, que define el ajuste, se publicaría en el reporte de 2027; el step-up se activa si la reducción queda bajo 50% (step-down sobre 52%).',
+    cupon: '5,75% · ±15 pb por meta (desde oct-2027)',
     kpi1: 'Reducir la intensidad de emisiones de GEI por unidad de PIB (−48% a 2024; meta −50% a 2025).',
     kpi2: 'Mantener/aumentar el área de bosque nativo vs la línea de base 2012 (en cumplimiento).',
   },
   ratings: [
     { agencia: 'S&P', rating: 'BBB+', outlook: 'Estable', actualizado: 'nov 2026' },
     { agencia: "Moody's", rating: 'Baa1', outlook: 'Estable', actualizado: 'nov 2026' },
-    { agencia: 'Fitch', rating: 'BBB', outlook: 'Estable', actualizado: 'sep 2025' },
+    { agencia: 'Fitch', rating: 'BBB', outlook: 'Estable', actualizado: 'sep 2026' },
     { agencia: 'DBRS', rating: 'BBB', outlook: 'Estable', actualizado: 'nov 2025' },
   ],
 };
@@ -787,7 +796,7 @@ export const FUENTES: Fuente[] = [
   { id: 'uruguayxxi', name: 'Uruguay XXI · comercio', latency: 240, status: 'ok', last: '4 nov' },
   { id: 'dgi', name: 'DGI · recaudación', latency: 300, status: 'ok', last: '24 oct' },
   { id: 'adme', name: 'ADME/UTE · energía', latency: 60, status: 'ok', last: '3 nov' },
-  { id: 'rafap', name: 'República AFAP · UBI', latency: null, status: 'cold', last: '18 may' },
+  { id: 'jpm', name: 'JP Morgan · EMBI', latency: 380, status: 'ok', last: '2 nov' },
   { id: 'rating', name: 'Calificadoras', latency: 410, status: 'ok', last: '11 nov' },
 ];
 
@@ -799,16 +808,16 @@ export const FUENTES: Fuente[] = [
 export const ANALISIS: AnalisisData = {
   asof: SNAPSHOT.fecha,
   tesis: {
-    titulo: 'Estancamiento con inflación sobre el centro de la meta: el BCU endurece y el fiscal no tiene margen',
+    titulo: 'La economía se frenó, la inflación subió y el fiscal no tiene margen',
     bajada:
-      'Uruguay atraviesa un shock de oferta —la sequía hundió al agro y llevó el PIB a −0,5% en el 2T— al mismo tiempo que la inflación sube por petróleo y alimentos. La política monetaria eligió credibilidad (suba a 6%) y la fiscal está atada por un déficit de 4,7% del PIB con recaudación en caída. El ancla es institucional: grado inversor ratificado, expectativas cerca de 4,5% y deuda cada vez más en pesos.',
+      'Shock agrícola por la sequía (PIB 2T −0,5%), inflación sobre el centro de la meta (4,87%) y déficit de 4,7% del PIB; el ancla es institucional: grado inversor ratificado y expectativas cerca de 4,5%.',
     puntos: [
-      'Actividad: el shock es agrícola y transitorio; consumo (+2,6%), construcción (+4,2%) e industria siguen creciendo. 2026 cerraría en ~1% (BCU/encuesta), por debajo del 1,6% del MEF.',
-      'Precios: 4,87% i/a, cuarto mes sobre el centro. La tasa real ex-ante (~1,4 pp) es moderadamente contractiva y las expectativas a 24m (4,57%) no se desanclaron.',
-      'Fiscal: el déficit no baja porque caen los ingresos (IVA −5,2% real en sep), no por más gasto. Con PIB de 1% la meta estructural (−4,0%) queda en riesgo.',
-      'Externo: valores sostenidos por precios récord (carne, celulosa, lácteos) y un giro de destinos hacia la UE y EE.UU. mientras China se repliega.',
-      'Social: el mercado laboral resiste (7,1%) y la pobreza tocó mínimo (14,8%), pero el salario real se desacelera (+1,25%) a medida que sube la inflación.',
-      'Crédito: S&P y Moody\'s ratificaron en noviembre; el riesgo de rating es fiscal (deuda sobre el tope), no de liquidez.',
+      'El freno es agrícola y transitorio: sin el agro, la economía crece ~1,3%.',
+      'El BCU subió a 6% y las expectativas siguen ancladas en ~4,6%.',
+      'El déficit no baja porque caen los ingresos, no por más gasto.',
+      'La carne en récord y la UE compensan el repliegue de China.',
+      'Empleo firme y pobreza en mínimo; el salario real se desacelera.',
+      'Grado inversor ratificado: el riesgo es fiscal, no de liquidez.',
     ],
   },
   semaforo: [
@@ -834,17 +843,17 @@ export const ANALISIS: AnalisisData = {
   escenarios: [
     {
       id: 'base', nombre: 'Recuperación gradual', probabilidad: 55, pib2027: 1.9, ipc2027: 4.4,
-      narrativa: 'La cosecha normal (soja ~3 Mt, invierno +10% de área) revierte el shock agrícola; consumo e inversión (Solaria, construcción) sostienen. La inflación converge a la meta hacia mediados de 2027 con la TPM en 6%.',
+      narrativa: 'Cosecha normal y consumo sostienen la recuperación; la inflación vuelve a la meta a mediados de 2027.',
       gatillos: ['PIB 3T (15-dic) sin nueva caída t/t', 'IPC i/a cede hacia 4,5% en el 1T-27', 'Recaudación vuelve a terreno real positivo'],
     },
     {
       id: 'optimista', nombre: 'Rebote con apertura', probabilidad: 20, pib2027: 2.6, ipc2027: 4.0,
-      narrativa: 'Zafra récord con precios firmes, entrada en vigor del acuerdo Mercosur-UE y avance de grandes inversiones. El mejor crecimiento ayuda a cerrar el déficit sin ajuste adicional.',
+      narrativa: 'Zafra récord, acuerdo Mercosur-UE vigente e inversiones grandes cierran el déficit sin ajuste.',
       gatillos: ['Vigencia provisoria Mercosur-UE', 'Novillo y celulosa sostienen máximos', 'Ejecución del proyecto Solaria/HIF'],
     },
     {
       id: 'riesgo', nombre: 'Estanflación leve', probabilidad: 25, pib2027: 0.8, ipc2027: 5.4,
-      narrativa: 'Petróleo y dólar global fuertes mantienen la inflación cerca de 5–5,5%; el BCU debe subir más la tasa y el consumo se enfría. El déficit se queda en ~4,7% y una agencia pasa la perspectiva a negativa.',
+      narrativa: 'Petróleo y dólar fuertes dejan la inflación en 5–5,5%, el BCU sube más y el déficit no baja.',
       gatillos: ['IPC i/a supera 5,5%', 'Expectativas empresariales > 5,5%', 'Déficit SPG > 5% del PIB'],
     },
   ],
@@ -860,12 +869,12 @@ export const ANALISIS: AnalisisData = {
     { titulo: 'Desdolarización de la deuda', detalle: 'El 92% de los bonos de 2026 se colocó en moneda nacional: menor riesgo cambiario del stock y mayor potencia de la política monetaria.', tipo: 'oportunidad', impacto: 'medio', horizonte: 'estructural' },
   ],
   lecturas: {
-    agro: 'El complejo vive una paradoja de precio y volumen: la carne cotiza en récord porque falta ganado (faena −14%), y la soja se desplomó por la sequía. Lo relevante para 2027 es que el golpe es climático, no de demanda: con una cosecha normal el agro vuelve a sumar. El riesgo nuevo es China, que redujo compras; la UE y EE.UU. ya compensan.',
-    mercados: 'El crédito soberano es el ancla del país: dos agencias ratificaron en noviembre y la emisión de julio salió con spread de 75 pb y sobredemanda. La señal más potente es la desdolarización (92% de los bonos del año en pesos). La vulnerabilidad no está en el acceso al mercado sino en la trayectoria fiscal, que es lo que las agencias marcan como riesgo.',
-    actividad: 'La caída del PIB es un shock de oferta agrícola: el agro (−22%) restó 1,7 pp, así que el resto de la economía aportó +1,2 pp (crece ~1,3%, bajo su potencial de ~1,9%). El consumo resiste gracias al empleo, pero el salario real se desacelera y la confianza del consumidor está en zona de pesimismo moderado: no hay un motor claro para el 2S. Vigilar el PIB del 3T (15-dic).',
-    energia: 'La matriz demostró resiliencia: incluso con sequía la generación fue ~99% renovable y, con las represas recuperadas, octubre llegó a 99,7%. El costo de la sequía se vio en junio (importación y spot récord). El precio de los combustibles es hoy una variable de política antiinflacionaria más que energética.',
-    externo: 'No hay restricción externa: cuenta corriente −0,8% del PIB y reservas por US$18.216 M. El déficit comercial en base BCU se amplió por energía (importaciones de petróleo +54%), no por demanda. El cambio estructural es de destinos: la UE pasó a liderar en octubre mientras China se repliega.',
-    fiscal: 'El déficit se atascó en 4,7% porque caen los ingresos —el IVA real cae con el consumo gravado— mientras el gasto se mantiene. La Rendición de Cuentas no agrega gasto neto, pero con crecimiento de ~1% la meta estructural queda exigida. En lo monetario, la suba a 6% fue preventiva y efectiva: las expectativas siguen ancladas.',
+    agro: 'Precio récord, volumen en caída: el golpe es climático, no de demanda, y con una cosecha normal el agro vuelve a sumar en 2027.',
+    mercados: 'El crédito es el ancla del país: ratings ratificados, emisiones con sobredemanda y 92% de la deuda nueva en pesos.',
+    actividad: 'El agro restó 1,7 pp al PIB; el resto de la economía crece ~1,3%, por debajo de su potencial (1,9%).',
+    energia: 'Aun con sequía la matriz fue ~99% renovable; el costo se vio en junio, con importación y precio spot récord.',
+    externo: 'Sin restricción externa (cuenta corriente −0,8% del PIB); el cambio es de destinos: la UE gana y China se repliega.',
+    fiscal: 'El déficit se atascó en 4,7% por ingresos débiles; la suba de tasa fue preventiva y las expectativas siguen ancladas.',
   },
   kpiLecturas: {
     ipc_interanual: 'Pico transitorio esperado: el IPOM proyecta 4,9% al cierre de 2026 y 4,1% en 2027. Lo que importa es que no contamine expectativas.',
@@ -882,6 +891,6 @@ export const ANALISIS: AnalisisData = {
     exportaciones: 'Valor plano, volumen en caída: el precio hace el trabajo. Cambio de mix hacia celulosa y destinos UE/EE.UU.',
     resultado_fiscal: 'Atascado en 4,7% por ingresos débiles. Con PIB de 1% la meta estructural de −4,0% está en riesgo.',
     deuda: 'Nivel alto pero de mejor calidad: más en pesos y a mayor plazo. El ancla de deuda neta (65%) es el límite a vigilar.',
-    ubi: 'Dato sin actualizar; la referencia más reciente (spread de 75 pb en julio) es consistente con un riesgo país bajo.',
+    embi: 'Subió 26 pb desde junio con el riesgo regional, pero Uruguay sigue siendo el menor spread de la región.',
   },
 };

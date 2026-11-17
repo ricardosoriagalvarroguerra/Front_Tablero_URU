@@ -16,23 +16,21 @@ export function HealthFooter({ fuentes, now, source, snapshot }: HealthFooterPro
   const origen = source === 'api' ? 'BDR en vivo' : source === 'mock' ? 'datos embebidos' : '…';
   const ok = fuentes.filter((f) => f.status === 'ok' || f.status === 'live').length;
   return (
-    <footer className="border-t border-token" style={{ background: 'var(--bg-elev)' }}>
-      <div className="px-3 sm:px-5 py-2.5 flex items-center gap-4 overflow-x-auto scrollbar-thin">
+    <footer className="border-t border-token">
+      <div className="px-4 sm:px-6 py-3 flex items-center gap-5 overflow-x-auto scrollbar-thin">
         <div className="whitespace-nowrap flex items-center gap-2">
-          <span className="eyebrow">F · Fuentes</span>
-          <span className="mono text-[10px] text-muted">
-            {ok}/{fuentes.length} al día
+          <span className="text-[11px] text-muted">
+            Fuentes {ok}/{fuentes.length} al día
           </span>
         </div>
         {fuentes.map((f) => (
           <div key={f.id} className="flex items-center gap-1.5 whitespace-nowrap" title={`${f.name} · ${label(f.status)} · último dato ${f.last}`}>
             <span className={`inline-block w-1.5 h-1.5 rounded-full ${f.status === 'live' ? 'pulse-dot' : ''}`} style={{ background: dot(f.status) }} />
-            <span className="text-[11px] text-muted">{f.name}</span>
-            <span className="mono text-[9.5px] text-subtle">{f.last}</span>
+            <span className="text-[11px] text-subtle">{f.name.split(' · ')[0]}</span>
           </div>
         ))}
-        <div className="ml-auto mono text-[9.5px] uppercase tracking-[0.14em] text-subtle whitespace-nowrap">
-          {origen} · corte {snapshot} · sesión {now}
+        <div className="ml-auto text-[11px] text-subtle whitespace-nowrap" title={`sesión ${now}`}>
+          {origen} · corte {snapshot}
         </div>
       </div>
     </footer>

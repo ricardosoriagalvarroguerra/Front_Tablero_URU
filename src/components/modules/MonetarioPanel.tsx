@@ -2,7 +2,6 @@ import { Panel } from '../primitives/Panel';
 import { SectionTitle } from '../primitives/SectionTitle';
 import { SeriesChart } from '../primitives/SeriesChart';
 import { Stat } from '../primitives/Stat';
-import { Meter } from '../primitives/Meter';
 import { META } from '../../analytics';
 import type { FiscalData, Kpi } from '../../types';
 
@@ -30,7 +29,7 @@ export function MonetarioPanel({ data, ipc, tpm }: MonetarioPanelProps) {
           <div className="px-4 pt-3 pb-2 border-b border-token">
             <div className="flex items-baseline justify-between gap-2">
               <div className="eyebrow">Inflación i/a vs rango meta</div>
-              <div className="mono text-[10px] text-subtle">{ipc.source}</div>
+
             </div>
             <SeriesChart
               data={ipc.spark}
@@ -74,19 +73,13 @@ export function MonetarioPanel({ data, ipc, tpm }: MonetarioPanelProps) {
                       className="w-full rounded-[4px]"
                       style={{ height: 10 + (v - 5.5) * 60, background: up ? 'var(--neg)' : i === tpm.spark.length - 1 ? 'var(--accent)' : 'var(--border-strong)' }}
                     />
-                    <span className="mono text-[9px] text-subtle truncate w-full text-center">{tpm.periodos?.[i]}</span>
+                    <span className="text-[11px] text-subtle truncate w-full text-center">{tpm.periodos?.[i]}</span>
                   </div>
                 );
               })}
             </div>
           </div>
         )}
-
-        {/* Expectativas en la regla meta */}
-        <div className="px-4 py-3 border-b border-token">
-          <div className="eyebrow mb-2">Anclaje · expectativa 24m en la regla meta</div>
-          <Meter value={expectativas.inflacion24m} min={2} max={7} band={[META.piso, META.techo]} mark={META.centro} />
-        </div>
 
         {/* Reservas + Base monetaria */}
         <div className="px-4 py-3 grid grid-cols-2 gap-3">

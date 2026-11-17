@@ -88,7 +88,7 @@ export function KpiModal({ kpi, onClose, lectura }: KpiModalProps) {
           <div className="px-5 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
             {stats.map((s) => (
               <div key={s.l} className="surface-sunk rounded-[8px] px-3 py-2">
-                <div className="mono text-[9px] uppercase tracking-wider text-subtle truncate" title={s.l}>{s.l}</div>
+                <div className="text-[11px] text-subtle truncate" title={s.l}>{s.l}</div>
                 <div className={`mono text-[14px] mt-0.5 ${s.c === 'pos' ? 'text-pos' : s.c === 'neg' ? 'text-neg' : ''}`}>{s.v}</div>
               </div>
             ))}

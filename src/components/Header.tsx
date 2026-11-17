@@ -1,6 +1,5 @@
 import type { RefObject } from 'react';
 import type { Kpi, Theme } from '../types';
-import { polarityOf, deltaTone } from '../tone';
 
 export interface ClockParts {
   date: string;
@@ -31,8 +30,8 @@ interface HeaderProps {
   now: Date;
   /** Fecha de corte de los datos (snapshot). */
   snapshot: string;
-  /** Indicadores para la cinta de cotizaciones. */
-  ticker: Kpi[];
+  /** Indicadores para la cinta (obsoleto, no se muestra). */
+  ticker?: Kpi[];
   source: 'api' | 'mock' | 'loading';
 }
 
@@ -59,24 +58,6 @@ function Mark() {
   );
 }
 
-function TickerItem({ k }: { k: Kpi }) {
-  const tone = deltaTone(polarityOf(k.id), k.delta);
-  const color = tone === 'pos' ? 'var(--pos)' : tone === 'neg' ? 'var(--neg)' : 'var(--fg-subtle)';
-  const arrow = k.delta > 0 ? '▲' : k.delta < 0 ? '▼' : '◆';
-  return (
-    <span className="flex items-center gap-2 px-4 whitespace-nowrap" style={{ borderRight: '1px solid var(--border)' }}>
-      <span className="mono text-[9.5px] uppercase tracking-[0.12em] text-subtle">{k.label}</span>
-      <span className="mono text-[11.5px]">
-        {k.fmt(k.value)}
-        {k.unit && <span className="text-subtle text-[9.5px]"> {k.unit}</span>}
-      </span>
-      <span className="mono text-[10px]" style={{ color }}>
-        <span className="text-[7px] align-middle">{arrow}</span> {k.deltaLabel}
-      </span>
-    </span>
-  );
-}
-
 export function Header({
   theme,
   setTheme,
@@ -87,7 +68,6 @@ export function Header({
   setQuery,
   now,
   snapshot,
-  ticker,
   source,
 }: HeaderProps) {
   const t = formatNow(now);
@@ -95,23 +75,22 @@ export function Header({
   return (
     <header
       className="sticky top-0 z-30 backdrop-blur"
-      style={{ background: 'color-mix(in srgb, var(--bg-elev) 88%, transparent)', borderBottom: '1px solid var(--border)' }}
+      style={{ background: 'color-mix(in srgb, var(--bg) 85%, transparent)', borderBottom: '1px solid var(--border)' }}
     >
-      <div className="flex items-center h-14 px-3 sm:px-5 gap-3 sm:gap-5">
+      <div className="flex items-center h-14 px-4 sm:px-6 gap-3 sm:gap-5" title={origen}>
         {/* marca */}
         <div className="flex items-center gap-2.5 shrink-0">
           <Mark />
           <div className="leading-tight">
             <div className="text-[13.5px] font-semibold tracking-[-0.01em] whitespace-nowrap">
               Tablero URU
-              <span className="hidden sm:inline text-muted font-normal"> · inteligencia económica</span>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 mono text-[9.5px] text-subtle uppercase tracking-[0.12em]">
+            <div className="hidden sm:flex items-center gap-1.5 text-[11px] text-subtle">
               <span
                 className={`inline-block w-1.5 h-1.5 rounded-full ${source === 'api' ? 'pulse-dot' : ''}`}
                 style={{ background: source === 'api' ? 'var(--pos)' : source === 'mock' ? 'var(--accent)' : 'var(--fg-subtle)' }}
               />
-              {origen} · datos al {snapshot}
+              Datos al {snapshot}
             </div>
           </div>
         </div>
@@ -141,41 +120,26 @@ export function Header({
             onClick={onRefresh}
             title="Refrescar [R]"
             aria-label="Refrescar"
-            className={`h-9 w-9 md:w-auto md:px-3 surface-sunk rounded-[8px] flex items-center justify-center gap-1.5 text-[11.5px] hover:ring-accent ${
+            className={`h-9 w-9 surface-sunk rounded-[8px] flex items-center justify-center gap-1.5 text-[11.5px] hover:ring-accent ${
               refreshing ? 'text-accent' : 'text-muted'
             }`}
           >
             <span style={refreshing ? { display: 'inline-block', animation: 'spin 800ms linear' } : {}}>↻</span>
-            <span className="hidden md:inline">Refrescar</span>
+
           </button>
           <button
             onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             title="Modo claro/oscuro [D]"
             aria-label="Cambiar modo claro u oscuro"
-            className="h-9 w-9 md:w-auto md:px-3 surface-sunk rounded-[8px] flex items-center justify-center gap-1.5 text-[11.5px] text-muted hover:ring-accent"
+            className="h-9 w-9 surface-sunk rounded-[8px] flex items-center justify-center gap-1.5 text-[11.5px] text-muted hover:ring-accent"
           >
             <span>{theme === 'dark' ? '☾' : '☀'}</span>
-            <span className="hidden md:inline">{theme === 'dark' ? 'Oscuro' : 'Claro'}</span>
+
           </button>
-          <div className="hidden lg:flex flex-col items-end leading-tight pl-2">
-            <span className="mono text-[12px] tabular-nums">{t.time}</span>
-            <span className="mono text-[9px] text-subtle uppercase tracking-[0.12em]">
-              {t.date} · {t.tz}
-            </span>
-          </div>
+          <span className="hidden lg:inline mono text-[12px] text-subtle tabular-nums pl-2">{t.time}</span>
         </div>
       </div>
 
-      {/* cinta de cotizaciones */}
-      {ticker.length > 0 && (
-        <div className="ticker overflow-hidden h-8 flex items-center" style={{ borderTop: '1px solid var(--border)' }} aria-label="Cinta de indicadores">
-          <div className="ticker-track">
-            {[...ticker, ...ticker].map((k, i) => (
-              <TickerItem key={`${k.id}-${i}`} k={k} />
-            ))}
-          </div>
-        </div>
-      )}
     </header>
   );
 }

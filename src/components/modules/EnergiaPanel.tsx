@@ -33,13 +33,13 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
                 {data.renovablePct != null ? `${data.renovablePct.toFixed(1).replace('.', ',')}%` : 's/d'}
               </span>
             </div>
-            <div className="text-[11px] text-muted mt-1.5 leading-snug">{data.resumen}</div>
+            <p className="text-[12px] text-muted mt-1.5 leading-snug line-clamp-2 cursor-help" title={data.resumen}>{data.resumen}</p>
             <div className="mt-2 grid grid-cols-2 gap-2">
-              <div className="surface-sunk rounded-[8px] p-2">
+              <div className="rounded-[10px] p-3 border border-token">
                 <div className="eyebrow">Potencia instalada</div>
                 <div className="mono text-[15px]">{num(data.potenciaInstalada)} <span className="text-subtle text-[9px]">MW</span></div>
               </div>
-              <div className="surface-sunk rounded-[8px] p-2">
+              <div className="rounded-[10px] p-3 border border-token">
                 <div className="eyebrow">Demanda máxima</div>
                 <div className="mono text-[15px]">{num(data.demandaMax)} <span className="text-subtle text-[9px]">MW</span></div>
               </div>
@@ -76,7 +76,7 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
               {data.exportacion.valorGwh != null ? `${num(data.exportacion.valorGwh)} GWh` : 's/d'}
             </div>
           </div>
-          <div className="text-[11px] text-muted mt-1 leading-snug">{data.exportacion.nota}</div>
+          <p className="text-[12px] text-muted mt-1.5 leading-snug line-clamp-2 cursor-help" title={data.exportacion.nota}>{data.exportacion.nota}</p>
         </div>
 
         {/* combustibles ANCAP */}
@@ -102,9 +102,9 @@ export function EnergiaPanel({ data }: EnergiaPanelProps) {
             <span className="mono text-[20px]">
               {data.hidrogeno.inversionUsd != null ? `US$${(data.hidrogeno.inversionUsd / 1000).toFixed(1).replace('.', ',')} mil M` : 's/d'}
             </span>
-            <span className="mono text-[10px] text-accent uppercase tracking-wider">{data.hidrogeno.estado}</span>
+            <span className="text-[12px] text-subtle">{data.hidrogeno.estado}</span>
           </div>
-          <div className="mono text-[9px] text-subtle mt-0.5 leading-snug">{data.hidrogeno.nota}</div>
+          <p className="text-[12px] text-muted mt-1.5 leading-snug line-clamp-2 cursor-help" title={data.hidrogeno.nota}>{data.hidrogeno.nota}</p>
         </div>
       </div>
     </Panel>
