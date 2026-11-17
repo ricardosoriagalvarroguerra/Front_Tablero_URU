@@ -125,13 +125,20 @@ export function ExternoPanel({ data }: ExternoPanelProps) {
             <div className="eyebrow">Deuda bruta SPub</div>
             <div className="mono text-[20px]">{deuda.brutaPct != null ? `${deuda.brutaPct.toFixed(1).replace('.', ',')}%` : 's/d'}</div>
             <div className="text-[11px] text-subtle">% PIB · {deuda.asof}</div>
-            {deuda.totalUsd != null && <div className="mono text-[9px] text-muted">USD {m(deuda.totalUsd)} M</div>}
           </div>
           <div>
             <div className="eyebrow">Inversión extranjera (IED)</div>
-            <div className="mono text-[20px]">{ied.valorUsd != null ? `US$${m(ied.valorUsd)}` : 's/d'}</div>
-            <div className="text-[11px] text-subtle">millones · {ied.asof}</div>
-            {ied.pctPib != null && <div className="mono text-[9px] text-muted">{ied.pctPib.toFixed(1).replace('.', ',')}% del PIB</div>}
+            <div className="mono text-[20px]">
+              {ied.valorUsd != null
+                ? `US$${m(ied.valorUsd)} M`
+                : ied.pctPib != null
+                  ? `${ied.pctPib.toFixed(1).replace('.', ',')}%`
+                  : 's/d'}
+            </div>
+            <div className="text-[11px] text-subtle" title={ied.source}>
+              {ied.valorUsd == null && ied.pctPib != null ? 'del PIB · ' : ''}
+              {ied.asof}
+            </div>
           </div>
         </div>
       </div>

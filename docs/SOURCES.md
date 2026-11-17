@@ -39,7 +39,7 @@ su **fecha original** y se rotula **«sin actualizar»** en la interfaz.
 | Exportaciones | US$1.089 M (oct); US$11.430 M ene-oct | oct 2026 | Uruguay XXI vía [la diaria](https://ladiaria.com.uy/economia/articulo/2026/11/exportaciones-en-octubre-crecieron-1-interanual-y-la-union-europea-fue-el-principal-destino/), [Infobae](https://www.infobae.com/america/america-latina/2026/11/04/exportaciones-uruguayas-crecieron-1-en-diez-meses-europa-fue-su-principal-destino-en-octubre/) | Alta |
 | Resultado fiscal SPG | −4,7% PIB | 12m sep 2026 | MEF vía [El Telégrafo](https://www.eltelegrafo.com/2026/10/la-caida-de-los-ingresos-y-la-estabilidad-del-gasto-mantuvieron-el-deficit-fiscal-en-47-del-pbi/) | Alta |
 | Deuda bruta SPG | 73,2% PIB | mar 2026 | BCU vía UCU Monitor de Coyuntura (jul-26) | Media-alta |
-| Riesgo país (UBI) | 53 pb | **18-may (sin actualizar)** | República AFAP (no accesible en este corte) | — |
+| Riesgo país (EMBI) | 84 pb (83 el 2-nov) | oct 2026 | JP Morgan vía [Bloomberg Línea](https://bloomberglinea.com/latinoamerica/asi-se-me-movio-el-riesgo-pais-en-america-latina-en-octubre-fuerte-alza-en-argentina-y-ecuador/) · serie jun 58 · jul 68 · ago 65 · sep 78 | Alta |
 
 ## Agro y externo
 
@@ -59,17 +59,29 @@ su **fecha original** y se rotula **«sin actualizar»** en la interfaz.
 - **Balanza BCU sep-26** (aprox.): X ~1.140, M ~1.180, saldo −35; ene-sep −1.260
   ([Rio Times](https://www.riotimesonline.com/uruguay-trade-deficit-september-2026/), secundaria → Media).
 - **Cuenta corriente:** −0,8% del PIB (12m a jun-26, BCU).
-- **Sin actualizar:** turismo (1T-26), IED (2025), TCR/IPF frontera (2025 / may-26).
+- **Turismo 2T-26:** receptivo US$348 M (+12% i/a), 629 mil visitantes (−8%)
+  ([Mintur R-2T2026](https://www.gub.uy/ministerio-turismo/sites/ministerio-turismo/files/2026-08/R-2T2026.pdf));
+  saldo ~−US$24 M (derivado con el emisivo 1S de US$777 M). Rebaja de IVA a turistas
+  prorrogada al 30-abr-2027 (decreto 235/026).
+- **Competitividad:** ITCR jun-26 +2,3% i/a ([Ámbito](https://www.ambito.com/uruguay/la-competitividad-a-cayo-primera-vez-cinco-meses-enciende-luces-amarillas-n6304838));
+  IPF Salto–Concordia jul-26 25% ([UCU](https://www.ucu.edu.uy/Institucionales/INFORMES-uc1313/8017/Informe-IPF-JUL26.pdf)).
+  Desalineación del TCR: se mantiene −9,9% (cierre 2025).
+- **IED 2025:** 0,5% del PIB (BCU vía UCU, may-26); el valor en US$ queda s/d.
+- **Mercosur–UE:** firmado 17-ene-2026; ratificado por Uruguay (Ley 20.462); **rige
+  provisionalmente desde el 1-may-2026** ([Euronews](https://es.euronews.com/business/2026/05/01/el-polemico-acuerdo-comercial-ue-mercosur-entra-en-vigor-de-forma-provisional));
+  cuotas sin repartir dentro del Mercosur.
 
 ## Mercados y deuda
 
+- **Fitch** BBB estable ratificado 11-sep-2026 ([La República](https://www.larepublica.co/globoeconomia/fitch-ratings-mantuvo-el-grado-inversor-de-uruguay-y-advirtio-por-el-bajo-crecimiento-y-el-aumento-de-la-deuda-4479800)).
 - **S&P** BBB+ estable reafirmado 11-nov ([Investing](https://mx.investing.com/news/world-news/sp-reafirma-calificacion-bbb-de-uruguay-con-perspectiva-estable-3845242));
   **Moody's** Baa1 estable 10-nov ([Infobae](https://www.infobae.com/america/agencias/2026/11/10/moodys-otorga-una-nota-de-perspectiva-estable-a-la-economia-de-uruguay/)).
-  Fitch y DBRS: última acción verificada en 2025.
+  DBRS: última confirmación BBB estable el 17-nov-2025.
 - **Emisión 28-jul:** Global UYU 2035 a 7,75%, USD 2037 a 5,356% (spread 75 pb)
   ([MEF/UGD](https://deuda.mef.gub.uy/32293/14/areas/uruguay-emitio-bonos-en-pesos-nominales-y-dolares-en-el-mercado-internacional.html)).
   92% de los bonos del año en moneda nacional ([El Observador](https://www.elobservador.com.uy/uruguay-afianza-la-desdolarizacion-su-deuda-el-92-la-emision-bonos-el-ano-se-coloco-moneda-nacional-n6063002)).
-- **Sin dato:** UBI, EMBI, rendimientos secundarios, SSLB (KPI-1 2025).
+- **Sin dato:** UBI de República AFAP (sin publicaciones 2026; se usa el EMBI), rendimientos
+  secundarios oct-nov, KPI-1 2025 del SSLB (ajuste de cupón desde oct-2027).
 
 ## Fiscal
 
@@ -105,8 +117,10 @@ su **fecha original** y se rotula **«sin actualizar»** en la interfaz.
 
 ## Limitaciones reconocidas
 
-- UBI / EMBI / rendimientos secundarios / SSLB: sin actualizar.
-- Turismo, IED, competitividad (TCR, IPF): último dato verificado anterior a junio.
-- Base monetaria: último dato may-2026.
-- Reservas jul–oct: serie de Trading Economics, pendiente de cotejo con el BCU.
+- UBI (República AFAP) e IRUBEVSA sin datos 2026 → riesgo país con el EMBI de JP Morgan.
+- Rendimientos secundarios de bonos y KPI-1 2025 del SSLB: s/d.
+- Base monetaria: último dato may-2026. Reservas jul–oct: Trading Economics (una sola fuente).
+- Turismo 3T, ITCR jul–sep, IED en US$, destinos acumulados ene-oct, madera/trigo, exportación
+  eléctrica acumulada y potencia instalada 2026: s/d.
+- Celulosa: referencia de prensa (~US$610–630/t en China) no confirmada con índice Fastmarkets.
 - Fechas de agenda marcadas «estim.» siguen el calendario habitual de cada fuente.
