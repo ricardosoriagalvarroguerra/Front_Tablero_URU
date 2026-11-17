@@ -13,7 +13,9 @@ import type {
   Fuente,
   Kpi,
   AnalisisData,
+  RegionData,
 } from './types';
+import type { Alerta } from './alertas';
 
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:5174';
 
@@ -66,4 +68,6 @@ export const api = {
   eventos: (signal?: AbortSignal) => get<Evento[]>('/api/eventos', signal),
   fuentes: (signal?: AbortSignal) => get<Fuente[]>('/api/fuentes', signal),
   analisis: (signal?: AbortSignal) => get<AnalisisData>('/api/analisis', signal),
+  region: (signal?: AbortSignal) => get<RegionData>('/api/region', signal),
+  alertas: (signal?: AbortSignal) => get<Alerta[]>('/api/alertas', signal),
 };

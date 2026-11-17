@@ -22,6 +22,9 @@ import { NewsPanel } from './components/modules/NewsPanel';
 import { CalendarioPanel } from './components/modules/CalendarioPanel';
 import { HealthFooter } from './components/modules/HealthFooter';
 import { HistoricoPanel } from './components/modules/HistoricoPanel';
+import { RegionPanel } from './components/modules/RegionPanel';
+import { AlertasStrip } from './components/modules/AlertasStrip';
+import { NotaEjecutiva } from './components/overlays/NotaEjecutiva';
 import { KpiModal } from './components/overlays/KpiModal';
 import { NewsModal } from './components/overlays/NewsModal';
 import { useDashboardData } from './useDashboardData';
@@ -37,11 +40,11 @@ import { SNAPSHOT } from './data/mockData';
 import { api } from './api';
 import type { Kpi, Noticia, Theme } from './types';
 
-type TabId = 'panorama' | 'analisis' | 'historico' | 'agro' | 'mercados' | 'actividad' | 'energia' | 'externo' | 'fiscal';
-const TAB_ORDER: TabId[] = ['panorama', 'analisis', 'historico', 'agro', 'mercados', 'actividad', 'energia', 'externo', 'fiscal'];
+type TabId = 'panorama' | 'analisis' | 'historico' | 'region' | 'agro' | 'mercados' | 'actividad' | 'energia' | 'externo' | 'fiscal';
+const TAB_ORDER: TabId[] = ['panorama', 'analisis', 'historico', 'region', 'agro', 'mercados', 'actividad', 'energia', 'externo', 'fiscal'];
 
 export default function App() {
-  const { indicadores, agro, mercados, actividad, energia, externo, fiscal, noticias, eventos, fuentes, analisis, source, reload } =
+  const { indicadores, agro, mercados, actividad, energia, externo, fiscal, noticias, eventos, fuentes, analisis, region, alertas, source, reload } =
     useDashboardData();
 
   const [theme, setTheme] = useState<Theme>('dark');
@@ -50,6 +53,7 @@ export default function App() {
   const [tab, setTab] = useState<TabId>('panorama');
   const [openKpi, setOpenKpi] = useState<Kpi | null>(null);
   const [openNews, setOpenNews] = useState<Noticia | null>(null);
+  const [nota, setNota] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [leidas, setLeidas] = useState<Set<string>>(() => {
     try {
@@ -98,12 +102,15 @@ export default function App() {
         setTheme((t) => (t === 'dark' ? 'light' : 'dark'));
       } else if (e.key.toLowerCase() === 'r') {
         triggerRefresh();
-      } else if (/^[1-9]$/.test(e.key) && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      } else if (/^[1-9]$/.test(e.key) && !document.documentElement.classList.contains('nota-abierta') && !e.metaKey && !e.ctrlKey && !e.altKey) {
         setTab(TAB_ORDER[Number(e.key) - 1]);
         window.scrollTo({ top: 0 });
+      } else if (e.key.toLowerCase() === 'n' && !e.metaKey && !e.ctrlKey) {
+        setNota((v) => !v);
       } else if (e.key === 'Escape') {
         setOpenKpi(null);
         setOpenNews(null);
+        setNota(false);
       }
     }
     window.addEventListener('keydown', onKey);
@@ -155,6 +162,7 @@ export default function App() {
     { id: 'panorama', label: 'Panorama' },
     { id: 'analisis', label: 'Análisis' },
     { id: 'historico', label: 'Histórico' },
+    { id: 'region', label: 'Región' },
     { id: 'agro', label: 'Agro' },
     { id: 'mercados', label: 'Mercados' },
     { id: 'actividad', label: 'Actividad' },
@@ -176,6 +184,12 @@ export default function App() {
           setQuery={setQuery}
           now={now}
           snapshot={SNAPSHOT.fecha}
+          alertas={alertas.filter((a) => a.nivel !== 'info').length}
+          onAlertas={() => {
+            setTab('panorama');
+            setTimeout(() => document.getElementById('alertas')?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 80);
+          }}
+          onNota={() => setNota(true)}
           source={source}
         />
 
@@ -224,6 +238,9 @@ export default function App() {
                 <TesisPanel data={analisis} onVerAnalisis={() => setTab('analisis')} />
               </div>
               <div className="col-span-12">
+                <AlertasStrip alertas={alertas} onOpen={(id) => { const k = byId[id]; if (k) setOpenKpi(k); }} />
+              </div>
+              <div className="col-span-12">
                 <SemaforoPanel items={analisis.semaforo} />
               </div>
               <div className="col-span-12 lg:col-span-5">
@@ -262,6 +279,16 @@ export default function App() {
                 punteada es el promedio 2015–2025.
               </Insight>
               <HistoricoPanel kpis={indicadores} onOpen={setOpenKpi} />
+            </section>
+          )}
+
+          {tab === 'region' && (
+            <section className="flex flex-col gap-4">
+              <Insight>
+                Uruguay frente a la región con las series del FMI (World Economic Outlook). Los años sombreados son
+                proyecciones; se resalta a Bolivia como tablero hermano.
+              </Insight>
+              <RegionPanel data={region} pais="URY" hermano="BOL" />
             </section>
           )}
 
@@ -337,6 +364,17 @@ export default function App() {
 
         {/* overlays */}
         <KpiModal kpi={openKpi} onClose={() => setOpenKpi(null)} lectura={openKpi ? analisis.kpiLecturas[openKpi.id] : undefined} />
+        <NotaEjecutiva
+          abierta={nota}
+          onClose={() => setNota(false)}
+          titulo="Tablero URU"
+          corte={SNAPSHOT.fecha}
+          base={snapshotDate}
+          analisis={analisis}
+          kpis={indicadores.filter((k) => !SOLO_HISTORICO.includes(k.id))}
+          alertas={alertas}
+          eventos={eventos}
+        />
         <NewsModal
           noticia={openNews}
           onClose={() => setOpenNews(null)}

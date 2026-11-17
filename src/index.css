@@ -241,3 +241,34 @@ body {
   background: var(--accent);
   color: #0a0a0b;
 }
+
+/* ─── Nota ejecutiva: impresión ────────────────────────────────────── */
+@media print {
+  html.nota-abierta body > #root > * > *:not(.nota) {
+    display: none !important;
+  }
+  html.nota-abierta .nota {
+    position: static !important;
+    overflow: visible !important;
+    background: #fff !important;
+  }
+  html.nota-abierta .no-print {
+    display: none !important;
+  }
+  html.nota-abierta {
+    --bg: #fff; --bg-elev: #fff; --bg-sunk: #f0f2f5; --border: #e2e5ea; --border-strong: #cfd4dc;
+    --fg: #10131a; --fg-muted: #5b6270; --fg-subtle: #8c93a0; --accent: #b36f00;
+  }
+  html.nota-abierta,
+  html.nota-abierta body {
+    background: #fff !important;
+  }
+  html.nota-abierta .nota-hoja {
+    color: #10131a;
+    padding: 0 !important;
+    max-width: none !important;
+  }
+  @page {
+    margin: 16mm;
+  }
+}

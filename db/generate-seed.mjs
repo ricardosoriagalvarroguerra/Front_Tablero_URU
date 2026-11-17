@@ -43,6 +43,28 @@ const monthDatesEnding = (n) => {
     return ymd(new Date(Date.UTC(y, mo + 1, 0)));
   });
 };
+// fecha del punto i (de n) contando hacia atrás desde `iso` según la periodicidad;
+// conserva el fin de mes (31-oct → 30-sep → 31-ago).
+const MESES_PASO = { mensual: 1, trimestral: 3, semestral: 6, anual: 12 };
+function fechaAtras(iso, per, k) {
+  const d = new Date(`${iso}T00:00:00Z`);
+  if (per === 'diaria' || per === 'semanal') {
+    d.setUTCDate(d.getUTCDate() - k * (per === 'diaria' ? 1 : 7));
+    return ymd(d);
+  }
+  const paso = MESES_PASO[per] ?? 1;
+  const finDeMes = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() + 1, 0)).getUTCDate() === d.getUTCDate();
+  const idx = d.getUTCFullYear() * 12 + d.getUTCMonth() - k * paso;
+  const y = Math.floor(idx / 12);
+  const m = idx % 12;
+  const dim = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+  return ymd(new Date(Date.UTC(y, m, finDeMes ? dim : Math.min(d.getUTCDate(), dim))));
+}
+const fechasKpi = (k, per) =>
+  k.fechas && k.fechas.length === k.spark.length
+    ? k.fechas
+    : k.spark.map((_, i) => fechaAtras(k.fecha ?? ymd(BASE_DATE), per, k.spark.length - 1 - i));
+
 // fechas diarias terminando en BASE_DATE
 const dayDatesEnding = (n) =>
   Array.from({ length: n }, (_, i) => ymd(new Date(Date.UTC(2026, 10, 17 - (n - 1 - i)))));
@@ -80,6 +102,7 @@ const FUENTE_META = {
   adme: ['oficial', 'https://adme.com.uy/'],
   jpm: ['mercado', 'https://www.jpmorgan.com/'],
   rafap: ['mercado', 'https://www.rafap.com.uy/'],
+  imf: ['oficial', 'https://www.imf.org/external/datamapper/'],
   rating: ['mercado', 'https://deuda.mef.gub.uy/'],
   news: ['agregador', null],
 };
@@ -182,7 +205,7 @@ w('INSERT INTO indicadores (codigo, nombre, unidad, categoria, sentido, decimale
 w(KPIS.map((k) => {
   const m = IND_META[k.id];
   const e = k.extra;
-  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'}, ${q(k.historicoNota ?? null)})`;
+  return `  (${q(k.id)}, ${q(k.label)}, ${q(m.unidad)}, ${q(m.cat)}, ${q(k.sentiment)}, ${m.dec}, ${q(k.def)}, ${q(k.asof)}, ${q(k.periodicidad ?? m.per)}, ${sub('fuentes', 'codigo', m.fuente)}, ${q(e ? e.label : null)}, ${q(e ? e.value : null)}, ${e ? q(e.tone) : 'NULL'}, ${q(k.historicoNota ?? null)})`;
 }).join(',\n') + ';');
 
 // ── indicador_observaciones ────────────────────────────────────────────
@@ -190,7 +213,7 @@ section('indicador_observaciones (series reales + valor vigente)');
 const obsRows = [];
 for (const k of KPIS) {
   const n = k.spark.length;
-  const dates = monthDatesEnding(n);
+  const dates = fechasKpi(k, k.periodicidad ?? IND_META[k.id].per);
   for (let i = 0; i < n; i++) {
     const last = i === n - 1;
     obsRows.push(`  (${sub('indicadores', 'codigo', k.id)}, ${q(dates[i])}, ${num(k.spark[i])}, ${q(k.periodos?.[i] ?? null)}, ${last ? num(k.delta) : 'NULL'}, ${last ? q(k.deltaLabel) : 'NULL'})`);

@@ -146,6 +146,14 @@ dólar 2015–2019, deuda 2015–2018.
 > para octubre 2025; el acumulado ene-oct (US$11.430 M vs 11.356 en 2025) sí difiere. Se mantiene
 > con confianza **Media** hasta cotejar el informe mensual oficial.
 
+## Comparador regional (FMI WEO)
+
+Fuente: API pública del DataMapper del FMI (`/external/datamapper/api/v1/{indicador}`), descargada por la
+ingesta del backend; cada fila guarda su `vintage` (fecha de descarga). Desde 2026 los valores son
+proyecciones del WEO. **El seed no trae datos regionales**: desde el entorno de desarrollo imf.org no es
+accesible, y no se cargan cifras sin verificar; la pestaña se llena con la primera corrida de la ingesta en
+Railway.
+
 ## Limitaciones reconocidas
 
 - UBI (República AFAP) e IRUBEVSA sin datos 2026 → riesgo país con el EMBI de JP Morgan.

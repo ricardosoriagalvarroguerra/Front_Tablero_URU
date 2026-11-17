@@ -4,6 +4,7 @@ import { Delta } from '../primitives/Delta';
 import { scaleLinear } from 'd3-scale';
 import { line as d3line, area as d3area, curveMonotoneX } from 'd3-shape';
 import { polarityOf, deltaTone, trendTone } from '../../tone';
+import { FrescuraDot } from '../primitives/FrescuraDot';
 import type { Kpi } from '../../types';
 
 interface FeaturedKpiCardProps {
@@ -46,7 +47,7 @@ export function FeaturedKpiCard({ k, onClick, band }: FeaturedKpiCardProps) {
       title={k.def}
     >
       <div className="flex items-start justify-between gap-2">
-        <div className="text-[12px] text-muted">{k.label}</div>
+        <div className="flex items-center gap-2 text-[12px] text-muted min-w-0"><span className="truncate">{k.label}</span><FrescuraDot k={k} /></div>
         <Delta value={k.delta} label={k.deltaLabel} sentiment={deltaTone(pol, k.delta)} />
       </div>
 

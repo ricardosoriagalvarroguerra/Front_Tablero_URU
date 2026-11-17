@@ -94,6 +94,29 @@ CREATE TABLE analisis (
 );
 COMMENT ON TABLE analisis IS 'Capa analítica (Módulo Z): juicio fechado del tablero, separado del dato de fuente.';
 
+CREATE TABLE ingesta_corridas (
+  id      bigserial   PRIMARY KEY,
+  fuente  text        NOT NULL,                  -- bcu, imf, …
+  inicio  timestamptz NOT NULL DEFAULT now(),
+  fin     timestamptz,
+  estado  text        NOT NULL CHECK (estado IN ('ok', 'error', 'sin_cambios')),
+  filas   integer     NOT NULL DEFAULT 0,
+  mensaje text
+);
+COMMENT ON TABLE ingesta_corridas IS 'Bitácora de la ingesta automática (npm run ingest / POST /api/ingesta).';
+CREATE INDEX idx_ingesta_corridas_inicio ON ingesta_corridas (inicio DESC);
+
+CREATE TABLE region_observaciones (
+  pais       char(3)      NOT NULL,             -- ISO-3: ARG BOL BRA CHL COL ECU PER PRY URY
+  indicador  text         NOT NULL,             -- código FMI WEO (NGDP_RPCH, PCPIEPCH, …)
+  anio       smallint     NOT NULL,
+  valor      numeric(14,4) NOT NULL,
+  proyeccion boolean      NOT NULL DEFAULT false,
+  vintage    text,
+  PRIMARY KEY (pais, indicador, anio)
+);
+COMMENT ON TABLE region_observaciones IS 'Comparador regional (FMI WEO): un valor por país, indicador y año.';
+
 CREATE TABLE seed_meta (
   version     text        PRIMARY KEY,           -- hash de schema.sql + seed.sql aplicado
   aplicado_en timestamptz NOT NULL DEFAULT now()
@@ -480,7 +503,7 @@ CREATE VIEW v_fuentes_estado_actual AS
 SELECT DISTINCT ON (fe.fuente_id)
   f.codigo, f.nombre, fe.estado, fe.latencia_ms, fe.ultima_actualizacion, fe.verificado_en
 FROM fuente_estado fe JOIN fuentes f ON f.id = fe.fuente_id
-ORDER BY fe.fuente_id, fe.verificado_en DESC;
+ORDER BY fe.fuente_id, fe.id DESC;  -- la última fila insertada (seed o ingesta) manda
 
 -- D · feed de noticias enriquecido (breaking = < 6h o marcado)
 CREATE VIEW v_noticias_feed AS

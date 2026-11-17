@@ -2,6 +2,7 @@ import { Panel } from '../primitives/Panel';
 import { Delta } from '../primitives/Delta';
 import { Sparkline } from '../primitives/Sparkline';
 import { polarityOf, deltaTone, trendTone } from '../../tone';
+import { FrescuraDot } from '../primitives/FrescuraDot';
 import type { Kpi } from '../../types';
 
 interface KpiGroupProps {
@@ -26,7 +27,7 @@ export function KpiGroup({ title, items, onOpen }: KpiGroupProps) {
               className="w-full text-left px-4 py-2 row-hover flex-1"
               title={`${k.asof} · ${k.source}`}
             >
-              <div className="text-[11px] text-subtle truncate">{k.label}</div>
+              <div className="flex items-center gap-1.5 text-[11px] text-subtle"><span className="truncate">{k.label}</span><FrescuraDot k={k} /></div>
               <div className="mt-1 flex items-center gap-1.5">
                 <span className="mono text-[17px] tabular-nums leading-none tracking-[-0.02em] shrink-0">
                   {k.fmt(k.value)}
