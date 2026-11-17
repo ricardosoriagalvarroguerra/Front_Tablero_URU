@@ -10,7 +10,9 @@ interface AgroPanelProps {
   data: AgroData;
 }
 
-const DONUT_COLORS = ['var(--accent)', 'var(--pos)', 'var(--fg-muted)', 'var(--border-strong)', 'var(--info)'];
+const DONUT_COLORS = ['var(--info)', 'var(--accent)', 'var(--pos)', '#a78bfa', 'var(--neg)'];
+/** Color categórico estable; «Otros» siempre en gris. */
+const colorOf = (pais: string, i: number) => (pais === 'Otros' ? 'var(--border-strong)' : DONUT_COLORS[i % DONUT_COLORS.length]);
 
 const precioFmt = (v: number | null) =>
   v == null ? 's/d' : v >= 100 ? v.toLocaleString('es-UY', { maximumFractionDigits: 0 }) : v.toFixed(2).replace('.', ',');
@@ -18,12 +20,12 @@ const usdM = (v: number | null) => (v == null ? 's/d' : v.toLocaleString('es-UY'
 
 function ProductoCard({ p }: { p: ProductoAgro }) {
   return (
-    <div className="surface-sunk rounded-[5px] p-3 flex flex-col">
+    <div className="surface-sunk rounded-[8px] p-3 flex flex-col">
       <div className="flex items-start justify-between gap-2">
-        <div className="mono text-[9px] uppercase tracking-[0.14em] text-subtle">{p.nombre}</div>
+        <div className="eyebrow">{p.nombre}</div>
         {p.varPrecio != null && (
           <Delta
-            value={p.polaridad === 'up' ? p.varPrecio : -Math.abs(p.varPrecio)}
+            value={p.varPrecio}
             label={`${p.varPrecio > 0 ? '+' : ''}${p.varPrecio.toFixed(1).replace('.', ',')}%`}
             sentiment={p.polaridad === 'none' ? 'neutral' : deltaTone(p.polaridad, p.varPrecio)}
           />
@@ -45,6 +47,7 @@ function ProductoCard({ p }: { p: ProductoAgro }) {
       <div className="mt-1 mono text-[9px] text-subtle uppercase tracking-wider truncate">
         → {p.destinoTop} · {p.asof}
       </div>
+      {p.nota && <p className="text-[11px] text-muted mt-2 pt-2 leading-snug border-t border-token">{p.nota}</p>}
     </div>
   );
 }
@@ -59,15 +62,15 @@ export function AgroPanel({ data }: AgroPanelProps) {
       />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         {/* resumen de coyuntura */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1">Coyuntura del complejo</div>
+        <div className="px-4 py-2.5 border-b border-token">
+          <div className="eyebrow mb-1">Coyuntura del complejo</div>
           <div className="text-[11px] text-muted leading-snug">{data.resumen}</div>
         </div>
 
         {/* hero: carne (novillo + faena + destinos) */}
-        <div className="px-3 py-3 border-b border-token grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="px-4 py-3 border-b border-token grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Novillo gordo · referencia carne</div>
+            <div className="eyebrow">Novillo gordo · referencia carne</div>
             <div className="mt-0.5 flex items-baseline gap-2">
               <span className="mono text-[26px]">
                 {data.novilloPrecio != null ? `US$${data.novilloPrecio.toFixed(2).replace('.', ',')}` : 's/d'}
@@ -84,12 +87,12 @@ export function AgroPanel({ data }: AgroPanelProps) {
             <div className="mono text-[9px] text-subtle mt-1">
               Faena {data.faena != null ? `${data.faena.toLocaleString('es-UY')} mil cab.` : 's/d'} · {data.faenaPeriodo}
             </div>
-            <div className="mt-2 surface-sunk rounded-[4px] p-2">
-              <div className="mono text-[9px] uppercase tracking-wider text-subtle">Export. agroindustrial 12m</div>
+            <div className="mt-2 surface-sunk rounded-[8px] p-2">
+              <div className="eyebrow">6 principales rubros agro · ene-oct</div>
               <div className="mono text-[18px]">
                 {data.exportTotalAgro != null ? `US$${(data.exportTotalAgro / 1000).toFixed(1).replace('.', ',')} mil M` : 's/d'}
                 {data.participacionAgro != null && (
-                  <span className="text-subtle text-[10px]"> · {data.participacionAgro.toFixed(0)}% del total</span>
+                  <span className="text-subtle text-[10px]"> · {data.participacionAgro.toFixed(0)}% de las exportaciones</span>
                 )}
               </div>
             </div>
@@ -98,14 +101,14 @@ export function AgroPanel({ data }: AgroPanelProps) {
           {/* destinos donut */}
           {data.destinos.length > 0 && (
             <div>
-              <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">Destinos del complejo cárnico</div>
+              <div className="eyebrow mb-1.5">Destinos de exportación · 1S-2026</div>
               <div className="flex items-center gap-3">
-                <Donut size={76} data={data.destinos.map((d, i) => ({ v: d.valor, color: DONUT_COLORS[i % DONUT_COLORS.length] }))} />
+                <Donut size={76} data={data.destinos.map((d, i) => ({ v: d.valor, color: colorOf(d.pais, i) }))} />
                 <div className="flex-1 space-y-1 text-[11px]">
                   {data.destinos.map((d, i) => (
                     <div key={d.pais} className="flex items-center justify-between">
                       <span className="flex items-center gap-1.5">
-                        <span className="inline-block w-2 h-2 rounded-sm" style={{ background: DONUT_COLORS[i % DONUT_COLORS.length] }} />
+                        <span className="inline-block w-2 h-2 rounded-sm" style={{ background: colorOf(d.pais, i) }} />
                         {d.pais}
                       </span>
                       <span className="mono">{d.valor}%</span>
@@ -118,14 +121,14 @@ export function AgroPanel({ data }: AgroPanelProps) {
         </div>
 
         {/* grilla de productos */}
-        <div className="p-3 grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-2.5">
           {data.productos.map((p) => (
             <ProductoCard key={p.id} p={p} />
           ))}
         </div>
-        <div className="px-3 pb-3 mono text-[9px] text-subtle leading-snug">
-          {data.fuente} · El complejo agroindustrial (carne, celulosa, soja, lácteos, arroz) concentra la mayor
-          parte de las exportaciones de bienes de Uruguay.
+        <div className="px-4 pb-3 text-[11px] text-muted leading-snug">
+          {data.fuente} · Var. de precio vs el corte anterior del tablero (jun-2026) salvo indicación en la nota.
+          Participación sobre exportaciones totales de bienes ene-oct (US$11.430 M).
         </div>
       </div>
     </Panel>

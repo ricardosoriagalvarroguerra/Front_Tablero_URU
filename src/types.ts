@@ -31,6 +31,8 @@ export interface Kpi {
   sentiment: Sentiment;
   /** 6–12 punto sparkline series. */
   spark: number[];
+  /** Etiqueta de período de cada punto de `spark` (eje X del gráfico). */
+  periodos?: string[];
   source: string;
   asof: string;
   def: string;
@@ -117,7 +119,7 @@ export interface Rating {
 
 export interface MercadosData {
   /** Uruguay Bond Index — riesgo país (puntos básicos). */
-  ubi: { value: number; chg: number; series: number[] };
+  ubi: { value: number; chg: number; series: number[]; periodos?: string[] };
   bonos: Bono[];
   /** Resumen del estatus grado inversor (cuántas agencias, escalones sobre el umbral). */
   gradoInversor: { agencias: number; nota: string };
@@ -144,6 +146,7 @@ export interface ActividadData {
     anual2025: number | null; // % del año 2025
     trimestral: number | null; // % desestacionalizado t/t
     series: number[]; // PIB i/a trimestral reciente
+    periodos?: string[];
     asof: string;
     source: string;
   };
@@ -257,6 +260,7 @@ export interface FiscalData {
     pctPib: number | null; // resultado global del Sector Público (móvil 12m, % PIB)
     periodo: string;
     series: number[]; // resultado global reciente
+    periodos?: string[];
     source: string;
   };
   resultadoPrimario: { pctPib: number | null; periodo: string; source: string };
@@ -326,4 +330,65 @@ export interface Fuente {
   latency: number | null;
   status: FuenteStatus;
   last: string;
+}
+
+// ─── MÓDULO Z — Análisis (capa de inteligencia sobre los datos) ────────
+// Juicio analítico explícito y fechado: tesis, semáforo por dimensión,
+// proyecciones de consenso, escenarios, riesgos/catalizadores y lecturas por
+// pestaña. Se distingue siempre del dato duro (fuente) con la etiqueta «lectura».
+export type Estado = 'pos' | 'neutral' | 'neg';
+export type Tendencia = 'mejora' | 'estable' | 'empeora';
+
+export interface SemaforoItem {
+  id: string;
+  dimension: string;
+  estado: Estado;
+  /** 1 (frágil) – 5 (sólido). */
+  score: number;
+  tendencia: Tendencia;
+  /** Dato que ancla la evaluación (p. ej. «IPC 4,9% i/a»). */
+  ancla: string;
+  lectura: string;
+}
+
+export interface Proyeccion {
+  fuente: string;
+  fecha: string;
+  pib2026: number | null;
+  pib2027: number | null;
+  ipc2026: number | null;
+  ipc2027: number | null;
+  tc2026: number | null;
+  fiscal2026: number | null; // resultado global % PIB
+}
+
+export interface Escenario {
+  id: 'base' | 'optimista' | 'riesgo';
+  nombre: string;
+  probabilidad: number; // %
+  pib2027: number | null;
+  ipc2027: number | null;
+  narrativa: string;
+  gatillos: string[];
+}
+
+export interface RiesgoItem {
+  titulo: string;
+  detalle: string;
+  tipo: 'riesgo' | 'oportunidad';
+  impacto: 'alto' | 'medio' | 'bajo';
+  horizonte: string;
+}
+
+export interface AnalisisData {
+  asof: string;
+  tesis: { titulo: string; bajada: string; puntos: string[] };
+  semaforo: SemaforoItem[];
+  proyecciones: Proyeccion[];
+  escenarios: Escenario[];
+  riesgos: RiesgoItem[];
+  /** Lectura analítica por pestaña (agro, mercados, actividad, energia, externo, fiscal). */
+  lecturas: Record<string, string>;
+  /** Lectura breve por indicador (id de KPI → texto), mostrada en el modal. */
+  kpiLecturas: Record<string, string>;
 }

@@ -81,7 +81,7 @@ export function NewsModal({ noticia, onClose, onMarcarLeida, leida }: NewsModalP
 
           {noticia.keywords && noticia.keywords.length > 0 && (
             <div className="mt-5">
-              <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">
+              <div className="eyebrow mb-1.5">
                 Términos clave
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -99,7 +99,7 @@ export function NewsModal({ noticia, onClose, onMarcarLeida, leida }: NewsModalP
 
           {noticia.relacionados && noticia.relacionados.length > 0 && (
             <div className="mt-4">
-              <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">Vinculado a</div>
+              <div className="eyebrow mb-1.5">Vinculado a</div>
               <ul className="space-y-0.5">
                 {noticia.relacionados.map((r) => (
                   <li key={r} className="text-[12px] text-muted flex items-center gap-2">

@@ -77,13 +77,22 @@ CREATE TABLE metricas (
 COMMENT ON TABLE metricas IS 'Escalares por módulo (agro, actividad, energia, externo, fiscal, mercados).';
 
 CREATE TABLE series (
-  modulo text     NOT NULL,
-  clave  text     NOT NULL,
-  idx    smallint NOT NULL,
-  valor  numeric(20,4) NOT NULL,
+  modulo  text     NOT NULL,
+  clave   text     NOT NULL,
+  idx     smallint NOT NULL,
+  valor   numeric(20,4) NOT NULL,
+  periodo text,
   PRIMARY KEY (modulo, clave, idx)
 );
 COMMENT ON TABLE series IS 'Sparklines/series por módulo (PIB, resultado fiscal, precios de productos agro…).';
+
+CREATE TABLE analisis (
+  clave          text        PRIMARY KEY,        -- 'vigente' (documento actual)
+  asof           text        NOT NULL,
+  contenido      jsonb       NOT NULL,           -- tesis, semáforo, proyecciones, escenarios, riesgos, lecturas
+  actualizado_en timestamptz NOT NULL DEFAULT now()
+);
+COMMENT ON TABLE analisis IS 'Capa analítica (Módulo Z): juicio fechado del tablero, separado del dato de fuente.';
 
 -- ════════════════════════════════════════════════════════════════════════
 -- CATÁLOGOS
@@ -274,6 +283,7 @@ CREATE TABLE indicador_observaciones (
   indicador_id       smallint     NOT NULL REFERENCES indicadores(id) ON DELETE CASCADE,
   fecha              date         NOT NULL,
   valor              numeric(20,4) NOT NULL,
+  periodo            text,         -- etiqueta legible del período (p. ej. «oct», «2T26»)
   variacion          numeric(12,4),
   variacion_etiqueta text,
   creado_en          timestamptz  NOT NULL DEFAULT now(),
@@ -402,7 +412,10 @@ SELECT
   o.fecha AS fecha_dato, o.valor, o.variacion, o.variacion_etiqueta,
   (SELECT array_agg(valor ORDER BY fecha)
      FROM (SELECT valor, fecha FROM indicador_observaciones
-            WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS spark
+            WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS spark,
+  (SELECT array_agg(periodo ORDER BY fecha)
+     FROM (SELECT periodo, fecha FROM indicador_observaciones
+            WHERE indicador_id = i.id ORDER BY fecha DESC LIMIT 12) s) AS periodos
 FROM indicadores i
 LEFT JOIN fuentes f ON f.id = i.fuente_id
 LEFT JOIN LATERAL (

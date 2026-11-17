@@ -39,7 +39,7 @@ export function DepartamentosPanel({ departamentos, asof }: DepartamentosPanelPr
         {/* legend / list */}
         <div className="w-full md:w-[240px] lg:w-[260px] flex flex-col border-t md:border-t-0 md:border-l border-token shrink-0">
           <div className="px-3 h-8 flex items-center border-b border-token shrink-0">
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">19 departamentos</div>
+            <div className="eyebrow">19 departamentos</div>
           </div>
           <div className="overflow-y-auto scrollbar-thin flex-1">
             {ordered.map((r) => (
@@ -66,7 +66,7 @@ export function DepartamentosPanel({ departamentos, asof }: DepartamentosPanelPr
               </button>
             ))}
           </div>
-          <div className="px-3 py-2 border-t border-token mono text-[9px] text-subtle leading-snug shrink-0">
+          <div className="px-4 py-2 border-t border-token text-[11px] text-muted leading-snug shrink-0">
             Índice de peso económico (base 100 = Montevideo) y participación en el PIB nacional, estimación a
             partir del PIB departamental de la OPP. Montevideo y Canelones concentran el peso económico; el
             litoral y el norte, la producción agroexportadora.

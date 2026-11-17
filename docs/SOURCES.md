@@ -1,199 +1,112 @@
-# Fuentes y procedencia de los datos · snapshot Uruguay ~29-jun-2026
+# Fuentes y procedencia de los datos · snapshot Uruguay 17-nov-2026
 
-Datos revisados contra fuentes **oficiales/primarias** (INE, BCU, MEF/Unidad de
-Gestión de Deuda, INAC, Uruguay XXI, DGI, MIEM/ADME, República AFAP) y, cuando no
-había primaria accesible, medios reputados que **citan la fuente oficial**. Cada
-dato no verificable se marca **s/d / NO CORROBORADO** (no se inventan cifras). Las
-cifras titulares se sometieron a **verificación cruzada** independiente.
+Datos revisados contra fuentes **oficiales/primarias** (INE, BCU, MEF/UGD, INAC/ACG,
+Uruguay XXI, DGI, MIEM/UTE/ADME, FMI) y, cuando la primaria no era accesible, contra
+medios reputados que **citan la fuente oficial** (El Observador, la diaria, Ámbito,
+Búsqueda, Montevideo Portal, Infobae/EFE, Bloomberg Línea). **No se inventan cifras**:
+lo no verificable se marca `s/d`; lo que no pudo re-verificarse en este corte conserva
+su **fecha original** y se rotula **«sin actualizar»** en la interfaz.
 
-> **Coyuntura:** Yamandú Orsi (Frente Amplio), presidente desde el 1-mar-2025, en
-> su 2º año; ministro de Economía Gabriel Oddone. Peso de libre flotación y
-> convertibilidad (sin cepo ni brecha); el dólar cerró en ~$40,22 (26-jun).
-> Inflación dentro del rango meta del BCU (3%–6%). Grado inversor por las 4
-> calificadoras. La primera Rendición de Cuentas se presenta el **30-jun-2026**
-> (sin impacto fiscal, US$31 M en 4 prioridades); la oposición interpeló a Oddone
-> (22-jun). Próxima reunión del COPOM: **8-jul-2026** (TPM en 5,75%).
+> **Método de este corte.** La verificación se hizo con búsqueda web sobre fragmentos
+> de las fuentes; los portales gub.uy, bcu.gub.uy, rafap.com.uy y uruguayxxi.gub.uy no
+> fueron accesibles desde el entorno, por lo que las cifras se tomaron de medios que
+> las citan. Confianza **Alta** = dos o más fuentes coinciden o aparece el comunicado
+> oficial; **Media** = una sola fuente secundaria.
 
-## Módulo A — Indicadores macro (tira de KPIs)
+> **Coyuntura (17-nov-2026):** PIB 2T −0,5% i/a (sequía: agro −22,2%); IPC oct 4,87%
+> (sobre el centro 4,5%, dentro del rango 3–6%); el BCU subió la TPM a 6,00% (8-oct) y la
+> mantuvo (16-nov); déficit SPG −4,7% del PIB (12m a sep); exportaciones ene-oct +1%;
+> S&P (BBB+) y Moody's (Baa1) ratificaron en noviembre. Rendición de Cuentas sancionada
+> el 22-sep. Uruguay preside el Mercosur hasta la cumbre del 4-dic en Montevideo.
+
+## Módulo A — Indicadores macro (15 KPIs)
 
 | Indicador | Valor | As of | Fuente | Confianza |
 |---|---|---|---|---|
-| IPC interanual (últ. 12 meses) | 3,77% | may 2026 | [INE](https://www.gub.uy/instituto-nacional-estadistica/tematica/ipc-indice-precios-del-consumo) · @ine_uruguay | Alta |
-| IPC mensual | 0,70% | may 2026 | INE | Alta |
-| IPC acumulado en el año | 2,95% | ene-may 2026 | INE | Alta |
-| Riesgo país (UBI) | 53 pb | 18 may 2026 | [República AFAP](https://www.rafap.com.uy/) (vía Ámbito) | Alta |
-| PIB (var. i/a) | +0,9% | 1T 2026 | [BCU · Cuentas Nacionales](https://www.bcu.gub.uy/) (vía Ámbito/La República) | Alta |
-| PIB 2025 (anual) | +1,8% | 2025 | BCU (vía Montevideo Portal) | Alta |
-| TPM | 5,75% | COPOM 26-may-2026 | [BCU · COPOM](https://www.bcu.gub.uy/Comunicaciones/Paginas/Detalle-Noticia.aspx?noticia=504) | Alta |
-| Expectativas inflación 24m | 4,5% | jun 2026 | BCU · encuesta de expectativas | Media |
-| Tipo de cambio (UYU/USD) | ~40,22 | 26 jun 2026 | BCU interbancario (vía [Infobae](https://www.infobae.com/noticias/2026/06/26/precio-del-dolar-hoy-en-uruguay-cotizacion-de-cierre-del-26-de-junio/) / DGI) | Media-alta |
-| Desempleo | 7,5% | abr 2026 | [INE · ECH](https://www.gub.uy/presidencia/comunicacion/noticias/trabajo-empleo-desempleo-abril-2026-ine) | Alta |
-| Salario real (i/a) | +1,96% | abr 2026 | [INE · IMS](https://www.gub.uy/instituto-nacional-estadistica/indice-medio-salarios) | Media-alta |
-| Novillo gordo | ~US$5,71/kg | may 2026 | [INAC](https://www.inac.uy/) (vía El Observador) | Media |
-| Resultado fiscal (SPG) | −4,7% PIB | 12m mar 2026 | [MEF](https://www.gub.uy/ministerio-economia-finanzas/tematica/resultados-del-sector-publico) (vía Ámbito) | Alta |
-| Deuda bruta (Sector Público) | 74,9% PIB | cierre 2025 | MEF/UGD · Obs. Coyuntura UCU (vía Ámbito) | Alta |
-| Reservas BCU | US$18.463 M | may 2026 | BCU (vía Trading Economics) | Media |
+| IPC interanual | 4,87% | oct 2026 | INE vía [Infobae/EFE](https://www.infobae.com/america/agencias/2026/11/06/la-inflacion-interanual-en-uruguay-sube-al-487-en-octubre/), [Trading Economics](https://tradingeconomics.com/uruguay/inflation-cpi/news/598792) | Alta |
+| Serie IPC i/a jun→sep | 4,25 · 4,27 · 4,55 · 4,68 | 2026 | [Ámbito (jul)](https://www.ambito.com/uruguay/la-inflacion-se-mantuvo-practicamente-estable-julio-y-alcanzo-el-427-n6307435), [Montevideo Portal (sep)](https://www.montevideo.com.uy/Noticias/Inflacion-interanual-subio-al-4-68-en-setiembre-por-encima-de-la-meta-del-BCU-uc977605) | Alta |
+| IPC mensual | 0,59% (acum. 4,82%) | oct 2026 | INE vía Infobae/EFE | Alta |
+| PIB i/a | −0,5% (−0,8% t/t) | 2T 2026 | BCU vía [la diaria](https://ladiaria.com.uy/economia/articulo/2026/9/el-pib-se-contrajo-05-interanual-en-el-segundo-trimestre-segun-el-bcu/) | Alta |
+| TPM | 6,00% | COPOM 16-nov | BCU vía [Infobae/EFE](https://www.infobae.com/america/agencias/2026/11/16/uruguay-mantiene-en-6-su-tasa-de-politica-monetaria/), [El Observador](https://www.elobservador.com.uy/bcu-mantuvo-la-tasa-6-un-escenario-inflacion-controlada-n6064058) | Alta |
+| Suba a 6,00% | +25 pb | 8-oct-2026 | [Bloomberg Línea](https://www.bloomberglinea.com/latinoamerica/uruguay/uruguay-sube-su-tasa-de-interes-al-6-tras-dos-meses-de-inflacion-sobre-el-objetivo/) | Alta |
+| Expectativas 24m | 4,57% (analistas) | nov 2026 | Comunicado COPOM vía El Observador; oct 4,54% ([Ámbito](https://www.ambito.com/uruguay/los-analistas-preven-una-inflacion-del-487-y-mantienen-sus-expectativas-cerca-la-meta-del-bcu-n6333822)) | Media-alta |
+| Dólar interbancario | $40,61 | 13-nov | BCU (cotizaciones), Infobae | Media-alta |
+| Reservas BCU | US$18.216 M | oct 2026 | BCU vía Trading Economics | Media |
+| Desempleo | 7,1% | sep 2026 | [INE · ECH](https://www.gub.uy/instituto-nacional-estadistica/comunicacion/publicaciones/actividad-empleo-desempleo-ech-setiembre-2026), [EFE](https://noticiassin.com/economia/2026/10/24/uruguay-mantiene-el-desempleo-en-el-71-en-septiembre-y-la-informalidad-bajo-en-un-ano-2152950) | Alta |
+| Salario real i/a | +1,25% | sep 2026 | INE vía [Prensa Latina](https://www.prensa-latina.cu/2026/10/31/inflacion-redujo-salario-real-en-septiembre-en-uruguay/); jun 0,88% ([Montevideo Portal](https://www.montevideo.com.uy/Noticias/Salario-real-aumento-en-junio-0-88-en-comparacion-interanual-segun-el-INE-uc970254)) | Media-alta |
+| Pobreza (personas) | 14,8% | 1S 2026 | INE vía [El Observador](https://www.elobservador.com.uy/economia-y-empresas/pobreza-uruguay-y-fue-148-el-primer-semestre-2026-n6059738), [Infobae](https://www.infobae.com/america/america-latina/2026/10/08/la-pobreza-cayo-casi-3-puntos-en-uruguay-95000-personas-salieron-de-esa-condicion-durante-el-2026/) | Alta |
+| Novillo gordo | US$6,01/kg | sem 44-45 | ACG/INAC vía [El Observador](https://www.elobservador.com.uy/agro/noviembre-comenzo-nuevos-records-la-ganaderia-n6063017) | Alta |
+| Exportaciones | US$1.089 M (oct); US$11.430 M ene-oct | oct 2026 | Uruguay XXI vía [la diaria](https://ladiaria.com.uy/economia/articulo/2026/11/exportaciones-en-octubre-crecieron-1-interanual-y-la-union-europea-fue-el-principal-destino/), [Infobae](https://www.infobae.com/america/america-latina/2026/11/04/exportaciones-uruguayas-crecieron-1-en-diez-meses-europa-fue-su-principal-destino-en-octubre/) | Alta |
+| Resultado fiscal SPG | −4,7% PIB | 12m sep 2026 | MEF vía [El Telégrafo](https://www.eltelegrafo.com/2026/10/la-caida-de-los-ingresos-y-la-estabilidad-del-gasto-mantuvieron-el-deficit-fiscal-en-47-del-pbi/) | Alta |
+| Deuda bruta SPG | 73,2% PIB | mar 2026 | BCU vía UCU Monitor de Coyuntura (jul-26) | Media-alta |
+| Riesgo país (UBI) | 53 pb | **18-may (sin actualizar)** | República AFAP (no accesible en este corte) | — |
 
-## Módulo Agro (Uruguay XXI / INAC, ene-may 2026)
+## Agro y externo
 
-Exportaciones de bienes **ene-may US$5.271 M (+3% i/a)**; mayo **US$1.142 M (−3%)**.
-Acumulado por producto: **carne bovina US$1.054 M** (1º; novillo gordo ~US$5,71/kg
-carcasa, en récord; faena de abril −45% i/a, mínimo desde 2013), **celulosa
-US$931 M** (2º; UPM + Montes del Plata; UPM pidió ampliar Fray Bentos),
-**lácteos US$346 M** (3º, +29% en mayo, Conaprole), **trigo US$155 M**,
-**madera US$129 M**, **arroz US$91 M** (1T). **Soja** muy dinámica (+45% i/a en
-mayo, ~70% a China; cosecha 2025/26 ~1,95 M t). Destino principal **China (~27%
-en mayo)**, seguido de UE y Brasil. Participación del complejo agroindustrial en
-las exportaciones de bienes ~76% (orden de magnitud histórico; el agro+industria
-agro lidera). Fuente: [Uruguay XXI](https://www.gub.uy/presidencia/comunicacion/noticias/exportaciones-uruguayas-crecieron-informe-uruguay-21-mayo-2026).
+- **Ranking ene-oct (US$ M):** carne 2.220 (+2%), celulosa 1.998 (+2%), soja 834 (−37%),
+  lácteos 772, concentrado de bebidas 711, ganado en pie 368 (+24%), arroz 350 (−21%).
+  Participaciones calculadas por el tablero sobre US$11.430 M. Fuente: Uruguay XXI vía
+  [Infobae](https://www.infobae.com/america/america-latina/2026/10/05/exportaciones-volvieron-a-crecer-en-uruguay-pero-la-soja-todavia-arrastra-el-golpe-de-la-seguia/) y la diaria.
+- **Destinos oct-26:** UE 16% · Brasil 16% · China 15% · EE.UU. 14% · Argentina 5%.
+  1S-26 (calculado): China ~20%, Brasil ~15%, UE ~14%.
+- **Carne:** precio export. INAC US$6.240/t (oct); faena sem 8-14 nov 47.213 cab;
+  acumulado −14,3% i/a ([El Observador](https://www.elobservador.com.uy/agro/sube-la-faena-vacunos-y-el-precio-los-novillos-marco-un-nuevo-record-n6062228)).
+  Cuota China 324 mil t al 12% (INAC).
+- **Precios:** soja CBOT US$12,27 y trigo US$5,84 (USDA AMS, 12-nov); GDT 415 WMP
+  US$3.971/t ([Cheese Reporter](https://cheesereporter.com/news/global-trade-tariffs/2026/11/04/global-dairy-trade-price-index-posts-third-straight-increase-2/));
+  celulosa China ~US$610–630/t (referencia de prensa tras la suba de Suzano,
+  [InfoMoney](https://www.infomoney.com.br/mercados/suzano-aumenta-preco-da-celulose-na-china-e-em-outros-mercados-da-asia/)) — **no comparable** con el índice Fastmarkets anterior.
+- **Balanza BCU sep-26** (aprox.): X ~1.140, M ~1.180, saldo −35; ene-sep −1.260
+  ([Rio Times](https://www.riotimesonline.com/uruguay-trade-deficit-september-2026/), secundaria → Media).
+- **Cuenta corriente:** −0,8% del PIB (12m a jun-26, BCU).
+- **Sin actualizar:** turismo (1T-26), IED (2025), TCR/IPF frontera (2025 / may-26).
 
-## Módulo Mercados (grado inversor, jun-2026)
+## Mercados y deuda
 
-| Dato | Valor | Fuente | Confianza |
-|---|---|---|---|
-| Rating S&P | **BBB+** estable | nov-2025 · [UGD/MEF](http://deuda.mef.gub.uy/432/12/areas/credit-ratings.html) / S&P | Alta |
-| Rating Moody's | **Baa1** estable | ene-2026 · Moody's (vía MEF) | Alta |
-| Rating Fitch | **BBB** estable | sep-2025 · Fitch (vía MEF) | Alta |
-| Rating DBRS | **BBB** estable | nov-2025 · DBRS (vía MEF) | Alta |
-| UBI (riesgo país) | 53 pb (mín. histórico 50 pb el 10-abr) | República AFAP (vía Ámbito) | Alta |
-| Bono global USD 2037 | TIR 4,73% (spread 78 pb) | oct-2025 · [UGD/MEF](https://www.elobservador.com.uy/economia-y-empresas/uruguay-coloco-deuda-mercados-internacionales-us-1750-millones-n6021844) | Alta |
-| Bono global UYU 2035 | 8,00% (tasa récord en pesos) | oct-2025 · UGD/MEF | Alta |
-| Nota UI 2034 | 2,59% | jun-2026 · UGD/MEF | Media |
-| SSLB 2034 | cupón 5,75%, step ±30 pb | 2022 · [MEF · SSLB](https://www.mef.gub.uy/30687/20/areas/uruguays-sovereign-sustainability-linked-bonds-sslb.html) | Alta |
+- **S&P** BBB+ estable reafirmado 11-nov ([Investing](https://mx.investing.com/news/world-news/sp-reafirma-calificacion-bbb-de-uruguay-con-perspectiva-estable-3845242));
+  **Moody's** Baa1 estable 10-nov ([Infobae](https://www.infobae.com/america/agencias/2026/11/10/moodys-otorga-una-nota-de-perspectiva-estable-a-la-economia-de-uruguay/)).
+  Fitch y DBRS: última acción verificada en 2025.
+- **Emisión 28-jul:** Global UYU 2035 a 7,75%, USD 2037 a 5,356% (spread 75 pb)
+  ([MEF/UGD](https://deuda.mef.gub.uy/32293/14/areas/uruguay-emitio-bonos-en-pesos-nominales-y-dolares-en-el-mercado-internacional.html)).
+  92% de los bonos del año en moneda nacional ([El Observador](https://www.elobservador.com.uy/uruguay-afianza-la-desdolarizacion-su-deuda-el-92-la-emision-bonos-el-ano-se-coloco-moneda-nacional-n6063002)).
+- **Sin dato:** UBI, EMBI, rendimientos secundarios, SSLB (KPI-1 2025).
 
-> Calificadoras no solicitadas (JCR, HR Ratings) ubican a Uruguay un escalón más
-> alto (A−). El ajuste de cupón del SSLB (KPIs de emisiones GEI y bosque nativo,
-> medidos al 31-dic-2025) recién es **efectivo en may-2027** → resultado del
-> step-up/down aún **s/d**. Precios secundarios de los bonos: **s/d**.
+## Fiscal
 
-## Módulo Actividad & precios
+- **SPG sin FSS II (12m):** mar −4,7 · abr −4,6 · may −4,3 · jun −4,3 · jul −4,4 (Media) ·
+  ago −4,7 · sep −4,7. GC-BPS −4,1%.
+- **DGI sep:** −2,9% real; IVA −5,2% ([Ámbito](https://www.ambito.com/uruguay/la-recaudacion-cayo-un-29-setiembre-arrastrada-el-retroceso-del-iva-n6337381)).
+- **Rendición de Cuentas:** sanción definitiva 22-sep ([la diaria](https://ladiaria.com.uy/politica/articulo/2026/9/la-camara-de-senadores-dio-sancion-definitiva-a-la-rendicion-de-cuentas-con-los-votos-del-fa/)).
+- **Resultado primario −1,8%:** **estimación del tablero** (GC-BPS −4,1% + intereses
+  ~2,3% del PIB informados por el MEF a mayo), no dato oficial.
 
-PIB 1T-2026 **+0,9% i/a** (+0,8% desest.); 2025 **+1,8%**. Serie i/a trimestral:
-1T25 3,6 · 2T 2,3 · 3T 1,2 · 4T 0,1 · 1T26 0,9. **PIB por sector 1T-2026 (i/a):**
-servicios financieros +3,1 · transporte/TIC +2,2 · comercio +1,4 · industria +1,3 ·
-construcción −3,4 · agro/pesca/minería −3,7 (BCU · Cuentas Nacionales). Industria
-(IVFIM) **+4,0% i/a** (abr-2026). Empleo: desempleo **7,5%** (abr), empleo 59,5%, actividad 64,2%.
-Pobreza por ingresos **17,7% de personas** (13,9% de hogares), indigencia 1,8%
-(1S-2025). IPC may-2026, mayores aumentos del mes (variación %): Gasoil +14,0 ·
-Supergás +7,0 · Nafta +7,0 · Tributos domiciliarios +2,2 · Transporte c/chofer
-+1,6. Fuentes: INE, BCU.
+## Actividad y energía
 
-**Mapa departamental — actividad económica:** el índice (base 100 = Montevideo) y
-el `valor_alt` (% del PIB nacional) reflejan el **peso económico relativo** de
-cada departamento (orden de magnitud: Montevideo ~47%, Canelones ~9,5%, Maldonado
-~5,8%, litoral agroindustrial y norte ganadero por debajo). **No existe una serie
-oficial de PIB departamental 2026**; los valores son una aproximación de
-referencia (OPP/INE) y deben tratarse como **ilustrativos**, no como dato puntual.
+- **Sectores 2T-26:** agro −22,2%, construcción +4,2% (la diaria); comercio +2,8%,
+  financieros +2,3%, industria +1,9%, electricidad +1,0%, transporte/TIC −0,2%
+  (La República/El Observador, Media).
+- **IVFIM sep:** +7,7% i/a (+1,8% sin refinería) (Media).
+- **Matriz 1S-26:** hidráulica 51,2 · eólica 32,4 · biomasa 12,3 · solar 2,7 · fósil 1,3
+  (ADME vía Mayoristas & Mercado; hay discrepancias entre fuentes → Media). Octubre
+  99,7% renovable ([Prensa Latina](https://www.prensa-latina.cu/2026/11/03/uruguay-mantiene-el-paso-en-uso-de-fuentes-renovables-de-energia/)).
+- **Combustibles nov-26:** Súper 95 $90,45 · Premium 97 $93,01 · Gasoil 50S $62,79 ·
+  Gasoil 10S $72,05 · Supergás $93,56/kg ([la diaria](https://ladiaria.com.uy/politica/articulo/2026/10/el-gobierno-mantiene-el-precio-de-los-combustibles-en-noviembre/)).
 
-## Módulo Energía (MIEM/ADME, cierre 2025)
+## Módulo Z — Análisis
 
-Generación eléctrica **98% renovable** en 2025: **hidráulica 46% · eólica 34% ·
-biomasa 14% · solar 4% · térmica (fósil) 2%**. Generación total 13.040 GWh; ~8%
-exportado a la región (~1.043 GWh). En enero-2026 la matriz arrancó con 96,7%
-renovable. Combustibles: se muestran las **variaciones mensuales del IPC de mayo**
-(gasoil +14%, nafta +7%, supergás +7%) — los **niveles de precio ANCAP** no se
-corroboraron y quedan fuera. Hidrógeno verde: proyecto HIF Global en Tambores
-(inversión estimada ~US$4.000 M, en desarrollo); cifra de inversión **media
-confianza**. Potencia instalada ~5.000 MW (orden de magnitud, **aprox.**); demanda
-máxima **s/d**. Fuente: [MIEM/Presidencia](https://www.gub.uy/presidencia/comunicacion/noticias/2025-98-generacion-electrica-uruguay-fue-origen-renovable).
+- **Proyecciones** de terceros con su fecha: MEF (Rendición, jun), BCU IPOM 3T (oct),
+  encuesta BCU (nov), FMI Art. IV ([sep](https://www.imf.org/es/news/articles/2026/09/24/cs-092426-uruguay-staff-concluding-statement-2026-aiv-mission)),
+  Moody's y S&P (nov), CEPAL (ago), BBVA.
+- **Derivados** (tasa real, brecha vs meta, anclaje, índice de miseria, intereses
+  implícitos, crecimiento vs potencial) se **calculan** en `src/analytics.ts`; el
+  potencial (~1,9%) es el del Comité de Expertos del MEF.
+- **Semáforo, escenarios y probabilidades** son **juicio del tablero**, explícito y
+  fechado; no son datos de fuente.
 
-## Módulo Externo & comercio
+## Limitaciones reconocidas
 
-Exportaciones de bienes **US$1.142 M (may-2026, −3% i/a)**; importaciones y saldo
-mensual **s/d** (no se corroboró cifra puntual) → se usa la **cuenta corriente
-−1,0% del PIB** (año móvil a jun-2025, BCU · Balanza de Pagos) como medida de
-balance externo. Destinos (participación 2025, aprox.): China ~26% · UE ~16% ·
-Brasil ~14% · EE.UU. ~8%. **Competitividad:** el BCU estimó una **desalineación
-del TCR de −9,9% vs fundamentos al cierre de 2025** (peso sobrevaluado en términos
-reales / «atraso cambiario»), que proyecta corregir ~la mitad en 24 meses; el
-**Índice de Precios Fronterizos (UCU · Obs. Económico Salto)** ubicó la brecha
-Salto/Concordia en **~15,1% (mar-2026)**, la menor en ~10 años (sensible al
-descuento de IMESI a los combustibles). **Turismo** (1T-2026):
-ingresos receptivos **US$843 M**, **1.181.795 visitantes (−13,6%)**, saldo de la
-balanza turística **~+US$438 M** (emisivo US$405 M, +15,8%); argentinos −17,6%
-(66% del total) → refleja la **sensibilidad cambiaria con Argentina**. **IED 2025
-US$687 M (~0,8% PIB)**, España principal origen. Deuda bruta SP 74,9% PIB
-(US$64.129 M). Fuentes: Uruguay XXI, Mintur, BCU, MEF. Commodities: novillo
-US$5,71/kg y precio medio de exportación US$6.078/ton son **datos reales (INAC)**;
-celulosa/soja/trigo/leche son **referencias internacionales indicativas**
-(Trading Economics / mercado), con variaciones mensuales en **s/d**.
-
-## Módulo Fiscal & monetario
-
-Resultado del **Sector Público Global −4,7% del PIB** (año móvil a mar-2026,
-estable; cierre 2025 ~−4,4%); Gobierno Central-BPS ajustado −3,7%. Resultado
-primario ~−1,4% del PIB (**derivado**: GC-BPS −3,7% + intereses 2,3% PIB).
-**Regla fiscal 2025 — 2 de 3 pilares cumplidos:** resultado fiscal estructural
-−3,9% PIB (✓) y tope de endeudamiento neto US$3.079 M < US$3.450 M (✓); tope de
-gasto real **incumplido** (gasto +5,7% vs ~2,5% potencial), con alerta del
-Consejo Fiscal Autónomo. Deuda bruta SP **74,9% PIB**, neta **54,6% PIB**, 59% de
-la bruta en moneda nacional. Recaudación DGI **+9,9% real i/a (abr-2026)**, mayor
-suba en más de un año (IVA e IRAE); acum. ene-abr +2,2% real. TPM **5,75%**.
-Reservas BCU **US$18.463 M (may-2026)**. Expectativas de inflación BCU: 12m 4,7% ·
-24m 4,5%. Fuentes: MEF, Consejo Fiscal Autónomo, DGI, BCU. Base monetaria puntual:
-**s/d** (archivos del BCU no legibles directamente).
-
-## Módulo D — Noticias
-
-16 titulares reales (jun 2026) con medio/fecha/URL: Ámbito Uruguay, Subrayado, Caras
-y Caretas, MEF, El Cronista, Búsqueda, INE. Altas de esta actualización (24-29 jun):
-**Uruguay asume la presidencia del Mercosur** (Ámbito, 29-jun, *breaking*), **cumbre
-del Mercosur en Luque** (Subrayado, 28-jun), **Rendición: +US$31 M y −25% pobreza
-infantil** (Caras y Caretas, 27-jun), **unificación de asignaciones familiares**
-(Subrayado, 26-jun) y **el MEF ratifica el rumbo** (gub.uy, 22-jun). Se dieron de
-baja las 5 más viejas (S&P nov-2025, déficit a marzo, TPM de mayo, exportaciones de
-mayo y matriz de enero).
-
-## Módulo E — Calendario (29-jun → 29-jul 2026)
-
-`d` = días desde HOY (el componente ancla d=0 a la fecha real de ejecución). Hitos
-datables y corroborados: **30-jun — plazo de la Rendición de Cuentas 2026**;
-**1-jul — Uruguay asume la presidencia pro tempore del Mercosur**; **IPC junio** y
-**mercado laboral ECH mayo** del INE (~3-jul); informes de comercio exterior
-(Uruguay XXI) e indicadores cárnicos (INAC) a comienzos de julio; **8-jul —
-reunión del COPOM** (decisión de TPM; reprogramada del 1 al 8-jul); **encuesta de
-expectativas del BCU** (~mediados de julio); **feriado del 18-jul** (Jura de la
-Constitución de 1830).
-
-## Series históricas (sparklines)
-
-Usan valores **reales corroborados** donde existen, con fechas aproximadas:
-
-- **PIB i/a** (BCU): serie trimestral real 1T25→1T26.
-- **TPM** (BCU): trayectoria de recortes 6,5 → 5,75 y pausa.
-- **Tipo de cambio** (BCU): anclas reales recientes (39,5 … 40,67 · 40,17 el
-  16-jun · 39,39 el 25-jun · 40,22 el 26-jun).
-- **UBI** (República AFAP): anclas 50 (récord) · 58 · 53.
-- **Resultado fiscal / reservas / desempleo**: anclas reales recientes.
-- **IPC i/a, salario real, deuda**: extremos reales (abr/may) con interpolación
-  intermedia aproximada (disclosed) para completar 6–12 puntos.
-
-## Resueltos en la actualización del 29-jun-2026 (antes s/d)
-
-- **Combustibles ANCAP:** precios reales vigentes 1-jun (Súper 95 $93,36/L, Gasoil
-  50S $61,76/L, Supergás $101,26/kg). Fuente: Presidencia / Subrayado / datosUruguay.
-- **Base monetaria:** Emisión (saldo fin de mes) $113.072 M (may-2026), planilla
-  oficial BCU (Principales Agregados Monetarios).
-- **Faena vacuna:** ~44.951 cab (sem 25, 16-22 jun; +5% i/a), acum. 2026 −17% i/a.
-  Fuente: ACG / Blasina (reproducen datos INAC/ACG).
-- **Importaciones y saldo comercial:** base aduanera BCU, abril-2026 (imp. FOB
-  US$1.150,6 M; saldo −US$430,8 M). No mezclar con las exportaciones por solicitudes
-  de Uruguay XXI (con zonas francas).
-- **Demanda máxima de potencia:** récord ~2.507 MW (6-7 mar-2025, ADME).
-- **Potencia instalada:** ~5.298,5 MW (2024, INE/MIEM·DNE).
-
-## Limitaciones reconocidas (s/d / NO CORROBORADO)
-
-- **Resultado fiscal del Sector Público Global de abril-2026:** el MEF publicó el
-  Gobierno Central-BPS (−4,6% del PIB a abril) pero no un % limpio del SPG a abril;
-  se mantiene el −4,7% del PIB a marzo-2026.
-- **Precios secundarios de los bonos** soberanos y **valor diario de jun-2026** del
-  UBI (se mantiene el del 18-may: 53 pb; sin lectura de fines de junio corroborada).
-- **IED y cuenta corriente del 1T-2026:** sin publicar al 29-jun; se usa el año
-  completo 2025 (IED US$687 M; cuenta corriente −0,44% del PIB, BCU).
-- **PIB departamental 2026**: no existe serie oficial; el mapa usa un índice de
-  peso económico relativo, ilustrativo.
-- **Resultado del step del SSLB** (efectivo en may-2027): el KPI-1 cerró 2024 en
-  −48% (a 2 pp de la meta −50% a 2025); resolución final aún no determinada.
-- Para producción: conectar INE, BCU, MEF/UGD, INAC/Uruguay XXI, DGI, MIEM/ADME y
-  República AFAP/BEVSA mediante ingesta automática.
+- UBI / EMBI / rendimientos secundarios / SSLB: sin actualizar.
+- Turismo, IED, competitividad (TCR, IPF): último dato verificado anterior a junio.
+- Base monetaria: último dato may-2026.
+- Reservas jul–oct: serie de Trading Economics, pendiente de cotejo con el BCU.
+- Fechas de agenda marcadas «estim.» siguen el calendario habitual de cada fuente.

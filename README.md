@@ -8,7 +8,7 @@ Portado de la estética del **Tablero Inteligente BOL / ARG**: densidad informat
 (Bloomberg), tipografía y jerarquías (Linear), minimalismo (Vercel), calma
 visual (Are.na). Paleta monocromática + un acento ámbar funcional, modo
 claro/oscuro, tipografía Inter + JetBrains Mono. **React 18 + TypeScript + Vite +
-Tailwind CSS**, backend **Fastify + `pg`**, BDR **PostgreSQL** (`uruguay`).
+Tailwind CSS + d3**, backend **Fastify + `pg`**, BDR **PostgreSQL** (`uruguay`).
 
 > **Regla de oro (igual que BOL/ARG): no inventar datos.** Cada cifra está
 > corroborada contra fuente oficial/primaria (INE, BCU, MEF/UGD, INAC, Uruguay
@@ -16,20 +16,18 @@ Tailwind CSS**, backend **Fastify + `pg`**, BDR **PostgreSQL** (`uruguay`).
 > verificación cruzada de las cifras titulares. Lo no corroborable se marca `s/d`.
 > Ver [`docs/SOURCES.md`](docs/SOURCES.md).
 
-## Coyuntura (snapshot ~28-jun-2026)
+## Coyuntura (snapshot 17-nov-2026)
 
-Yamandú Orsi (Frente Amplio) en su 2º año (asumió el 1-mar-2025), con Gabriel
-Oddone en Economía. Uruguay es el **espejo financiero positivo de Argentina**: el
-peso **flota libre y es convertible** (sin cepo ni brecha; el dólar cerró en
-**~$40,22** el 26-jun), la **inflación está dentro del rango meta del BCU** (IPC
-may 0,70% m/m, **3,77% i/a**) y el país es **grado inversor por las 4
-calificadoras** (S&P BBB+, Moody's Baa1, Fitch BBB, DBRS BBB), con el **riesgo
-país más bajo de la región** (UBI ~53 pb). El motor es el **complejo
-agroexportador** (carne, celulosa, soja, lácteos). El principal foco de tensión es
-**fiscal**: el déficit del Sector Público Global ronda el 4,7% del PIB y la primera
-Rendición de Cuentas de Orsi se presenta el **30-jun** (sin impacto fiscal, US$31 M
-en 4 prioridades). La oposición interpeló a Oddone (22-jun) y la próxima reunión
-del COPOM es el **8-jul** (TPM en 5,75%).
+Yamandú Orsi (Frente Amplio) cerca de cumplir dos años de gobierno, con Gabriel Oddone
+en Economía. La economía **se estancó**: el PIB cayó **−0,5% i/a en el 2T** (−0,8% t/t)
+porque la sequía hundió al agro (**−22%**), aunque consumo, construcción e industria
+siguieron creciendo. La inflación subió a **4,87% (oct)**, por encima del centro de la
+meta (4,5%) pero dentro del rango 3–6%, y el BCU respondió con una **suba preventiva a
+6,00%** (8-oct), que mantuvo el 16-nov. El frente débil es **fiscal**: déficit del SPG
+de **−4,7% del PIB** (12m a sep) con la recaudación cayendo (−2,9% real en sep). Lo
+compensan un mercado laboral resistente (desempleo 7,1%), pobreza en mínimo (14,8%),
+**precios récord de la carne** (novillo ≥ US$6/kg) y el **grado inversor ratificado**
+por S&P (BBB+) y Moody's (Baa1) en noviembre. El peso sigue flotando libre (~$40,6).
 
 ## Adaptación respecto de los tableros de Bolivia y Argentina
 
@@ -54,7 +52,8 @@ distintivo de su realidad económica:
 
 | ID | Pestaña / módulo | Descripción |
 |----|------------------|-------------|
-| A | Indicadores macro | Tira de 13 KPIs (IPC m/m e i/a, UBI riesgo país, PIB, TPM, expectativas, dólar, desempleo, salario real, novillo, resultado fiscal, deuda, reservas) con sparkline + modal de serie. |
+| A | Indicadores macro | Tira de 15 KPIs (IPC i/a y m/m, PIB, TPM, expectativas, dólar, reservas, desempleo, salario real, pobreza, novillo, exportaciones, resultado fiscal, deuda, UBI) + cinta de cotizaciones + modal con serie por período, estadísticas y lectura. |
+| Z | **Análisis** | Tesis, semáforo macro (8 dimensiones), indicadores derivados calculados en vivo, proyecciones de consenso, escenarios 2027 y mapa de riesgos/catalizadores. |
 | AG | **Agro** | Complejo agroexportador: novillo, faena, destinos y grilla de productos (módulo estrella). |
 | C | Mercados | **Grado inversor**: UBI, bonos USD/UYU/UI, SSLB, ratings de las 4 calificadoras. |
 | AC | Actividad & precios | PIB, industria, salario real, empleo, pobreza, IPC + **mapa departamental de actividad**. |
@@ -102,7 +101,7 @@ locales»).
 
 ## Atajos de teclado
 
-- `/` — enfocar búsqueda · `D` — modo claro/oscuro · `R` — refrescar · `Esc` — cerrar overlays
+- `/` — enfocar búsqueda · `1–8` — cambiar de módulo · `D` — modo claro/oscuro · `R` — refrescar · `Esc` — cerrar overlays
 
 ## Desarrollo
 

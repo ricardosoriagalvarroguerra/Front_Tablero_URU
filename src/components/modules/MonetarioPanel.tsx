@@ -1,90 +1,107 @@
 import { Panel } from '../primitives/Panel';
 import { SectionTitle } from '../primitives/SectionTitle';
-import type { FiscalData } from '../../types';
+import { SeriesChart } from '../primitives/SeriesChart';
+import { Stat } from '../primitives/Stat';
+import { Meter } from '../primitives/Meter';
+import { META } from '../../analytics';
+import type { FiscalData, Kpi } from '../../types';
 
 interface MonetarioPanelProps {
   data: FiscalData;
+  /** KPI de inflación interanual (serie con períodos) para el gráfico vs meta. */
+  ipc?: Kpi;
+  /** KPI de la TPM (decisiones del COPOM). */
+  tpm?: Kpi;
 }
 
 const pct = (v: number | null, dec = 2) => (v == null ? 's/d' : `${v.toFixed(dec).replace('.', ',')}%`);
+const c1 = (v: number) => v.toFixed(1).replace('.', ',');
 
-// Rango meta de inflación del BCU (3% – 6%).
-const META_PISO = 3;
-const META_TECHO = 6;
-
-export function MonetarioPanel({ data }: MonetarioPanelProps) {
+export function MonetarioPanel({ data, ipc, tpm }: MonetarioPanelProps) {
   const { reservas, tasaPolitica, expectativas, baseMonetaria } = data;
-  const exp24 = expectativas.inflacion24m;
-  const pos = exp24 != null ? Math.max(0, Math.min(1, (exp24 - META_PISO) / (META_TECHO - META_PISO))) * 100 : null;
+  const real = tasaPolitica.valor != null && expectativas.inflacion12m != null ? tasaPolitica.valor - expectativas.inflacion12m : null;
 
   return (
     <Panel className="flex flex-col h-full">
-      <SectionTitle id="$$ ·" title="Monetario · BCU" right={<span>BCU</span>} />
+      <SectionTitle id="$$" title="Monetario · BCU" sub="Metas de inflación: rango 3–6%, centro 4,5%, horizonte 24 meses" right={<span>BCU · INE</span>} />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
+        {/* Inflación vs meta */}
+        {ipc && (
+          <div className="px-4 pt-3 pb-2 border-b border-token">
+            <div className="flex items-baseline justify-between gap-2">
+              <div className="eyebrow">Inflación i/a vs rango meta</div>
+              <div className="mono text-[10px] text-subtle">{ipc.source}</div>
+            </div>
+            <SeriesChart
+              data={ipc.spark}
+              labels={ipc.periodos}
+              band={[META.piso, META.techo]}
+              refs={[{ value: META.centro, label: `centro ${c1(META.centro)}%`, color: 'var(--fg-muted)' }]}
+              color="var(--accent)"
+              fmt={(v) => c1(v)}
+              height={170}
+              showValues
+            />
+          </div>
+        )}
+
+        {/* TPM, tasa real, expectativas */}
+        <div className="px-4 py-3 border-b border-token grid grid-cols-3 gap-3">
+          <Stat label="TPM" value={pct(tasaPolitica.valor)} sub={tasaPolitica.asof} size="md" />
+          <Stat
+            label="Tasa real ex-ante"
+            value={real == null ? 's/d' : `${real > 0 ? '+' : ''}${real.toFixed(1).replace('.', ',')}`}
+            unit="pp"
+            tone={real != null && real >= 1 ? 'pos' : 'accent'}
+            sub="TPM − expect. 12m"
+            size="md"
+          />
+          <Stat label="Expect. 24m" value={pct(expectativas.inflacion24m)} sub={`12m ${pct(expectativas.inflacion12m, 1)} · ${expectativas.asof}`} size="md" />
+        </div>
+
+        {/* Trayectoria del COPOM */}
+        {tpm && tpm.periodos && (
+          <div className="px-4 py-3 border-b border-token">
+            <div className="eyebrow mb-2">Trayectoria del COPOM · decisiones</div>
+            <div className="flex items-end gap-1.5">
+              {tpm.spark.map((v, i) => {
+                const prev = i > 0 ? tpm.spark[i - 1] : v;
+                const up = v > prev;
+                return (
+                  <div key={i} className="flex-1 flex flex-col items-center gap-1 min-w-0">
+                    <span className={`mono text-[10.5px] ${up ? 'text-neg' : ''}`}>{v.toFixed(2).replace('.', ',')}</span>
+                    <div
+                      className="w-full rounded-[4px]"
+                      style={{ height: 10 + (v - 5.5) * 60, background: up ? 'var(--neg)' : i === tpm.spark.length - 1 ? 'var(--accent)' : 'var(--border-strong)' }}
+                    />
+                    <span className="mono text-[9px] text-subtle truncate w-full text-center">{tpm.periodos?.[i]}</span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {/* Expectativas en la regla meta */}
+        <div className="px-4 py-3 border-b border-token">
+          <div className="eyebrow mb-2">Anclaje · expectativa 24m en la regla meta</div>
+          <Meter value={expectativas.inflacion24m} min={2} max={7} band={[META.piso, META.techo]} mark={META.centro} />
+        </div>
+
         {/* Reservas + Base monetaria */}
-        <div className="px-3 py-3 border-b border-token grid grid-cols-2 gap-3">
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Activos de reserva del BCU</div>
-            <div className="mt-0.5 flex items-baseline gap-2">
-              <span className="mono text-[24px]">
-                {reservas.valorUsd != null ? reservas.valorUsd.toLocaleString('es-UY') : 's/d'}
-              </span>
-              <span className="mono text-[10px] text-subtle">M USD · {reservas.asof}</span>
-            </div>
-            <div className="mono text-[9px] text-subtle mt-0.5">{reservas.source}</div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Base monetaria · emisión</div>
-            <div className="mt-0.5 flex items-baseline gap-2">
-              <span className="mono text-[24px]">
-                {baseMonetaria?.valorMM != null ? baseMonetaria.valorMM.toLocaleString('es-UY') : 's/d'}
-              </span>
-              <span className="mono text-[10px] text-subtle">M $ · {baseMonetaria?.asof ?? 's/d'}</span>
-            </div>
-            <div className="mono text-[9px] text-subtle mt-0.5">{baseMonetaria?.source ?? ''}</div>
-          </div>
-        </div>
-
-        {/* TPM + Expectativas 24m */}
-        <div className="px-3 py-2.5 grid grid-cols-2 gap-3 border-b border-token">
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">{tasaPolitica.nombre || 'Tasa de política (TPM)'}</div>
-            <div className="mono text-[20px]">{pct(tasaPolitica.valor)}</div>
-            <div className="mono text-[9px] text-subtle">{tasaPolitica.asof}</div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Expectativas infl. 24m</div>
-            <div className="mono text-[20px]">{pct(expectativas.inflacion24m, 1)}</div>
-            <div className="mono text-[9px] text-subtle">mediana analistas · {expectativas.asof}</div>
-          </div>
-        </div>
-
-        {/* Rango meta de inflación */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1">
-            Rango meta BCU · {META_PISO}%–{META_TECHO}%
-          </div>
-          <div className="relative surface rounded-[3px] h-3 overflow-hidden" style={{ border: '1px solid var(--border)' }}>
-            <div className="absolute inset-0 hatch" />
-            {pos != null && (
-              <div className="absolute top-0 bottom-0" style={{ left: `${pos}%`, width: 2, background: 'var(--accent)' }} />
-            )}
-          </div>
-          <div className="mt-1 flex items-center justify-between mono text-[9px] text-subtle">
-            <span>piso {META_PISO}%</span>
-            <span className="text-accent">expectativa 24m {pct(expectativas.inflacion24m, 1)}</span>
-            <span>techo {META_TECHO}%</span>
-          </div>
-          <div className="mono text-[9px] text-subtle mt-1.5">
-            Expectativas 12m {pct(expectativas.inflacion12m, 1)} · {expectativas.source}
-          </div>
-        </div>
-
-        {/* nota régimen */}
-        <div className="px-3 py-2.5 mono text-[9px] text-subtle leading-snug">
-          El BCU conduce la política monetaria por metas de inflación, fijando la Tasa de Política Monetaria
-          (TPM) en cada reunión del COPOM. La meta es un rango de 3% a 6% con horizonte de 24 meses; el peso
-          flota libremente y es de libre convertibilidad.
+        <div className="px-4 py-3 grid grid-cols-2 gap-3">
+          <Stat
+            label="Activos de reserva"
+            value={reservas.valorUsd != null ? reservas.valorUsd.toLocaleString('es-UY') : 's/d'}
+            unit="M USD"
+            sub={`${reservas.asof} · ${reservas.source}`}
+          />
+          <Stat
+            label="Base monetaria"
+            value={baseMonetaria?.valorMM != null ? baseMonetaria.valorMM.toLocaleString('es-UY') : 's/d'}
+            unit="M $"
+            sub={`${baseMonetaria?.asof ?? 's/d'} · ${baseMonetaria?.source ?? ''}`}
+          />
         </div>
       </div>
     </Panel>

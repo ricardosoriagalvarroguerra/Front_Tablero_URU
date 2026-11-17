@@ -14,6 +14,7 @@ import {
   NOTICIAS,
   EVENTOS,
   FUENTES,
+  ANALISIS,
 } from './data/mockData';
 import type {
   Kpi,
@@ -26,6 +27,7 @@ import type {
   Noticia,
   Evento,
   Fuente,
+  AnalisisData,
 } from './types';
 
 export interface DashboardData {
@@ -39,6 +41,7 @@ export interface DashboardData {
   noticias: Noticia[];
   eventos: Evento[];
   fuentes: Fuente[];
+  analisis: AnalisisData;
 }
 
 function fromMock(): DashboardData {
@@ -53,6 +56,7 @@ function fromMock(): DashboardData {
     noticias: NOTICIAS,
     eventos: EVENTOS,
     fuentes: FUENTES,
+    analisis: ANALISIS,
   };
 }
 
@@ -80,6 +84,9 @@ export function useDashboardData(): DashboardData & { source: DataSource; reload
             api.eventos(ctrl.signal),
             api.fuentes(ctrl.signal),
           ]);
+        // El análisis es opcional en el backend: si el endpoint no existe (API
+        // anterior), se conserva la capa analítica embebida.
+        const analisis = await api.analisis(ctrl.signal).catch(() => ANALISIS);
         setData({
           indicadores: indicadores.map(toKpi),
           agro,
@@ -91,6 +98,7 @@ export function useDashboardData(): DashboardData & { source: DataSource; reload
           noticias,
           eventos,
           fuentes,
+          analisis,
         });
         setSource('api');
       } catch (err) {

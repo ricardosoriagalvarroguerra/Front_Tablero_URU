@@ -1,8 +1,8 @@
 import { Panel } from '../primitives/Panel';
 import { SectionTitle } from '../primitives/SectionTitle';
-import { Delta } from '../primitives/Delta';
-import { Sparkline } from '../primitives/Sparkline';
-import { deltaTone, trendTone } from '../../tone';
+import { SeriesChart } from '../primitives/SeriesChart';
+import { BarList } from '../primitives/BarList';
+import { Stat } from '../primitives/Stat';
 import type { ActividadData } from '../../types';
 
 interface ActividadPanelProps {
@@ -11,114 +11,49 @@ interface ActividadPanelProps {
 
 const pp = (v: number | null) => (v == null ? 's/d' : `${v > 0 ? '+' : ''}${v.toFixed(1).replace('.', ',')}%`);
 const pctAbs = (v: number | null) => (v == null ? 's/d' : `${v.toFixed(1).replace('.', ',')}%`);
+const tone = (v: number | null) => (v == null ? 'neutral' : v >= 0 ? 'pos' : 'neg') as 'pos' | 'neg' | 'neutral';
 
 export function ActividadPanel({ data }: ActividadPanelProps) {
   const { pib, industria, pibSectores, ipcRubros, social } = data;
-  const maxSec = Math.max(1, ...pibSectores.map((s) => Math.abs(s.value)));
   return (
     <Panel className="flex flex-col h-full">
-      <SectionTitle id="AC ·" title="Actividad & precios" right={<span>INE · BCU</span>} />
+      <SectionTitle id="AC" title="Actividad, precios y empleo" sub="PIB trimestral, sectores, rubros del IPC y mercado laboral" right={<span>BCU · INE</span>} />
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         {/* PIB */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="flex items-center justify-between">
-            <div>
-              <div className="mono text-[9px] uppercase tracking-wider text-subtle">PIB · actividad</div>
-              <div className="mt-0.5 flex items-baseline gap-2">
-                <span className="mono text-[22px]">{pp(pib.varInteranual)}</span>
-                <span className="mono text-[10px] text-subtle">i/a</span>
-                {pib.trimestral != null && (
-                  <Delta
-                    value={pib.trimestral}
-                    label={`${pp(pib.trimestral)} t/t`}
-                    sentiment={deltaTone('up', pib.trimestral)}
-                  />
-                )}
-              </div>
-              <div className="mono text-[9px] text-subtle mt-0.5">{pib.source} · {pib.asof}</div>
-            </div>
-            <Sparkline data={pib.series} sentiment={trendTone('up', pib.series)} width={120} height={36} />
+        <div className="px-4 pt-3 pb-2 border-b border-token">
+          <div className="grid grid-cols-3 gap-3">
+            <Stat label={`PIB i/a · ${pib.asof}`} value={pp(pib.varInteranual)} tone={tone(pib.varInteranual)} size="lg" />
+            <Stat label="Desest. t/t" value={pp(pib.trimestral)} tone={tone(pib.trimestral)} />
+            <Stat label="PIB 2025" value={pp(pib.anual2025)} tone={tone(pib.anual2025)} />
+          </div>
+          <div className="mt-2">
+            <SeriesChart data={pib.series} labels={pib.periodos} kind="bars" fmt={(v) => v.toFixed(1).replace('.', ',')} height={140} showValues />
           </div>
         </div>
 
-        {/* PIB 2025 / Industria / Salario real */}
-        <div className="px-3 py-2.5 border-b border-token grid grid-cols-3 gap-2 text-center">
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">PIB 2025</div>
-            <div className={`mono text-[15px] ${(pib.anual2025 ?? 0) >= 0 ? 'text-pos' : 'text-neg'}`}>{pp(pib.anual2025)}</div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Industria i/a</div>
-            <div className={`mono text-[15px] ${(industria.varInteranual ?? 0) >= 0 ? 'text-pos' : 'text-neg'}`}>
-              {pp(industria.varInteranual)}
-            </div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Salario real</div>
-            <div className={`mono text-[15px] ${(social.salarioReal ?? 0) >= 0 ? 'text-pos' : 'text-neg'}`}>
-              {pp(social.salarioReal)}
-            </div>
-          </div>
+        {/* PIB por sector */}
+        <div className="px-4 py-3 border-b border-token">
+          <div className="eyebrow mb-2.5">PIB por sector · {pib.asof} (var. i/a)</div>
+          <BarList items={pibSectores} />
         </div>
 
-        {/* PIB por sector (var i/a) */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">PIB por sector · {pib.asof} (i/a)</div>
-          <div className="space-y-1">
-            {pibSectores.map((s) => {
-              const neg = s.value < 0;
-              return (
-                <div key={s.label} className="flex items-center gap-2 text-[11px]">
-                  <span className="text-muted truncate w-[150px] shrink-0">{s.label}</span>
-                  <span className="flex-1 h-[6px] rounded-sm overflow-hidden" style={{ background: 'var(--bg-sunk)' }}>
-                    <span
-                      className="block h-full rounded-sm"
-                      style={{
-                        width: `${(Math.abs(s.value) / maxSec) * 100}%`,
-                        background: neg ? 'var(--neg)' : 'var(--pos)',
-                        opacity: 0.55,
-                      }}
-                    />
-                  </span>
-                  <span className={`mono shrink-0 w-12 text-right ${neg ? 'text-neg' : 'text-pos'}`}>{pp(s.value)}</span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* IPC por rubros */}
-        <div className="px-3 py-2.5 border-b border-token">
-          <div className="mono text-[9px] uppercase tracking-wider text-subtle mb-1.5">IPC mayo · mayores aumentos (m/m)</div>
-          <div className="space-y-1">
-            {ipcRubros.map((r) => (
-              <div key={r.label} className="flex items-center justify-between text-[11px]">
-                <span className="text-muted truncate pr-2">{r.label}</span>
-                <span className="mono">{r.value.toFixed(1).replace('.', ',')}%</span>
-              </div>
-            ))}
+        {/* Industria + rubros IPC */}
+        <div className="px-4 py-3 border-b border-token grid sm:grid-cols-[150px_1fr] gap-4">
+          <Stat label="Industria (IVFIM) i/a" value={pp(industria.varInteranual)} tone={tone(industria.varInteranual)} sub={`${industria.asof} · ${industria.source}`} />
+          <div>
+            <div className="eyebrow mb-2.5">IPC · rubros que más subieron (m/m)</div>
+            <BarList items={ipcRubros} mode="share" polarity="down" color="var(--neg)" />
           </div>
         </div>
 
         {/* Social */}
-        <div className="px-3 py-2.5 grid grid-cols-3 gap-2 text-center">
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Desempleo</div>
-            <div className="mono text-[15px]">{pctAbs(social.desempleo)}</div>
-            <div className="mono text-[8px] text-subtle">{social.desempleoPeriodo}</div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Empleo</div>
-            <div className="mono text-[15px]">{pctAbs(social.empleo)}</div>
-            <div className="mono text-[8px] text-subtle">{social.desempleoPeriodo}</div>
-          </div>
-          <div>
-            <div className="mono text-[9px] uppercase tracking-wider text-subtle">Pobreza</div>
-            <div className="mono text-[15px]">{pctAbs(social.pobreza)}</div>
-            <div className="mono text-[8px] text-subtle">{social.pobrezaPeriodo}</div>
-          </div>
+        <div className="px-4 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <Stat label="Desempleo" value={pctAbs(social.desempleo)} sub={social.desempleoPeriodo} size="sm" />
+          <Stat label="Empleo" value={pctAbs(social.empleo)} sub={social.desempleoPeriodo} size="sm" />
+          <Stat label="Salario real" value={pp(social.salarioReal)} tone={tone(social.salarioReal)} sub={social.salarioRealPeriodo} size="sm" />
+          <Stat label="Pobreza" value={pctAbs(social.pobreza)} sub={social.pobrezaPeriodo} size="sm" />
         </div>
-        <div className="px-3 pb-2.5 mono text-[9px] text-subtle">{social.source}</div>
+        <div className="px-4 pb-3 mono text-[9.5px] text-subtle">{social.source}</div>
       </div>
     </Panel>
   );
